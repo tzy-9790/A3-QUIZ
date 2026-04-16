@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - Interface Simples</title>
+</head>
+<body>
+
+    <h1>Sistema do Quiz Educacional</h1>
+
+    <div id="areaLogin">
+        <h3>Entrar no Sistema</h3>
+        Nome: <input type="text" id="inputNome">
+        <button onclick="entrar()">Entrar</button>
+        <p id="mensagemLogin"></p>
+    </div>
+
+    <div id="areaDados" style="display: none;">
+        <hr>
+        <h3>Bem-vinda, <span id="textoNome"></span>!</h3>
+        <p>Seus Pontos Totais: <strong id="textoPontos">0</strong></p>
+
+        <button onclick="salvarPartida()">Simular Fim de Partida (Ganha 850 pts)</button>
+        <button onclick="atualizarRanking()">Ver Ranking Global</button>
+
+        <hr>
+        <h3>🏆 Ranking dos Melhores</h3>
+        
+        <ol id="listaRanking">
+            <li>O ranking aparecerá aqui...</li>
+        </ol>
+    </div>
+
+    <script>
+        let usuarioAtual = null;
+
+        // 1. Função que chama o @PostMapping("/login")
+        async function entrar() {
+            const nomeDigitado = document.getElementById('inputNome').value;
+
+            const resposta = await fetch('http://localhost:8080/api/users/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: nomeDigitado })
+            });
+
+            if (resposta.ok) {
+                usuarioAtual = await resposta.json();
+
+                // Esconde a área de login e mostra as informações
+                document.getElementById('areaLogin').style.display = 'none';
+                document.getElementById('areaDados').style.display = 'block';
+
+                // Injeta as informações do banco de dados na tela HTML
+                document.getElementById('textoNome').innerText = usuarioAtual.username;
+                document.getElementById('textoPontos').innerText = usuarioAtual.globalPoints;
+                
+                // Já busca o ranking assim que entra
+                atualizarRanking();
+            } else {
+                document.getElementById('mensagemLogin').innerText = "Erro ao conectar.";
+            }
+        }
+
+        // 2. Função que chama o @PostMapping("/match") do ScoreController
+        async function salvarPartida() {
+            const resposta = await fetch('http://localhost:8080/api/scores/match', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: usuarioAtual.id,
+                    correctAnswers: 8,
+                    totalTimeSeconds: 120
+                })
+            });
+
+            if (resposta.ok) {
+                alert("Sucesso! Pontos salvos no Banco H2.");
+                atualizarRanking(); // Puxa a lista de novo para atualizar a tela
+            }
+        }
+
+        // 3. Função que chama o @GetMapping("/ranking/global")
+        async function atualizarRanking() {
+            const resposta = await fetch('http://localhost:8080/api/scores/ranking/global');
+            
+            if (resposta.ok) {
+                const ranking = await resposta.json();
+                const listaHTML = document.getElementById('listaRanking');
+
+                // Limpa a lista antiga
+                listaHTML.innerHTML = "";
+
+                // Para cada usuário recebido do seu Java, cria um item numerado <li>
+                ranking.forEach(usuario => {
+                    listaHTML.innerHTML += `<li>${usuario.username} - ${usuario.globalPoints} pontos</li>`;
+                });
+            }
+        }
+    </script>
+</body>
+</html>

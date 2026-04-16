@@ -1,0 +1,28 @@
+### Criar/Logar com Nome
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "username": "Litzylitzy"
+}
+
+### 2. Salvar Pontuação de uma Partida
+POST http://localhost:8080/api/scores/match
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "correctAnswers": 6,
+  "totalTimeSeconds": 120
+}
+
+### Ver o Ranking Global
+GET http://localhost:8080/api/scores/ranking/global
+
+### Salvar o E-mail no final do jogo
+PATCH http://localhost:8080/api/users/1/email
+Content-Type: application/json
+
+{
+  "email": "litzyyy@exemplo.com"
+}

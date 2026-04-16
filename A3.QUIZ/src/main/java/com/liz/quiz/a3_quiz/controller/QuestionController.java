@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController //anotações jakarta persistente . desesnvolvimento e aplicação integrada com o banco de dados em memória  H2
 @RequestMapping("/api/questions")
 @CrossOrigin(origins = "*")
 public class QuestionController {

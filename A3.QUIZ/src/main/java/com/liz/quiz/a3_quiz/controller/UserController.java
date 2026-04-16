@@ -6,7 +6,7 @@ import com.liz.quiz.a3_quiz.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+//o front se comunica com o sistema. API RESTful. usando @RestController... definindo as rotas (endpoints) que recebem e respondem dados no fromato JSON
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")

@@ -5,7 +5,7 @@ import com.liz.quiz.a3_quiz.model.User;
 import com.liz.quiz.a3_quiz.repository.ScoreRepository;
 import com.liz.quiz.a3_quiz.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
+//calcula a pontuação do jogador e o tempo todo de partida, atualiza a pontuação gobla do jogador de forma segura.
 @Service
 public class ScoreService {
     private final ScoreRepository scoreRepository;
