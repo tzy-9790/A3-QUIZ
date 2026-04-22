@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Educativo - IA vs Realidade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --box-bg: #e2e7ed;
+            --border-color: #b0b8c1;
+            --text-main: #333;
+            --accent-purple: #6c5ce7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 30px;
+        }
+        .logo { font-weight: bold; font-size: 1.2rem; text-transform: uppercase; }
+        .nav-links a { margin-left: 20px; text-decoration: none; color: #555; font-size: 0.9rem; font-weight: 600; }
+        .social-icons { margin-left: 20px; font-size: 1.2rem; }
+        .social-icons i { margin-left: 10px; cursor: pointer; }
+
+        .page { display: none; width: 100%; }
+        .active { display: flex; flex-direction: column; align-items: center; }
+
+        .gray-box {
+            background-color: var(--box-bg);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .hero-title { text-align: center; margin: 40px 0; }
+        .play-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            padding: 10px 40px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .input-user {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            background-color: white;
+        }
+        .terms-link { color: var(--accent-purple); font-size: 0.8rem; cursor: pointer; margin-top: 15px; }
+        .latin-text { font-size: 0.85rem; line-height: 1.6; text-align: left; width: 100%; }
+
+        #terms-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            max-width: 600px;
+        }
+        .close-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .video-grid {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .video-placeholder {
+            background: var(--box-bg);
+            border: 1px solid var(--border-color);
+            flex: 1;
+            aspect-ratio: 1.2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .timer { font-size: 3rem; display: flex; align-items: center; gap: 10px; }
+
+        .profile-circle {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+        .score-display { font-size: 2rem; font-weight: bold; margin: 20px 0; }
+        .nav-arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .arrow { font-size: 2rem; cursor: pointer; color: #7f8c8d; }
+        .ranking-list { text-align: left; width: 100%; }
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .btn-restart {
+            width: 100%;
+            padding: 15px;
+            background: var(--box-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo">Quiz Educativo</div>
+        <div style="display: flex; align-items: center;">
+            <div class="nav-links">
+                <a href="#">CANAL</a>
+                <a href="#">SOBRE</a>
+            </div>
+            <div class="social-icons">
+                <i class="fab fa-tiktok"></i>
+                <i class="fa-brands fa-x-twitter"></i>
+                <i class="fab fa-github"></i>
+            </div>
+        </div>
+    </header>
+
+    <div id="page1" class="page active">
+        <div class="hero-title">
+            <h2>IA vs REALIDADE</h2>
+            <p>Você consegue distinguir a Realidade da Inteligência Artificial?</p>
+        </div>
+
+        <div class="gray-box" style="text-align: center;">
+            <h3>Bem-vindo ao QUIZ</h3>
+            <p>Coloque um usuário para entrar ou deixe em branco para receber um user aleatório</p>
+            <input type="text" class="input-user" placeholder="coloque username aqui">
+            <br>
+            <button class="play-btn" onclick="startQuiz()">PLAY</button>
+            <p class="terms-link" onclick="toggleTerms(true)">Ao se cadastrar, você aceita os termos de uso, a política de privacidade e as regras.</p>
+        </div>
+
+        <div class="gray-box">
+            <strong>A IA democratizou a magia. Mas você sabe identificar o truque?</strong><br><br>
+            Criar vídeos perfeitos nunca foi tão fácil. Saber diferenciar o real do gerado por IA nunca foi tão vital. Entenda o projeto abaixo.
+        </div>
+    </div>
+
+    <div id="page2" class="page">
+        <div class="quiz-header">
+            <span>7/10</span>
+            <span>CLIQUE NO VÍDEO QUE É REAL</span>
+            <span></span>
+        </div>
+        <div class="video-grid">
+            <div class="video-placeholder" onclick="goToEmailPage()">VIDEO 1</div>
+            <div class="video-placeholder" onclick="goToEmailPage()">VIDEO 2</div>
+        </div>
+        <div class="timer">
+            <i class="far fa-clock"></i>
+            <span id="timer-val">00:00</span>
+        </div>
+    </div>
+
+    <div id="page-email" class="page">
+        <div class="gray-box" style="text-align: center;">
+            <div class="profile-circle"></div>
+            <div class="latin-text" style="margin-bottom: 20px; text-align: center;">
+                Fique por dentro das novidades! Deixe seu e-mail para receber novos desafios e atualizações sobre Inteligência Artificial.
+            </div>
+            
+            <input type="email" class="input-user" placeholder="seu-email@exemplo.com" style="margin: 10px 0;">
+            
+            <div class="nav-arrows">
+                <i class="fas fa-arrow-left arrow" onclick="showPage('page2')"></i>
+                <i class="fas fa-arrow-right arrow" onclick="endQuiz()"></i>
+            </div>
+        </div>
+        <button class="btn-restart" onclick="endQuiz()">PULAR E VER RESULTADO</button>
+    </div>
+
+    <div id="page3" class="page">
+        <div id="sub-score" class="gray-box" style="text-align: center; display: block;">
+            <div class="profile-circle"></div>
+            <div class="score-display">1500</div>
+            <p class="latin-text" style="text-align: center;">Resposta correta, o vídeo é IA</p>
+            <div class="nav-arrows">
+                <i class="fas fa-arrow-left arrow" style="opacity:0.2"></i>
+                <i class="fas fa-arrow-right arrow" onclick="showRanking()"></i>
+            </div>
+        </div>
+
+        <div id="sub-ranking" class="gray-box" style="text-align: center; display: none;">
+            <h3>RANKING GLOBAL</h3>
+            <div class="ranking-list">
+                <div class="ranking-item"><span>VOCÊ</span><span>2000</span></div>
+                <div class="ranking-item"><span>USER_ALEATORIO</span><span>1500</span></div>
+                <div class="ranking-item"><span>USER_ALEATORIO</span><span>1000</span></div>
+                <div class="ranking-item"><span>USER_ALEATORIO</span><span>500</span></div>
+                <div class="ranking-item"><span>USER_ALEATORIO</span><span>250</span></div>
+            </div>
+            <div class="nav-arrows">
+                <i class="fas fa-arrow-left arrow" onclick="showScore()"></i>
+                <i class="fas fa-arrow-right arrow" style="opacity:0.2"></i>
+            </div>
+        </div>
+
+        <button class="btn-restart" onclick="restart()">JOGAR DE NOVO</button>
+    </div>
+
+    <div id="terms-modal" class="gray-box">
+        <button class="close-btn" onclick="toggleTerms(false)">FECHAR</button>
+        <h3>TERMOS DE USO E POLÍTICA DE PRIVACIDADE</h3>
+        <div class="latin-text">
+            Ao iniciar o quiz, você concorda com a coleta anônima de sua pontuação para fins de ranking global. Garantimos que nenhum dado pessoal sensível será compartilhado ou vendido a terceiros.
+        </div>
+    </div>
+</div>
+
+<script>
+    function startQuiz() {
+        showPage('page2');
+        startTimer();
+    }
+
+    function goToEmailPage() {
+        stopTimer();
+        showPage('page-email');
+    }
+
+    function endQuiz() {
+        showPage('page3');
+    }
+
+    function restart() {
+        showPage('page1');
+        resetTimer();
+        showScore();
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    function toggleTerms(show) {
+        document.getElementById('terms-modal').style.display = show ? 'block' : 'none';
+    }
+
+    function showRanking() {
+        document.getElementById('sub-score').style.display = 'none';
+        document.getElementById('sub-ranking').style.display = 'block';
+    }
+
+    function showScore() {
+        document.getElementById('sub-score').style.display = 'block';
+        document.getElementById('sub-ranking').style.display = 'none';
+    }
+
+    let timer;
+    let seconds = 0;
+
+    function startTimer() {
+        seconds = 0;
+        timer = setInterval(() => {
+            seconds++;
+            let m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            let s = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer-val').innerText = `${m}:${s}`;
+        }, 1000);
+    }
+
+    function stopTimer() { clearInterval(timer); }
+    function resetTimer() { 
+        stopTimer(); 
+        document.getElementById('timer-val').innerText = "00:00";
+    }
+</script>
+
+</body>
+</html>
