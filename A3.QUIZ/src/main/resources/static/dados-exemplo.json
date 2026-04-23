@@ -1,0 +1,22 @@
+{
+  "desafios": [
+    {
+      "id": 1,
+      "titulo": "entrevistas",
+      "videoA": "https://www.youtube.com/watch?v=VjXaxe6AtQU",
+      "videoB": "https://www.youtube.com/watch?v=gcZwE5cM4xs",
+      "respostaCorreta": "A",
+      "feedbackAcerto": "Correto!",
+      "feedbackErro": "Errado."
+    },
+    {
+      "id": 2,
+      "titulo": "videoclips",
+      "videoA": "https://www.youtube.com/watch?v=5eXT-R6IwCg&list=RD5eXT-R6IwCg&start_radio=1",
+      "videoB": "https://www.youtube.com/watch?v=rybU1VuiHrQ&list=RDrybU1VuiHrQ&start_radio=1",
+      "respostaCorreta": "B",
+      "feedbackAcerto": "Correto!",
+      "feedbackErro": "Errado."
+    }
+  ]
+}
