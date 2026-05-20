@@ -2,328 +2,126 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Educativo - IA vs Realidade</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>A3 Quiz - IA vs Realidade</title>
     <style>
-        :root {
-            --bg-color: #f8f9fa;
-            --box-bg: #e2e7ed;
-            --border-color: #b0b8c1;
-            --text-main: #333;
-            --accent-purple: #6c5ce7;
-        }
+        body { font-family: sans-serif; background: #0f172a; color: #f1f5f9; text-align: center; margin: 0; padding: 20px; }
+        .controls { margin: 20px 0; display: flex; justify-content: center; gap: 15px; }
+        select { padding: 10px; font-size: 1em; border-radius: 5px; background: #1e293b; color: white; border: 1px solid #475569; cursor: pointer; }
+        .matchup { display: flex; justify-content: center; gap: 30px; margin-top: 30px; }
+        .box { width: 45%; border: 3px solid #334155; padding: 20px; border-radius: 15px; cursor: pointer; background: #1e293b; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 420px; }
+        .box:hover { border-color: #deff9a; transform: scale(1.01); }
 
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
+        /* Renderização das Mídias */
+        video, img { width: 100%; height: 360px; object-fit: contain; background: #000; border-radius: 8px; }
+        audio { width: 100%; margin: auto 0; }
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 30px;
-        }
-        .logo { font-weight: bold; font-size: 1.2rem; text-transform: uppercase; }
-        .nav-links a { margin-left: 20px; text-decoration: none; color: #555; font-size: 0.9rem; font-weight: 600; }
-        .social-icons { margin-left: 20px; font-size: 1.2rem; }
-        .social-icons i { margin-left: 10px; cursor: pointer; }
-
-        .page { display: none; width: 100%; }
-        .active { display: flex; flex-direction: column; align-items: center; }
-
-        .gray-box {
-            background-color: var(--box-bg);
-            border: 1px solid var(--border-color);
-            width: 100%;
-            padding: 40px;
-            box-sizing: border-box;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .hero-title { text-align: center; margin: 40px 0; }
-        .play-btn {
-            background: white;
-            border: 1px solid var(--border-color);
-            padding: 10px 40px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-        .input-user {
-            width: 100%;
-            max-width: 400px;
-            padding: 12px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-            background-color: white;
-        }
-        .terms-link { color: var(--accent-purple); font-size: 0.8rem; cursor: pointer; margin-top: 15px; }
-        .latin-text { font-size: 0.85rem; line-height: 1.6; text-align: left; width: 100%; }
-
-        #terms-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 100;
-            max-width: 600px;
-        }
-        .close-btn {
-            background: var(--accent-purple);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            float: right;
-            cursor: pointer;
-        }
-
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        .video-grid {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            margin-bottom: 40px;
-        }
-        .video-placeholder {
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
-            flex: 1;
-            aspect-ratio: 1.2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .timer { font-size: 3rem; display: flex; align-items: center; gap: 10px; }
-
-        .profile-circle {
-            width: 120px;
-            height: 120px;
-            background: white;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-        }
-        .score-display { font-size: 2rem; font-weight: bold; margin: 20px 0; }
-        .nav-arrows {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: 20px;
-        }
-        .arrow { font-size: 2rem; cursor: pointer; color: #7f8c8d; }
-        .ranking-list { text-align: left; width: 100%; }
-        .ranking-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #ccc;
-        }
-        .btn-restart {
-            width: 100%;
-            padding: 15px;
-            background: var(--box-bg);
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+        #feedback { margin-top: 30px; font-size: 1.6em; font-weight: bold; min-height: 40px; }
+        button { padding: 12px 30px; font-size: 1.1em; cursor: pointer; background: #deff9a; border: none; border-radius: 5px; font-weight: bold; color: #0f172a; }
+        button:hover { background: #bada6f; }
+        .option-title { font-size: 1.3em; font-weight: bold; margin-top: 15px; color: #94a3b8; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="logo">Quiz Educativo</div>
-        <div style="display: flex; align-items: center;">
-            <div class="nav-links">
-                <a href="#">CANAL</a>
-                <a href="#">SOBRE</a>
-            </div>
-            <div class="social-icons">
-                <i class="fab fa-tiktok"></i>
-                <i class="fa-brands fa-x-twitter"></i>
-                <i class="fab fa-github"></i>
-            </div>
-        </div>
-    </header>
+<h1>A3 QUIZ - Inteligência Artificial vs Realidade</h1>
+<p>Escolha o tipo de jogo, analise as mídias e clique na caixa que você jura que é <strong>IA</strong>!</p>
 
-    <div id="page1" class="page active">
-        <div class="hero-title">
-            <h2>IA vs REALIDADE</h2>
-            <p>Você consegue distinguir a Realidade da Inteligência Artificial?</p>
-        </div>
+<div class="controls">
+    <label style="font-size: 1.2em; align-self: center;">Tipo de Mídia:</label>
+    <select id="media-type-selector" onchange="loadRound()">
+        <option value="VIDEO">🎬 Vídeos (Deepfakes)</option>
+        <option value="AUDIO">🎵 Áudios (Clonagem de Voz)</option>
+        <option value="IMAGE">📸 Imagens (Geradas por IA)</option>
+    </select>
+</div>
 
-        <div class="gray-box" style="text-align: center;">
-            <h3>Bem-vindo ao QUIZ</h3>
-            <p>Coloque um usuário para entrar ou deixe em branco para receber um user aleatório</p>
-            <input type="text" class="input-user" placeholder="coloque username aqui">
-            <br>
-            <button class="play-btn" onclick="startQuiz()">PLAY</button>
-            <p class="terms-link" onclick="toggleTerms(true)">Ao se cadastrar, você aceita os termos de uso, a política de privacidade e as regras.</p>
+<div id="game-area">
+    <div class="matchup">
+        <div class="box" onclick="check('A')">
+            <div id="slot-a" style="width: 100%;"></div>
+            <div class="option-title">Opção A</div>
         </div>
-
-        <div class="gray-box">
-            <strong>A IA democratizou a magia. Mas você sabe identificar o truque?</strong><br><br>
-            Criar vídeos perfeitos nunca foi tão fácil. Saber diferenciar o real do gerado por IA nunca foi tão vital. Entenda o projeto abaixo.
+        <div class="box" onclick="check('B')">
+            <div id="slot-b" style="width: 100%;"></div>
+            <div class="option-title">Opção B</div>
         </div>
     </div>
-
-    <div id="page2" class="page">
-        <div class="quiz-header">
-            <span>CLIQUE NO VÍDEO QUE É REAL</span>
-        </div>
-        <div class="video-grid">
-            <div class="video-placeholder" onclick="goToEmailPage()">VIDEO 1</div>
-            <div class="video-placeholder" onclick="goToEmailPage()">VIDEO 2</div>
-        </div>
-        <div class="timer">
-            <i class="far fa-clock"></i>
-            <span id="timer-val">00:00</span>
-        </div>
-    </div>
-
-    <div id="page-email" class="page">
-        <div class="gray-box" style="text-align: center;">
-            <div class="profile-circle"></div>
-            <div class="latin-text" style="margin-bottom: 20px; text-align: center;">
-                Fique por dentro das novidades! Deixe seu e-mail para receber novos desafios e atualizações sobre Inteligência Artificial.
-            </div>
-            
-            <input type="email" class="input-user" placeholder="seu-email@exemplo.com" style="margin: 10px 0;">
-            
-            <div class="nav-arrows">
-                <i class="fas fa-arrow-left arrow" onclick="showPage('page2')"></i>
-                <i class="fas fa-arrow-right arrow" onclick="endQuiz()"></i>
-            </div>
-        </div>
-        <button class="btn-restart" onclick="endQuiz()">PULAR E VER RESULTADO</button>
-    </div>
-
-    <div id="page3" class="page">
-        <div id="sub-score" class="gray-box" style="text-align: center; display: block;">
-            <div class="profile-circle"></div>
-            <div class="score-display">1500</div>
-            <p class="latin-text" style="text-align: center;">Resposta correta, o vídeo é IA</p>
-            <div class="nav-arrows">
-                <i class="fas fa-arrow-left arrow" style="opacity:0.2"></i>
-                <i class="fas fa-arrow-right arrow" onclick="showRanking()"></i>
-            </div>
-        </div>
-
-        <div id="sub-ranking" class="gray-box" style="text-align: center; display: none;">
-            <h3>RANKING GLOBAL</h3>
-            <div class="ranking-list">
-                <div class="ranking-item"><span>VOCÊ</span><span>2000</span></div>
-                <div class="ranking-item"><span>USER_ALEATORIO</span><span>1500</span></div>
-                <div class="ranking-item"><span>USER_ALEATORIO</span><span>1000</span></div>
-                <div class="ranking-item"><span>USER_ALEATORIO</span><span>500</span></div>
-                <div class="ranking-item"><span>USER_ALEATORIO</span><span>250</span></div>
-            </div>
-            <div class="nav-arrows">
-                <i class="fas fa-arrow-left arrow" onclick="showScore()"></i>
-                <i class="fas fa-arrow-right arrow" style="opacity:0.2"></i>
-            </div>
-        </div>
-
-        <button class="btn-restart" onclick="restart()">JOGAR DE NOVO</button>
-    </div>
-
-    <div id="terms-modal" class="gray-box">
-        <button class="close-btn" onclick="toggleTerms(false)">FECHAR</button>
-        <h3>TERMOS DE USO E POLÍTICA DE PRIVACIDADE</h3>
-        <div class="latin-text">
-            Ao iniciar o quiz, você concorda com a coleta anônima de sua pontuação para fins de ranking global. Garantimos que nenhum dado pessoal sensível será compartilhado ou vendido a terceiros.
-        </div>
-    </div>
+    <p id="feedback"></p>
+    <button onclick="loadRound()">Próximo Duelo</button>
 </div>
 
 <script>
-    function startQuiz() {
-        showPage('page2');
-        startTimer();
+    let correctLetter = "";
+    const BACKEND_URL = "http://localhost:8080";
+
+    async function loadRound() {
+        document.getElementById('feedback').innerText = "";
+
+        // Pega o tipo selecionado no menu (VIDEO, AUDIO ou IMAGE)
+        const selectedType = document.getElementById('media-type-selector').value;
+
+        try {
+            // Passa o tipo dinamicamente na URL do seu backend
+            const response = await fetch(`${BACKEND_URL}/api/quiz/versus?type=${selectedType}&rounds=1`);
+
+            if (response.status === 204) {
+                document.getElementById('slot-a').innerHTML = "❓";
+                document.getElementById('slot-b').innerHTML = "❓";
+                document.getElementById('feedback').innerText = `⚠️ Mídias insuficientes para o tipo ${selectedType} no banco de dados.`;
+                document.getElementById('feedback').style.color = "#f59e0b";
+                return;
+            }
+
+            const data = await response.json();
+
+            if (data.length > 0) {
+                const round = data[0];
+                correctLetter = round.correctAnswer; // Guarda se a resposta certa é 'A' ou 'B'
+
+                renderMedia('slot-a', round.mediaA);
+                renderMedia('slot-b', round.mediaB);
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            document.getElementById('feedback').innerText = "❌ Falha ao conectar com o servidor local do Spring Boot.";
+            document.getElementById('feedback').style.color = "#ef4444";
+        }
     }
 
-    function goToEmailPage() {
-        stopTimer();
-        showPage('page-email');
+    function renderMedia(containerId, media) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = "";
+
+        // Como usamos Discord/Imgur, a URL já começa com "http", então usamos ela de forma direta e global
+        const url = media.fileUrl;
+
+        // Chaveamento dinâmico baseado na propriedade vinda do banco de dados
+        if (media.mediaType === 'VIDEO') {
+            container.innerHTML = `<video src="${url}" controls preload="auto"></video>`;
+            container.querySelector('video').load();
+        } else if (media.mediaType === 'IMAGE') {
+            container.innerHTML = `<img src="${url}" alt="Mídia do Quiz">`;
+        } else if (media.mediaType === 'AUDIO') {
+            container.innerHTML = `<audio src="${url}" controls preload="auto"></audio>`;
+            container.querySelector('audio').load();
+        }
     }
 
-    function endQuiz() {
-        showPage('page3');
+    function check(chosen) {
+        const feedback = document.getElementById('feedback');
+        if (feedback.innerText !== "") return; // Evita cliques múltiplos na mesma rodada
+
+        if (chosen === correctLetter) {
+            feedback.innerText = "🎉 VOCÊ ACERTOU! Esta opção foi de fato gerada por IA.";
+            feedback.style.color = "#4ade80";
+        } else {
+            feedback.innerText = "❌ VOCÊ ERROU! Esta é a mídia real e legítima.";
+            feedback.style.color = "#f87171";
+        }
     }
 
-    function restart() {
-        showPage('page1');
-        resetTimer();
-        showScore();
-    }
-
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-    }
-
-    function toggleTerms(show) {
-        document.getElementById('terms-modal').style.display = show ? 'block' : 'none';
-    }
-
-    function showRanking() {
-        document.getElementById('sub-score').style.display = 'none';
-        document.getElementById('sub-ranking').style.display = 'block';
-    }
-
-    function showScore() {
-        document.getElementById('sub-score').style.display = 'block';
-        document.getElementById('sub-ranking').style.display = 'none';
-    }
-
-    let timer;
-    let seconds = 0;
-
-    function startTimer() {
-        seconds = 0;
-        timer = setInterval(() => {
-            seconds++;
-            let m = Math.floor(seconds / 60).toString().padStart(2, '0');
-            let s = (seconds % 60).toString().padStart(2, '0');
-            document.getElementById('timer-val').innerText = `${m}:${s}`;
-        }, 1000);
-    }
-
-    function stopTimer() { clearInterval(timer); }
-    function resetTimer() { 
-        stopTimer(); 
-        document.getElementById('timer-val').innerText = "00:00";
-    }
+    // Carrega o primeiro duelo automaticamente assim que abre a página
+    loadRound();
 </script>
-
 </body>
 </html>
