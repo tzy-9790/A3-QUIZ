@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA / PERCEPÇÃO - INTERFACE PRINCIPAL</title>
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+
+<header class="system-header">
+    <div class="logo-area">
+        <span class="logo-barcode">|||| ||</span>
+        <span class="logo-text">IA/PERCEPÇÃO</span>
+    </div>
+    <nav class="nav-menu">
+        <a href="#ranking-section" class="nav-link">CHALLENGE</a>
+        <a href="#about-section" class="nav-link">SOBRE</a>
+        <a href="https://x.com" target="_blank" class="nav-link">X</a>
+        <a href="https://github.com/tzy-9790/A3-QUIZ.git" target="_blank" class="nav-link">GITHUB</a>
+    </nav>
+</header>
+
+<main class="main-dashboard">
+
+    <section class="gfx-chassis">
+        <div class="gfx-overlay-text">SISTEMA_ATIVO // PERCEPÇÃO CRÍTICA [13MS]</div>
+        <img src="https://i.imgur.com/vH9jZ9B.png" alt="Interface Gráfica de Análise" class="bg-character">
+    </section>
+
+    <section class="modes-grid">
+        <p class="grid-instruction">> ESCOLHA O QUE VOCÊ QUER DESAFIAR AGORA:</p>
+
+        <div class="category-card" onclick="expandCard(this, 'image-details')">
+            <div class="card-header-tag">MODO // 01</div>
+            <div class="card-preview">
+                <span class="media-title">IMAGEM</span>
+                <img src="https://i.imgur.com/LINK_DE_EXEMPLO_IMAGEM.jpg" alt="Exemplo Imagem" class="preview-media">
+            </div>
+            <p class="card-caption">A prova visual perdeu o valor. Teste sua capacidade de identificar texturas e anomalias sintéticas digitais.</p>
+        </div>
+
+        <div class="category-card" onclick="expandCard(this, 'video-details')">
+            <div class="card-header-tag">MODO // 02</div>
+            <div class="card-preview">
+                <span class="media-title">VÍDEO</span>
+                <img src="https://i.imgur.com/LINK_DE_EXEMPLO_VIDEO_THUMB.jpg" alt="Exemplo Vídeo" class="preview-media">
+            </div>
+            <p class="card-caption">A física do movimento e as expressões faciais agora são escritas por algoritmos profundos de Deepfake.</p>
+        </div>
+
+        <div class="category-card" onclick="expandCard(this, 'audio-details')">
+            <div class="card-header-tag">MODO // 03</div>
+            <div class="card-preview">
+                <span class="media-title">ÁUDIO</span>
+                <img src="https://i.imgur.com/LINK_DE_ONDAS_SONORAS.jpg" alt="Exemplo Ondas Sonoras" class="preview-media">
+            </div>
+            <p class="card-caption">Sintonia perigosa. Frequências e timbres clonados de vozes humanas com precisão cirúrgica de IA.</p>
+        </div>
+    </section>
+</main>
+
+<hr class="system-divider">
+
+<section id="ranking-section" class="info-section">
+    <h2>🏆 ARQUIVO GLOBAL DE PERFORMANCE</h2>
+    <p>Aqui será renderizado o ranking mundial vindo da API do ScoreController...</p>
+</section>
+
+<section id="about-section" class="info-section">
+    <h2>ℹ️ DIRETRIZ DO PROJETO (A3-QUIZ)</h2>
+    <p>Este ecossistema foi desenvolvido como um modelo de auditoria reversa para validar o limiar da percepção humana contra dados sintetizados por algoritmos generativos modernos, utilizando metodologias ágeis de microsserviços.</p>
+</section>
+
+
+<div id="image-details" class="overlay-fullscreen hidden" onclick="closeCard(this)">
+    <div class="details-content" onclick="event.stopPropagation()">
+        <h2>EXPANSÃO DE DIRETRIZ: FORMATO VISUAL (IMAGEM)</h2>
+        <hr>
+        <h3>O BEM (PRODUTIVIDADE & ARTE):</h3>
+        <p>Utilizado na medicina diagnóstica para simular e prever o avanço de patologias, na restauração automatizada de arquivos históricos danificados e na geração de assets rápidos para design de interfaces.</p>
+        <h3>O MAL (DESINFORMAÇÃO & FRAUDE):</h3>
+        <p>Geração massiva de evidências fotográficas falsas para manipulação geopolítica, criação de perfis falsos indetectáveis para engenharia social e bypass de sistemas biométricos de segurança.</p>
+        <button class="btn-close" onclick="closeCard(this.parentNode.parentNode)">FECHAR EXAME</button>
+    </div>
+</div>
+
+<div id="video-details" class="overlay-fullscreen hidden" onclick="closeCard(this)">
+    <div class="details-content" onclick="event.stopPropagation()">
+        <h2>EXPANSÃO DE DIRETRIZ: FORMATO CINESTÉSICO (VÍDEO)</h2>
+        <hr>
+        <h3>O BEM (INDÚSTRIA & ACESSIBILIDADE):</h3>
+        <p>Dublagem perfeita com sincronia labial automática para democratização de conteúdo internacional, rejuvenescimento não invasivo de atores veteranos no cinema e simulações aeroespaciais de alta fidelidade.</p>
+        <h3>O MAL (DEEPFAKES & EXTORSÃO):</h3>
+        <p>Engenharia social direcionada (ataques corporativos simulando chamadas de diretores), difamação de figuras públicas e clonagem de comportamento para quebra de custódia de depoimentos visuais.</p>
+        <button class="btn-close" onclick="closeCard(this.parentNode.parentNode)">FECHAR EXAME</button>
+    </div>
+</div>
+
+<div id="audio-details" class="overlay-fullscreen hidden" onclick="closeCard(this)">
+    <div class="details-content" onclick="event.stopPropagation()">
+        <h2>EXPANSÃO DE DIRETRIZ: FORMATO ACÚSTICO (ÁUDIO)</h2>
+        <hr>
+        <h3>O BEM (SAÚDE & SINTETIZAÇÃO):</h3>
+        <p>Devolução da voz original para pacientes com esclerose lateral amiotrófica (ELA) ou cordas vocais lesionadas, e automação humanizada de audiolivros interativos para deficientes visuais.</p>
+        <h3>O MAL (VISHING & SEQUESTRO VIRTUAL):</h3>
+        <p>Ataques de engenharia social por telefone (Vishing) clonando vozes de parentes ou diretores financeiros para aplicação de golpes de transferência imediata de ativos (PIX).</p>
+        <button class="btn-close" onclick="closeCard(this.parentNode.parentNode)">FECHAR EXAME</button>
+    </div>
+</div>
+
+<script>
+    function expandCard(cardElement, targetId) {
+        const overlay = document.getElementById(targetId);
+        overlay.classList.remove('hidden');
+        overlay.style.animation = 'fadeIn 0.3s forwards';
+    }
+
+    function closeCard(overlayElement) {
+        overlayElement.classList.add('hidden');
+    }
+</script>
+</body>
+</html>
