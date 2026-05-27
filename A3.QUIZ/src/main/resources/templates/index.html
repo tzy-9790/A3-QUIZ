@@ -1,12 +1,28 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE HTML>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA / PERCEPÇÃO - INTERFACE PRINCIPAL</title>
-    <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="../static/css/estilos.css">
 </head>
 <body>
+
+<section id="tela-home">
+    <h1>Bem-vindo ao IA/PERCEPÇÃO</h1>
+    <button onclick="mudarTela('tela-modos')">Começar</button>
+</section>
+
+<section id="tela-modos" style="display: none;">
+    <h2>Escolha o Modo de Jogo</h2>
+    <button onclick="mudarTela('tela-jogo')">Modo Imagem</button>
+</section>
+
+<section id="tela-jogo" style="display: none;">
+    <h2>O Quiz começou!</h2>
+</section>
+
+<a th:href="@{/modos}" class="nav-link">Jogar Agora</a>
 
 <header class="system-header">
     <div class="logo-area">
