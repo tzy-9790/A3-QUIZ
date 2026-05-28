@@ -1,10 +1,154 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA / PERCEPÇÃO - MODOS DE JOGO</title>
+    <link rel="stylesheet" th:href="@{/css/modos.css}" href="../static/css/modos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Mirza&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<div class="page">
+    <img class="download" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Overlay" />
+
+    <p class="text-wrapper">SELECT A GAME MODE TO START:</p>
+
+    <header class="header">
+        <div class="rectangle"></div>
+        <div class="frame">
+            <div class="div">IA / PERCEPTION</div>
+        </div>
+        <div class="div-wrapper">
+            <a th:href="@{/#about-section}" href="index.html#about-section" class="text-wrapper-2">ABOUT</a>
+        </div>
+        <div class="frame-2">
+            <a th:href="@{/#ranking-section}" href="index.html#ranking-section" class="text-wrapper-3">CHANEL</a>
+        </div>
+        <div class="subtitulo">
+            <p class="p">The human brain takes only 13 milliseconds to process an image, but needs seconds to doubt it. - Our eyes do not capture reality; they only validate what our mind already expects to find.</p>
+        </div>
+    </header>
+
+    <div class="game-dashboard-layout">
+
+        <div id="left-panel" class="side-frame" onclick="pivotMode('left')">
+            <div id="left-title" class="text-wrapper-12">AUDIO</div>
+            <div class="line-container"></div>
+        </div>
+
+        <div id="center-panel" class="center-frame" onclick="triggerGameplay()">
+
+            <div id="content-image" class="mode-content active-content">
+                <div class="text-wrapper-4">IMAGE</div>
+                <div class="line-container-center"></div>
+                <p class="text-wrapper-10">You should choose between two images</p>
+
+                <div class="showcase-container">
+                    <div class="media-box box-ai">
+                        <img th:src="@{/imagens/exampleIA.png}" src="../static/imagens/exampleIA.png" class="image" />
+                        <div class="text-wrapper-6">image made by IA</div>
+                    </div>
+                    <div class="media-box box-real">
+                        <img th:src="@{/imagens/exampleREAL.png}" src="../static/imagens/exampleREAL.png" class="img" />
+                        <div class="text-wrapper-7">real image</div>
+                    </div>
+                </div>
+
+                <div class="feedback-row">
+                    <div class="text-wrapper-8">CORRECTO</div>
+                    <div class="text-wrapper-9">WRONG</div>
+                </div>
+
+                <p class="text-wrapper-5">Select the photo that is made by Artificial Intelligence</p>
+            </div>
+
+            <div id="content-audio" class="mode-content">
+                <div class="text-wrapper-4">AUDIO</div>
+                <div class="line-container-center"></div>
+                <p class="text-wrapper-10">Triagem laboratorial de ondas acústicas</p>
+                <div class="showcase-container">
+                    <div class="media-box box-ai">
+                        <div style="font-size: 50px; margin: 15px 0;">🎵</div>
+                        <div class="text-wrapper-6">Audio Sintetizado</div>
+                    </div>
+                    <div class="media-box box-real">
+                        <div style="font-size: 50px; margin: 15px 0;">🗣️</div>
+                        <div class="text-wrapper-7">Voz Humana</div>
+                    </div>
+                </div>
+                <p class="text-wrapper-5">Identifique anomalias de modulação e compressão sintética.</p>
+            </div>
+
+            <div id="content-video" class="mode-content">
+                <div class="text-wrapper-4">VIDEO</div>
+                <div class="line-container-center"></div>
+                <p class="text-wrapper-10">Análise forense de renderização profunda</p>
+                <div class="showcase-container">
+                    <div class="media-box box-ai">
+                        <div style="font-size: 50px; margin: 15px 0;">🤖</div>
+                        <div class="text-wrapper-6">Deepfake Generativo</div>
+                    </div>
+                    <div class="media-box box-real">
+                        <div style="font-size: 50px; margin: 15px 0;">🎥</div>
+                        <div class="text-wrapper-7">Captura Óptica Real</div>
+                    </div>
+                </div>
+                <p class="text-wrapper-5">Examine micro-expressões e artefatos de iluminação digital.</p>
+            </div>
+
+        </div>
+
+        <div id="right-panel" class="side-frame" onclick="pivotMode('right')">
+            <div id="right-title" class="text-wrapper-11">VIDEO</div>
+            <div class="line-container"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Estado inicial das telas
+    let currentCenter = 'image';
+    let currentLeft = 'audio';
+    let currentRight = 'video';
+
+    // Mapeamento das rotas do seu Spring Boot Controller
+    const routes = {
+        image: '/jogo/imagem',
+        audio: '/jogo/audio',
+        video: '/jogo/video'
+    };
+
+    function pivotMode(clickedSide) {
+        let oldCenter = currentCenter;
+
+        if (clickedSide === 'left') {
+            // Rotação para a esquerda
+            currentCenter = currentLeft;
+            currentLeft = currentRight;
+            currentRight = oldCenter;
+        } else if (clickedSide === 'right') {
+            // Rotação para a direita
+            currentCenter = currentRight;
+            currentRight = currentLeft;
+            currentLeft = oldCenter;
+        }
+
+        // Atualiza os textos dos blocos laterais
+        document.getElementById('left-title').innerText = currentLeft.toUpperCase();
+        document.getElementById('right-title').innerText = currentRight.toUpperCase();
+
+        // Alterna a renderização do conteúdo do bloco principal
+        document.querySelectorAll('.mode-content').forEach(el => el.classList.remove('active-content'));
+        document.getElementById('content-' + currentCenter).classList.add('active-content');
+    }
+
+    function triggerGameplay() {
+        // Se o usuário clicar no bloco central de destaque, ele inicia a partida correspondente
+        window.location.href = routes[currentCenter];
+    }
+</script>
 
 </body>
 </html>

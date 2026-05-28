@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA / PERCEPÇÃO - RELATÓRIO DE EXAME</title>
+    <link rel="stylesheet" th:href="@{/css/FinalScore.css}" href="../static/css/FinalScore.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="score-page">
+    <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Overlay" />
+
+    <div id="score-popup-overlay" class="popup-overlay">
+        <div class="popup-chassis">
+            <div class="barcode-decoration">||||||| | ||||| | ||</div>
+            <h2 class="popup-title">EXAME CONCLUÍDO</h2>
+            <div class="divider"></div>
+            <p class="popup-subtitle">RELATÓRIO DE DESEMPENHO COGNITIVO</p>
+
+            <div class="popup-metadata">
+                <div>AGENTE EM EXAME: <span id="popup-agent-name">CARREGANDO...</span></div>
+                <div>STATUS: EXTRAÍDO // SALVO EM NUVEM</div>
+            </div>
+
+            <div class="score-badge-box">
+                <span class="score-label">EFICIÊNCIA DE DETECÇÃO</span>
+                <div class="score-value-display"><span id="final-popup-score">00</span> <small>PTS</small></div>
+            </div>
+
+            <button class="btn-close-popup" type="button" onclick="closeScorePopup()">FECHAR RELATÓRIO & VER RANKING</button>
+        </div>
+    </div>
+
+    <header class="system-header">
+        <div class="header-bg"></div>
+        <div class="logo-zone">IA / PERCEPTION</div>
+        <div class="header-nav">
+            <a th:href="@{/#about-section}" href="index.html#about-section" class="nav-link">ABOUT</a>
+            <a th:href="@{/#ranking-section}" href="index.html#ranking-section" class="nav-link">CHANEL</a>
+        </div>
+        <div class="marquee-sub">
+            <p class="marquee-content">The human brain takes only 13 milliseconds to process an image, but needs seconds to doubt it. - Our eyes do not capture reality; they only validate what our mind already expects to find.</p>
+        </div>
+    </header>
+
+    <p class="section-top-title">EVALUATION REPORT CONCLUDED:</p>
+
+    <div id="terminal-report-zone">
+
+        <div class="leaderboard-container">
+            <h3 class="leaderboard-title">> ARQUIVO GLOBAL DE PERFORMANCE (TOP 10)</h3>
+
+            <table class="leaderboard-table">
+                <thead>
+                <tr>
+                    <th style="width: 15%">POS</th>
+                    <th style="text-align: left; padding-left: 25px;">SUJEITO_ID</th>
+                    <th style="width: 25%">SCORE</th>
+                </tr>
+                </thead>
+                <tbody id="global-scores-rows">
+                </tbody>
+            </table>
+
+            <div class="action-footer">
+                <button class="btn-restart" onclick="returnToDashboard()">REINICIALIZAR TERMINAL LÓGICO</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let jogadorAtual = "Litzy";
+
+    window.addEventListener('DOMContentLoaded', () => {
+        inicializarDadosScore(85, "Litzy");
+    });
+
+    function inicializarDadosScore(scoreFinal, nomeJogador) {
+        jogadorAtual = nomeJogador;
+        document.getElementById('popup-agent-name').innerText = nomeJogador.toUpperCase();
+        document.getElementById('final-popup-score').innerText = scoreFinal;
+        buscarRankingDoServidor();
+    }
+
+    function closeScorePopup() {
+        const overlay = document.getElementById('score-popup-overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+            overlay.style.pointerEvents = 'none';
+        }
+    }
+
+    function returnToDashboard() {
+        window.location.href = "/modos";
+    }
+
+    function buscarRankingDoServidor() {
+        const dados

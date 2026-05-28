@@ -1,0 +1,10 @@
+/* Importa a estrutura base */
+@import url('./jogo-base.css');
+
+/* Estilos específicos para o modo IMAGEM */
+.option-card img {
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    display: block;
+}

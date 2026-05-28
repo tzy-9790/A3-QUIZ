@@ -1,10 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA / PERCEPÇÃO - TRIAGEM</title>
+    <link rel="stylesheet" th:href="@{/css/jogo.css}" href="../static/css/jogo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<div class="game-page">
+    <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Element" />
+
+    <header class="system-header">
+        <div class="header-bg"></div>
+        <div class="logo-zone">IA / PERCEPTION</div>
+        <div class="header-nav">
+            <a th:href="@{/#about-section}" class="nav-link">ABOUT</a>
+            <a th:href="@{/#ranking-section}" class="nav-link">CHANEL</a>
+        </div>
+        <div class="marquee-sub">
+            <p class="marquee-content">The human brain takes only 13 milliseconds to process an image, but needs seconds to doubt it. - Our eyes do not capture reality; they only validate what our mind already expects to find.</p>
+        </div>
+    </header>
+
+    <div class="game-instruction">
+        <p id="instruction-text">SELECIONE A MÍDIA FEITA POR IA</p>
+    </div>
+
+    <main class="gameplay-container">
+
+        <div id="choice-left" class="media-card-play" onclick="submitAnswer('left')">
+            <div id="container-media-left" class="media-render-zone">
+            </div>
+        </div>
+
+        <div id="choice-right" class="media-card-play" onclick="submitAnswer('right')">
+            <div id="container-media-right" class="media-render-zone">
+            </div>
+        </div>
+
+    </main>
+
+    <div id="feedback-panel" class="feedback-panel-hud d-none">
+        <h2 id="feedback-title" class="f-title">CORRETO</h2>
+        <p id="feedback-desc" class="f-desc">Análise laboratorial concluída com sucesso.</p>
+        <button class="next-btn" onclick="nextRound()">PRÓXIMO DESAFIO ➔</button>
+    </div>
+
+</div>
+
+<script th:inline="javascript">
+    /* Caminhos das mídias mapeados para o Spring Boot carregar */
+    const mockDataData = {
+        image: {
+            instruction: "SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia: /*[[@{/imagens/exampleIA.png}]]*/ '../static/imagens/exampleIA.png',
+            rightMedia: /*[[@{/imagens/exampleREAL.png}]]*/ '../static/imagens/exampleREAL.png',
+            aiSide: 'left',
+            correctMsg: "Análise Forense: Essa imagem apresenta deformações de textura geradas por redes neurais.",
+            wrongMsg: "Análise Forense: Esse registro fotográfico possui metadados e granulação óptica autêntica."
+        },
+        video: {
+            instruction: "SELECIONE O VÍDEO GERADO POR IA",
+            leftMedia: /*[[@{/videos/videoReal.mp4}]]*/ '',
+            rightMedia: /*[[@{/videos/videoIA.mp4}]]*/ '',
+            aiSide: 'right',
+            correctMsg: "Análise Forense: Identificados artefatos espaciais e inconsistência na física de iluminação.",
+            wrongMsg: "Análise Forense: Sensor óptico capturou a movimentação biológica de forma legítima."
+        },
+        audio: {
+            instruction: "SELECIONE O ÁUDIO SINTETIZADO POR IA",
+            leftMedia: /*[[@{/audios/audioIA.mp3}]]*/ '',
+            rightMedia: /*[[@{/audios/audioReal.mp3}]]*/ '',
+            aiSide: 'left',
+            correctMsg: "Análise Forense: O espectro de voz exibe padrões de compressão de clonagem neural (Vishing).",
+            wrongMsg: "Análise Forense: Ondas acústicas apresentam ruído analógico e ressonância vocal humana pura."
+        }
+    };
+
+    // Lê a URL do navegador para saber se renderiza imagem, vídeo ou áudio
+    const currentUrl = window.location.pathname;
+    let mode = 'image';
+    if(currentUrl.includes('video')) mode = 'video';
+    if(currentUrl.includes('audio')) mode = 'audio';
+
+    const currentConfig = mockDataData[mode];
+
+    window.onload = function() {
+        document.getElementById('instruction-text').innerText = currentConfig.instruction;
+
+        const leftZone = document.getElementById('container-media-left');
+        const rightZone = document.getElementById('container-media-right');
+
+        // Renderização cirúrgica baseada no modo atual
+        if(mode === 'image') {
+            leftZone.innerHTML = `<img src="${currentConfig.leftMedia}" class="game-asset" alt="Opção A"/>`;
+            rightZone.innerHTML = `<img src="${currentConfig.rightMedia}" class="game-asset" alt="Opção B"/>`;
+        } else if(mode === 'video') {
+            leftZone.innerHTML = `<video src="${currentConfig.leftMedia}" class="game-asset" controls style="width:100%; height:auto;"></video>`;
+            rightZone.innerHTML = `<video src="${currentConfig.rightMedia}" class="game-asset" controls style="width:100%; height:auto;"></video>`;
+        } else if(mode === 'audio') {
+            leftZone.innerHTML = `<div class="audio-hud">🎵<audio src="${currentConfig.leftMedia}" controls></audio></div>`;
+            rightZone.innerHTML = `<div class="audio-hud">🎵<audio src="${currentConfig.rightMedia}" controls></audio></div>`;
+        }
+    };
+
+    function submitAnswer(selectedSide) {
+        const panel = document.getElementById('feedback-panel');
+        const title = document.getElementById('feedback-title');
+        const desc = document.getElementById('feedback-desc');
+
+        const leftCard = document.getElementById('choice-left');
+        const rightCard = document.getElementById('choice-right');
+
+        leftCard.style.pointerEvents = 'none';
+        rightCard.style.pointerEvents = 'none';
+
+        if (selectedSide === currentConfig.aiSide) {
+            document.getElementById('choice-' + selectedSide).classList.add('correct-glow');
+            panel.className = "feedback-panel-hud panel-correct";
+            title.innerText = "CORRETO";
+            desc.innerText = currentConfig.correctMsg;
+        } else {
+            document.getElementById('choice-' + selectedSide).classList.add('wrong-glow');
+            panel.className = "feedback-panel-hud panel-wrong";
+            title.innerText = "ERRADO";
+            desc.innerText = currentConfig.wrongMsg;
+        }
+    }
+
+    function nextRound() {
+        window.location.href = '/score';
+    }
+</script>
 
 </body>
 </html>

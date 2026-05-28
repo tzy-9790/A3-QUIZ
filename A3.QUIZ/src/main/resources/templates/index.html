@@ -1,140 +1,121 @@
-<!DOCTYPE HTML>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IA / PERCEPÇÃO - INTERFACE PRINCIPAL</title>
-    <link rel="stylesheet" href="../static/css/estilos.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IA / PERCEPÇÃO</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../static/css/index.css">
 </head>
 <body>
 
-<section id="tela-home">
-    <h1>Bem-vindo ao IA/PERCEPÇÃO</h1>
-    <button onclick="mudarTela('tela-modos')">Começar</button>
-</section>
+<div class="page-container">
 
-<section id="tela-modos" style="display: none;">
-    <h2>Escolha o Modo de Jogo</h2>
-    <button onclick="mudarTela('tela-jogo')">Modo Imagem</button>
-</section>
-
-<section id="tela-jogo" style="display: none;">
-    <h2>O Quiz começou!</h2>
-</section>
-
-<a th:href="@{/modos}" class="nav-link">Jogar Agora</a>
-
-<header class="system-header">
-    <div class="logo-area">
-        <span class="logo-barcode">|||| ||</span>
-        <span class="logo-text">IA/PERCEPÇÃO</span>
-    </div>
-    <nav class="nav-menu">
-        <a href="#ranking-section" class="nav-link">CHALLENGE</a>
-        <a href="#about-section" class="nav-link">SOBRE</a>
-        <a href="https://x.com" target="_blank" class="nav-link">X</a>
-        <a href="https://github.com/tzy-9790/A3-QUIZ.git" target="_blank" class="nav-link">GITHUB</a>
-    </nav>
-</header>
-
-<main class="main-dashboard">
-
-    <section class="gfx-chassis">
-        <div class="gfx-overlay-text">SISTEMA_ATIVO // PERCEPÇÃO CRÍTICA [13MS]</div>
-        <img src="https://i.imgur.com/vH9jZ9B.png" alt="Interface Gráfica de Análise" class="bg-character">
-    </section>
-
-    <section class="modes-grid">
-        <p class="grid-instruction">> ESCOLHA O QUE VOCÊ QUER DESAFIAR AGORA:</p>
-
-        <div class="category-card" onclick="expandCard(this, 'image-details')">
-            <div class="card-header-tag">MODO // 01</div>
-            <div class="card-preview">
-                <span class="media-title">IMAGEM</span>
-                <img src="https://i.imgur.com/LINK_DE_EXEMPLO_IMAGEM.jpg" alt="Exemplo Imagem" class="preview-media">
+    <header class="top-nav-index">
+        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="nav-right-container">
+            <nav class="nav-buttons">
+                <a href="#projeto-section" class="nav-button">SOBRE</a>
+                <a th:href="@{/modos}" href="modos.html" class="nav-button">CHALLENGE</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+                </a>
             </div>
-            <p class="card-caption">A prova visual perdeu o valor. Teste sua capacidade de identificar texturas e anomalias sintéticas digitais.</p>
+        </div>
+    </header>
+
+    <div class="hero-viewport">
+
+        <div class="info-marquee marquee-top">
+            <p class="marquee-text">
+                O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
+            </p>
         </div>
 
-        <div class="category-card" onclick="expandCard(this, 'video-details')">
-            <div class="card-header-tag">MODO // 02</div>
-            <div class="card-preview">
-                <span class="media-title">VÍDEO</span>
-                <img src="https://i.imgur.com/LINK_DE_EXEMPLO_VIDEO_THUMB.jpg" alt="Exemplo Vídeo" class="preview-media">
+        <img class="wallpaper-top" th:src="@{/imagens/geminiwallpaper.png}" src="../static/imagens/geminiwallpaper.png" alt="Wallpaper Base" />
+
+        <div class="hud-overlay">
+
+            <div class="efeitoss-quadros">
+
+                <div class="QUADRO-IMAGEM" onclick="window.location.href='/jogo/imagem'">
+                    <div class="quadrio">
+                        <img class="line" th:src="@{/imagens/line-7.svg}" src="../static/imagens/line-7.svg" alt="line" />
+                        <img class="img" th:src="@{/imagens/line-8-2.svg}" src="../static/imagens/line-8-2.svg" alt="indicator" />
+                        <img class="line-2" th:src="@{/imagens/image.svg}" src="../static/imagens/image.svg" alt="line" />
+                        <img class="line-3" th:src="@{/imagens/line-6-2.svg}" src="../static/imagens/line-6-2.svg" alt="line" />
+                        <p class="text-wrapper">A prova visual perdeu o valor. Nem tudo o que se vê existe.</p>
+                    </div>
+                    <div class="quadro">
+                        <img class="gif" th:src="@{/imagens/quiz/imagem1-ia.jpg}" src="../static/imagens/quiz/imagem1-ia.jpg" alt="Preview Imagem" />
+                        <div class="div">IMAGEM</div>
+                    </div>
+                </div>
+
+                <div class="QUADRO-VIDEO" onclick="window.location.href='/jogo/video'">
+                    <div class="quadrio-2">
+                        <img class="line" th:src="@{/imagens/line-7-2.svg}" src="../static/imagens/line-7-2.svg" alt="line" />
+                        <img class="img" th:src="@{/imagens/line-8.svg}" src="../static/imagens/line-8.svg" alt="indicator" />
+                        <img class="line-2" th:src="@{/imagens/line-9-2.svg}" src="../static/imagens/line-9-2.svg" alt="line" />
+                        <img class="line-3" th:src="@{/imagens/line-6-3.svg}" src="../static/imagens/line-6-3.svg" alt="line" />
+                        <p class="p">A física e as ações agora são escritas por algoritmos.</p>
+                    </div>
+                    <div class="quadro-2">
+                        <img class="gif-2" th:src="@{/imagens/quiz/imagem2-ia.jpg}" src="../static/imagens/quiz/imagem2-ia.jpg" alt="Preview Vídeo" />
+                        <div class="text-wrapper-2">VÍDEO</div>
+                    </div>
+                </div>
+
+                <div class="QUADRO-AUDIO" onclick="window.location.href='/jogo/audio'">
+                    <div class="quadrio-3">
+                        <img class="line" th:src="@{/imagens/line-7-3.svg}" src="../static/imagens/line-7-3.svg" alt="line" />
+                        <img class="img" th:src="@{/imagens/line-8-3.svg}" src="../static/imagens/line-8-3.svg" alt="indicator" />
+                        <img class="line-2" th:src="@{/imagens/line-9.svg}" src="../static/imagens/line-9.svg" alt="line" />
+                        <img class="line-3" th:src="@{/imagens/line-6.svg}" src="../static/imagens/line-6.svg" alt="line" />
+                        <p class="text-wrapper-3">Sintonia perigosa. O som agora pode ser perfeitamente simulado.</p>
+                    </div>
+                    <div class="quadro-3">
+                        <img class="gif-3" th:src="@{/imagens/quiz/imagem3-ia.jpg}" src="../static/imagens/quiz/imagem3-ia.jpg" alt="Preview Áudio" />
+                        <div class="text-wrapper-4">ÁUDIO</div>
+                    </div>
+                </div>
+
             </div>
-            <p class="card-caption">A física do movimento e as expressões faciais agora são escritas por algoritmos profundos de Deepfake.</p>
+
+            <section class="cta-block">
+                <h2 class="cta-text">Você consegue distinguir a Realidade da Inteligência Artificial?</h2>
+
+                <a th:href="@{/modos}" href="modos.html" class="cta-button-link">
+                    <button class="BOTO" type="button" aria-label="Jogar">JOGAR</button>
+                </a>
+            </section>
         </div>
 
-        <div class="category-card" onclick="expandCard(this, 'audio-details')">
-            <div class="card-header-tag">MODO // 03</div>
-            <div class="card-preview">
-                <span class="media-title">ÁUDIO</span>
-                <img src="https://i.imgur.com/LINK_DE_ONDAS_SONORAS.jpg" alt="Exemplo Ondas Sonoras" class="preview-media">
-            </div>
-            <p class="card-caption">Sintonia perigosa. Frequências e timbres clonados de vozes humanas com precisão cirúrgica de IA.</p>
+        <div class="info-marquee marquee-bottom">
+            <p class="marquee-text">
+                O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
+            </p>
         </div>
-    </section>
-</main>
 
-<hr class="system-divider">
-
-<section id="ranking-section" class="info-section">
-    <h2>🏆 ARQUIVO GLOBAL DE PERFORMANCE</h2>
-    <p>Aqui será renderizado o ranking mundial vindo da API do ScoreController...</p>
-</section>
-
-<section id="about-section" class="info-section">
-    <h2>ℹ️ DIRETRIZ DO PROJETO (A3-QUIZ)</h2>
-    <p>Este ecossistema foi desenvolvido como um modelo de auditoria reversa para validar o limiar da percepção humana contra dados sintetizados por algoritmos generativos modernos, utilizando metodologias ágeis de microsserviços.</p>
-</section>
-
-
-<div id="image-details" class="overlay-fullscreen hidden" onclick="closeCard(this)">
-    <div class="details-content" onclick="event.stopPropagation()">
-        <h2>EXPANSÃO DE DIRETRIZ: FORMATO VISUAL (IMAGEM)</h2>
-        <hr>
-        <h3>O BEM (PRODUTIVIDADE & ARTE):</h3>
-        <p>Utilizado na medicina diagnóstica para simular e prever o avanço de patologias, na restauração automatizada de arquivos históricos danificados e na geração de assets rápidos para design de interfaces.</p>
-        <h3>O MAL (DESINFORMAÇÃO & FRAUDE):</h3>
-        <p>Geração massiva de evidências fotográficas falsas para manipulação geopolítica, criação de perfis falsos indetectáveis para engenharia social e bypass de sistemas biométricos de segurança.</p>
-        <button class="btn-close" onclick="closeCard(this.parentNode.parentNode)">FECHAR EXAME</button>
     </div>
+
+    <div class="scroll-content-zone">
+        <article id="projeto-section" class="projeto-block">
+            <h3 class="projeto-title">PROJETO</h3>
+            <p class="projeto-desc">
+                O IA/PERCEPÇÃO é uma plataforma de auditoria cognitiva projetada para testar e mapear a capacidade humana de distinguir registros reais de mídias sintetizadas por Inteligência Artificial Generativa. Com o avanço exponencial de algoritmos de redes neurais, a criação de conteúdos falsos ultra-realistas — como Deepfakes de vídeo, clonagem de voz (Vishing) e texturas de imagem geradas artificialmente — tornou-se um dos maiores desafios de cibersegurança e integridade de dados da atualidade. O que antes exigia supercomputadores e semanas de pós-produção, hoje é gerado em milissegundos. Através de uma interface baseada em triagem laboratorial, o usuário é desafiado a examinar amostras pareadas aplicando conceitos de análise forense digital para identificar anomalias físicas na era da IA profunda.
+            </p>
+        </article>
+    </div>
+
 </div>
 
-<div id="video-details" class="overlay-fullscreen hidden" onclick="closeCard(this)">
-    <div class="details-content" onclick="event.stopPropagation()">
-        <h2>EXPANSÃO DE DIRETRIZ: FORMATO CINESTÉSICO (VÍDEO)</h2>
-        <hr>
-        <h3>O BEM (INDÚSTRIA & ACESSIBILIDADE):</h3>
-        <p>Dublagem perfeita com sincronia labial automática para democratização de conteúdo internacional, rejuvenescimento não invasivo de atores veteranos no cinema e simulações aeroespaciais de alta fidelidade.</p>
-        <h3>O MAL (DEEPFAKES & EXTORSÃO):</h3>
-        <p>Engenharia social direcionada (ataques corporativos simulando chamadas de diretores), difamação de figuras públicas e clonagem de comportamento para quebra de custódia de depoimentos visuais.</p>
-        <button class="btn-close" onclick="closeCard(this.parentNode.parentNode)">FECHAR EXAME</button>
-    </div>
-</div>
-
-<div id="audio-details" class="overlay-fullscreen hidden" onclick="closeCard(this)">
-    <div class="details-content" onclick="event.stopPropagation()">
-        <h2>EXPANSÃO DE DIRETRIZ: FORMATO ACÚSTICO (ÁUDIO)</h2>
-        <hr>
-        <h3>O BEM (SAÚDE & SINTETIZAÇÃO):</h3>
-        <p>Devolução da voz original para pacientes com esclerose lateral amiotrófica (ELA) ou cordas vocais lesionadas, e automação humanizada de audiolivros interativos para deficientes visuais.</p>
-        <h3>O MAL (VISHING & SEQUESTRO VIRTUAL):</h3>
-        <p>Ataques de engenharia social por telefone (Vishing) clonando vozes de parentes ou diretores financeiros para aplicação de golpes de transferência imediata de ativos (PIX).</p>
-        <button class="btn-close" onclick="closeCard(this.parentNode.parentNode)">FECHAR EXAME</button>
-    </div>
-</div>
-
-<script>
-    function expandCard(cardElement, targetId) {
-        const overlay = document.getElementById(targetId);
-        overlay.classList.remove('hidden');
-        overlay.style.animation = 'fadeIn 0.3s forwards';
-    }
-
-    function closeCard(overlayElement) {
-        overlayElement.classList.add('hidden');
-    }
-</script>
 </body>
 </html>

@@ -1,0 +1,276 @@
+/* Estilos Gerais da Página */
+body {
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+    font-family: 'NanumGothicCoding', monospace;
+}
+
+/* Container Principal */
+.mode-container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Imagem de fundo sobreposta */
+.background-overlay {
+    width: 682px;
+    height: 682px;
+    left: 404px;
+    top: 114px;
+    position: absolute;
+}
+
+/* Título da Seção */
+.section-title {
+    width: 607px;
+    height: 40px;
+    left: 416px;
+    top: 157px;
+    position: absolute;
+    font-size: 30px;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+/* Barra de Navegação Superior */
+.top-nav {
+    width: 100%;
+    height: 95px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background: rgba(255, 255, 255, 0);
+    border-bottom: 1px rgba(255, 255, 255, 0.1) solid;
+}
+
+.logo {
+    width: 250px;
+    height: 43px;
+    left: 30px;
+    top: 32px;
+    position: absolute;
+    color: #939292;
+    font-size: 24px;
+    font-family: 'Alan Sans', sans-serif;
+    font-weight: 400;
+}
+
+.nav-button {
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    position: absolute;
+    background: rgba(255, 255, 255, 0);
+    overflow: hidden;
+    border-radius: 100px;
+    outline: 1px white solid;
+    outline-offset: -1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 15px;
+    font-family: 'Alan Sans', sans-serif;
+    font-weight: 300;
+}
+
+.nav-button:hover {
+    opacity: 0.8;
+}
+
+.nav-button-about {
+    width: 103px;
+    height: 32px;
+    left: 1317px;
+    top: 35px;
+}
+
+.nav-button-challenge {
+    width: 104px;
+    height: 32px;
+    left: 1200px;
+    top: 35px;
+}
+
+/* Banner de Citação */
+.quote-banner {
+    width: 100%;
+    height: 39px;
+    left: 0;
+    top: 95px;
+    position: absolute;
+    background: rgba(94, 11, 11, 0.33);
+    overflow: hidden;
+    border-top: 0.50px #9E0505 solid;
+    border-bottom: 0.50px #9E0505 solid;
+    display: flex;
+    align-items: center;
+    padding-left: 29px;
+    color: #818181;
+    font-size: 13px;
+}
+
+/* Cards de Modo de Jogo */
+.game-mode-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: absolute;
+    background: rgba(17, 17, 17, 0.78);
+    overflow: hidden;
+    border-radius: 20px;
+    outline: 1px rgba(83, 26, 26, 0.38) solid;
+    outline-offset: -1px;
+}
+
+.game-mode-card:hover {
+    transform: scale(1.02);
+}
+
+/* Card Específico: Imagem */
+.card-image-mode {
+    width: 647px;
+    height: 378px;
+    left: 396px;
+    top: 266px;
+    box-shadow: 0px 4px 60px 2px rgba(183, 0, 0, 0.25);
+}
+
+.card-image-mode .title {
+    position: absolute;
+    left: 245px;
+    top: 12px;
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.card-image-mode .divider {
+    width: 427px;
+    height: 0px;
+    left: 110px;
+    top: 62px;
+    position: absolute;
+    outline: 1px #631C1C solid;
+}
+
+.card-image-mode .description {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 76px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.card-image-mode .sub-description {
+    width: 622px;
+    left: 13px;
+    top: 331px;
+    position: absolute;
+    font-size: 22px;
+    text-align: center;
+}
+
+.example-box {
+    position: absolute;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 197px;
+    height: 137px;
+    top: 130px;
+}
+
+.example-box img {
+    position: absolute;
+}
+
+.example-box .caption {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    color: white;
+    font-size: 18px;
+    font-family: 'Mirza', serif;
+    text-align: center;
+}
+
+.example-ai {
+    left: 103px;
+    background: rgba(38, 95, 51, 0.29);
+    outline: 1px #0C4319 solid;
+}
+
+.example-ai img {
+    width: 133px;
+    height: 84px;
+    left: 32px;
+    top: 15px;
+}
+
+.example-ai .caption {
+    top: 106px;
+}
+
+.example-real {
+    left: 345px;
+    width: 203px; /* Largura específica para este */
+    background: rgba(132, 50, 50, 0.38);
+    outline: 1px #822727 solid;
+}
+
+.example-real img {
+    width: 140px;
+    height: 90px;
+    left: 32px;
+    top: 10px;
+}
+
+.example-real .caption {
+    top: 108px;
+}
+
+.feedback-text {
+    position: absolute;
+    top: 272px;
+    font-size: 25px;
+}
+
+.feedback-correct {
+    left: 155px;
+    color: #4D7C58;
+}
+
+.feedback-wrong {
+    left: 409px;
+    color: #8E4F4F;
+}
+
+
+/* Cards Específicos: Vídeo e Áudio */
+.card-video-mode {
+    width: 257px;
+    height: 97px;
+    left: 1130px;
+    top: 508px;
+}
+
+.card-audio-mode {
+    width: 257px;
+    height: 97px;
+    left: 103px;
+    top: 508px;
+}
+
+.card-video-mode .title,
+.card-audio-mode .title {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 25px;
+    font-size: 40px;
+    font-family: 'Mirza', serif;
+    text-align: center;
+}
