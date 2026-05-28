@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA / PERCEPÇÃO - JOGO (VÍDEO)</title>
+    <!-- Link para o CSS dedicado de vídeo -->
+    <link rel="stylesheet" href="../static/css/jogo-video.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Mirza&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="page-jogos">
+    <!-- Imagem de fundo -->
+    <img class="background-overlay" src="/imagens/fundoModos.png" alt="Background Overlay"/>
+
+    <nav class="top-nav">
+        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="nav-buttons-container">
+            <a href="/modos.html" class="nav-button">MUDAR MODO</a>
+        </div>
+    </nav>
+
+    <div class="quote-banner">
+        <p>Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</p>
+    </div>
+
+    <h1 id="question-title" class="text-wrapper">Qual dos vídeos foi gerado por IA?</h1>
+
+    <div id="quiz-container" class="quiz-container">
+        <!-- Card Opção A -->
+        <div id="option-a" class="option-card" onclick="handleAnswer('A')">
+            <video src="" autoplay loop muted playsinline controls>
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </div>
+
+        <!-- Card Opção B -->
+        <div id="option-b" class="option-card" onclick="handleAnswer('B')">
+            <video src="" autoplay loop muted playsinline controls>
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </div>
+    </div>
+</div>
+
+<!-- <script src="/js/jogo-video.js"></script> -->
+</body>
+</html>

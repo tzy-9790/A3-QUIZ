@@ -15,7 +15,7 @@ public class UserService {
     }
     public User createAnonymousUser() {
         Random random = new Random();
-        int randomNumber = random.nextInt(9000) + 1000; // Gera um número entre 1000 e 9999
+        int randomNumber = random.nextInt(9000) + 1000;
         String anonymousName = "Guest_" + randomNumber;
 
         while (userRepository.existsByUsername(anonymousName)) {

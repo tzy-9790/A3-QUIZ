@@ -1,0 +1,24 @@
+@import url('./jogo-base.css');
+
+.option-card .audio-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 330px;
+    width: 100%;
+    background-color: #1a1a1a;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.audio-icon {
+    font-size: 80px;
+    color: #5e0b0b;
+    margin-bottom: 30px;
+}
+
+audio {
+    width: 90%;
+    outline: none;
+}
