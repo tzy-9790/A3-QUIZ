@@ -1,22 +1,29 @@
-{
-  "desafios": [
-    {
-      "id": 1,
-      "titulo": "entrevistas",
-      "videoA": "https://www.youtube.com/watch?v=VjXaxe6AtQU",
-      "videoB": "https://www.youtube.com/watch?v=gcZwE5cM4xs",
-      "respostaCorreta": "A",
-      "feedbackAcerto": "Correto!",
-      "feedbackErro": "Errado."
-    },
-    {
-      "id": 2,
-      "titulo": "videoclips",
-      "videoA": "https://www.youtube.com/watch?v=5eXT-R6IwCg&list=RD5eXT-R6IwCg&start_radio=1",
-      "videoB": "https://www.youtube.com/watch?v=rybU1VuiHrQ&list=RDrybU1VuiHrQ&start_radio=1",
-      "respostaCorreta": "B",
-      "feedbackAcerto": "Correto!",
-      "feedbackErro": "Errado."
-    }
-  ]
-}
+[
+  {
+    "modo": "image",
+    "instrucao": "SELECIONE A IMAGEM FEITA POR IA",
+    "midiaEsquerda": "/imagens/quiz/imagem1-ia.jpg",
+    "midiaDireita": "/imagens/quiz/imagem1-real.jpg",
+    "ladoIa": "left",
+    "mensagemCorreto": "CORRETO: Esta imagem apresenta inconsistência em texturas superficiais e padrões de ruído gerados por redes neurais.",
+    "mensagemErrado": "ERRADO: Esse registro fotográfico possui granulação óptica analógica e metadados legítimos."
+  },
+  {
+    "modo": "video",
+    "instrucao": "SELECIONE O VÍDEO GERADO POR IA",
+    "midiaEsquerda": "/imagens/quiz/video1-real.mp4",
+    "midiaDireita": "/imagens/quiz/video1-ia.mp4",
+    "ladoIa": "right",
+    "mensagemCorreto": "CORRETO: Identificados artefatos espaciais e falhas de interpolação profunda características de Deepfake.",
+    "mensagemErrado": "ERRADO: O sensor óptico capturou a variação biológica e a iluminação natural perfeitamente."
+  },
+  {
+    "modo": "audio",
+    "instrucao": "SELECIONE O ÁUDIO SINTETIZADO POR IA",
+    "midiaEsquerda": "/imagens/quiz/audio1-ia.mp4",
+    "midiaDireita": "/imagens/quiz/audio1-real.mp4",
+    "ladoIa": "left",
+    "mensagemCorreto": "CORRETO: A frequência acústica exibe compressão metálica e ausência de respiração típica de clonagem de voz neural.",
+    "mensagemErrado": "ERRADO: Espectro vocal limpo, apresentando ruído de fundo analógico e ressonância humana autêntica."
+  }
+]

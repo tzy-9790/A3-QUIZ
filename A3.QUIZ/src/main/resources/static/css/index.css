@@ -1,292 +1,381 @@
-/* --- Estilos da Página Inicial (index.html) --- */
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Alan+Sans:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Orbitron:wght@400;700&display=swap');
 
-body {
+html, body {
     margin: 0;
     padding: 0;
-    background-color: #000;
-    color: #fff;
-    font-family: 'NanumGothicCoding', monospace;
+    width: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Nanum Gothic Coding', monospace;
     overflow-x: hidden;
 }
 
-/* --- Container Principal --- */
 .page-container {
     width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     position: relative;
-    padding-top: 150px; /* Espaço para o header fixo */
-    padding-bottom: 80px;
+    background-color: #000000;
 }
 
-/* Imagens de fundo animadas/decorativas */
-.bg-image {
-    position: absolute;
-    z-index: -1;
-    opacity: 0.4;
-    max-width: 100%;
-}
-.bg-image-1 { top: 10%; right: -10%; }
-.bg-image-2 { bottom: 10%; left: -10%; }
-
-
-/* --- Cabeçalho e Navegação (Estilo unificado) --- */
-.header {
-    position: absolute;
+.top-nav-index {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 100;
-}
-
-.top-nav {
+    height: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0 40px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(138, 41, 41, 0.3);
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
 }
 
-.logo {
-    font-family: 'Alan Sans', sans-serif;
-    font-size: 24px;
-    color: #929292;
+.top-nav-index .logo {
+    font-size: 22px;
+    letter-spacing: 1px;
+    font-weight: bold;
 }
 
-.nav-buttons {
+.top-nav-index .nav-right-container {
     display: flex;
-    gap: 15px;
+    align-items: center;
+    gap: 40px;
 }
 
-.nav-btn {
-    background: transparent;
-    border: 1px solid #fff;
-    border-radius: 50px;
-    color: #fff;
-    padding: 8px 24px;
-    font-family: 'Alan Sans', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.top-nav-index .nav-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.top-nav-index .nav-button {
     text-decoration: none;
+    color: #cccccc;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 20px;
+    border-radius: 100px;
+    transition: all 0.2s;
 }
 
-.nav-btn:hover {
-    background: #fff;
-    color: #000;
+.top-nav-index .nav-button:hover {
+    color: #ffffff;
+    border-color: #8a2929;
+    background-color: rgba(138, 41, 41, 0.2);
 }
 
-/* --- Banner de Citação --- */
-.quote-banner {
-    background-color: rgba(94, 11, 11, 0.33);
-    border-top: 1px solid #9e0505;
-    border-bottom: 1px solid #9e0505;
-    padding: 12px 20px;
-    text-align: center;
+.top-nav-index .social-icon {
+    width: 22px;
+    height: 22px;
+    filter: invert(1);
+    opacity: 0.6;
 }
 
-.quote-text {
-    color: #818181;
-    font-size: 13px;
+.hero-viewport {
+    width: 100%;
+    position: relative;
+    display: block;
+    background-color: #000000;
+}
+
+.wallpaper-top {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.info-marquee {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: rgba(35, 0, 0, 0.85);
+    padding: 10px 40px;
+    box-sizing: border-box;
+    z-index: 150;
+}
+
+.marquee-top {
+    top: 70px;
+    border-bottom: 1px solid #490000;
+}
+
+.marquee-bottom {
+    bottom: 0;
+    border-top: 1px solid #490000;
+}
+
+.marquee-text {
     margin: 0;
-    max-width: 1200px;
-    margin: 0 auto;
+    font-size: 13px;
+    color: #ffb3b3;
+    line-height: 1.4;
 }
 
-/* --- Conteúdo Principal --- */
-.main-content {
+.hud-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 160px 60px 60px 60px;
+    box-sizing: border-box;
+    z-index: 100;
+}
+
+
+.cta-block {
+    text-align: right;
+    width: 450px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px;
-    padding: 0 20px;
-    box-sizing: border-box;
-    gap: 60px; /* Espaçamento entre as seções */
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
 }
 
-/* --- Seção de Quadros (Cards) --- */
-.quadros-section {
+.cta-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    line-height: 1.3;
+    color: #ffffff;
+    margin-bottom: 25px;
+}
+
+.cta-button-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.BOTO {
+    background-color: #7a0909;
+    border: 1px solid #b31212;
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 14px 50px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(122, 9, 9, 0.6);
+    transition: all 0.2s ease;
+}
+
+.BOTO:hover {
+    background-color: #9c0c0c;
+    box-shadow: 0 0 40px rgba(156, 12, 12, 0.9);
+    transform: scale(1.03);
+}
+
+.scroll-content-zone {
+    width: 100%;
+    background-color: #000000;
+    padding: 60px 20px 100px 20px;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
-    gap: 30px;
+}
+
+.projeto-block {
+    background-color: #121212;
+    border: 1px solid #8a2929;
+    border-radius: 12px;
+    padding: 35px;
+    max-width: 1200px;
     width: 100%;
-    flex-wrap: wrap; /* Importante para responsividade */
-}
-
-.card {
-    background: rgba(17, 17, 17, 0.8);
-    border: 1px solid rgba(83, 26, 26, 0.38);
-    border-radius: 20px;
-    padding: 30px 20px;
-    width: 100%;
-    max-width: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-10px);
-}
-
-.card-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 20px;
-    opacity: 0.8;
-}
-
-.card-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-}
-
-.card-desc {
-    color: #aaa;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* --- Seção Sobre o Projeto --- */
-.projeto-section {
-    max-width: 800px;
-    text-align: center;
-    background: rgba(0,0,0,0.6);
-    padding: 40px;
-    border-radius: 15px;
-    border: 1px solid #333;
+    box-shadow: 0px 0px 40px 2px rgba(95, 0, 0, 0.3);
 }
 
 .projeto-title {
-    font-size: 32px;
-    color: #fff;
-    margin-bottom: 30px;
-    letter-spacing: 4px;
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: #ffffff;
+    border-bottom: 1px dashed rgba(138, 41, 41, 0.5);
+    padding-bottom: 10px;
 }
 
-.projeto-text {
-    font-family: 'Alan Sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #ccc;
+.projeto-desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #cccccc;
     text-align: justify;
 }
 
-/* --- Chamada para Ação (Jogar) --- */
-.cta-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin-top: 20px;
+/* ===================================================================
+   ESTILIZAÇÃO DOS QUADROS COGNITIVOS (FIGMA) - COMPILADO EXATO
+   =================================================================== */
+.efeitoss-quadros {
+    position: relative;
+    width: 584px;
+    height: 753px;
 }
 
-.question-text {
-    font-size: 18px;
-    color: #ddd;
-    text-align: center;
-}
-
-.btn-jogar {
-    background: transparent;
-    border: 2px solid #9e0505;
-    color: #fff;
-    padding: 15px 60px;
-    font-size: 24px;
-    font-family: 'NanumGothicCoding', monospace;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 0 15px rgba(158, 5, 5, 0.4);
-}
-
-.btn-jogar:hover {
-    background: #9e0505;
-    box-shadow: 0 0 30px rgba(158, 5, 5, 0.8);
-    transform: scale(1.05);
-}
-
-/* --- Redes Sociais --- */
-.social-links {
+/* Containers Modulares */
+.QUADRO-IMAGEM {
     position: absolute;
-    bottom: 30px;
-    right: 40px;
+    top: 54px;
+    left: 21px;
+    width: 254px;
+    height: 180px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.QUADRO-VIDEO {
+    position: absolute;
+    top: 225px;
+    left: 128px;
+    width: 245px;
+    height: 181px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.QUADRO-AUDIO {
+    position: absolute;
+    top: 418px;
+    left: 233px;
+    width: 245px;
+    height: 182px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.QUADRO-IMAGEM:hover, .QUADRO-VIDEO:hover, .QUADRO-AUDIO:hover {
+    transform: scale(1.02);
+    filter: brightness(1.15);
+}
+
+/* Áreas de Linhas e Descrições (Grid Relativo Interno) */
+.efeitoss-quadros .quadrio {
+    position: absolute;
+    top: 99px;
+    left: 0;
+    width: 214px;
+    height: 81px;
+}
+
+.efeitoss-quadros .quadrio-2 {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 214px;
+    height: 81px;
+}
+
+.efeitoss-quadros .quadrio-3 {
+    position: absolute;
+    top: 101px;
+    left: 0;
+    width: 214px;
+    height: 81px;
+}
+
+/* Vetores de Conexão Forense (.svg) */
+.efeitoss-quadros .line {
+    position: absolute;
+    top: 47px;
+    left: 128px;
+    width: 76px;
+    height: 1px;
+    object-fit: cover;
+}
+
+.efeitoss-quadros .img {
+    position: absolute;
+    top: 47px;
+    left: 113px;
+    width: 16px;
+    height: 19px;
+    object-fit: cover;
+}
+
+.efeitoss-quadros .line-2 {
+    position: absolute;
+    top: 65px;
+    left: 9px;
+    width: 104px;
+    height: 1px;
+    object-fit: cover;
+}
+
+.efeitoss-quadros .line-3 {
+    position: absolute;
+    top: 0;
+    left: 202px;
+    width: 2px;
+    height: 47px;
+    object-fit: cover;
+}
+
+/* Textos Auxiliares Laboratoriais */
+.efeitoss-quadros .text-wrapper,
+.efeitoss-quadros .p,
+.efeitoss-quadros .text-wrapper-3 {
+    position: absolute;
+    font-family: "Nanum Gothic Coding", monospace;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 13px;
+    letter-spacing: 0;
+    line-height: 1.4;
+}
+
+.efeitoss-quadros .text-wrapper { top: 5px; left: 9px; width: 136px; }
+.efeitoss-quadros .p { top: 15px; left: 8px; width: 136px; }
+.efeitoss-quadros .text-wrapper-3 { top: 7px; left: 9px; width: 141px; }
+
+/* Molduras de Amostragem de Mídia (Fundo Escuro Translúcido) */
+.efeitoss-quadros .quadro,
+.efeitoss-quadros .quadro-2,
+.efeitoss-quadros .quadro-3 {
+    position: absolute;
+    width: 150px;
+    height: 100px;
+    background-color: rgba(23, 23, 23, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
     display: flex;
-    gap: 15px;
+    justify-content: center;
+    align-items: center;
 }
 
-.social-icon {
-    width: 30px;
-    height: 30px;
-    opacity: 0.6;
-    transition: opacity 0.3s;
+.efeitoss-quadros .quadro   { top: 0; left: 104px; }
+.efeitoss-quadros .quadro-2 { top: 10px; left: 94px; }
+.efeitoss-quadros .quadro-3 { top: 10px; left: 95px; }
+
+/* Previews em Background Interno */
+.efeitoss-quadros .gif,
+.efeitoss-quadros .gif-2,
+.efeitoss-quadros .gif-3 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.35;
+    filter: grayscale(30%) blur(0.5px);
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.social-icon:hover {
-    opacity: 1;
-}
-
-/* --- MEDIA QUERIES (RESPONSIVIDADE) --- */
-
-@media (max-width: 900px) {
-    .quadros-section {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .card {
-        max-width: 90%;
-    }
-}
-
-@media (max-width: 600px) {
-    .top-nav {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-    }
-
-    .nav-buttons {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .page-container {
-        padding-top: 180px; /* Ajusta espaço por causa do header empilhado */
-    }
-
-    .projeto-section {
-        padding: 20px;
-    }
-
-    .projeto-title {
-        font-size: 24px;
-    }
-
-    .projeto-text {
-        font-size: 14px;
-        text-align: left;
-    }
-
-    .btn-jogar {
-        font-size: 18px;
-        padding: 12px 40px;
-    }
-
-    .social-links {
-        position: static; /* Move para o fluxo normal no fim da página */
-        margin-top: 40px;
-        justify-content: center;
-    }
+/* Nomenclatura dos Modos */
+.efeitoss-quadros .div,
+.efeitoss-quadros .text-wrapper-2,
+.efeitoss-quadros .text-wrapper-4 {
+    position: relative;
+    font-family: "Nanum Gothic Coding", monospace;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 22px;
+    letter-spacing: 2px;
+    z-index: 5;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }

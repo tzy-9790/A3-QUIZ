@@ -1,4 +1,3 @@
-/* RESET DE LAYOUT E VARIÁVEIS DE ESTILO */
 :root {
     --bg-primary: #1a1a1a;
     --bg-secondary: #262626;
@@ -17,7 +16,6 @@ body {
     scroll-behavior: smooth;
 }
 
-/* HEADER DO SISTEMA */
 .system-header {
     display: flex;
     justify-content: space-between;
@@ -65,7 +63,6 @@ body {
     color: var(--brand-color);
 }
 
-/* MAIN DASHBOARD STRUCTURE (FLEXBOX DIVIDIDO) */
 .main-dashboard {
     max-width: 1400px;
     margin: 40px auto;
@@ -75,7 +72,6 @@ body {
     gap: 40px;
 }
 
-/* LADO ESQUERDO: CONTÊINER DA IMAGEM GFX */
 .gfx-chassis {
     width: 50%;
     position: relative;
@@ -105,7 +101,6 @@ body {
     filter: grayscale(30%);
 }
 
-/* LADO DIREITO: GRID VERTICAL DOS CARDS */
 .modes-grid {
     width: 45%;
     display: flex;
@@ -120,7 +115,6 @@ body {
     color: #ffffff;
 }
 
-/* CARDS DE FORMATO DE JOGO */
 .category-card {
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-color);
@@ -175,7 +169,6 @@ body {
     text-align: left;
 }
 
-/* ELEMENTO DE CORTE ESTÉTICO NOS CANTOS DOS CARDS */
 .category-card::after {
     content: '';
     position: absolute;
@@ -188,7 +181,6 @@ body {
     border-color: transparent transparent var(--border-color) transparent;
 }
 
-/* SEÇÕES DE CONTEÚDO EXTRA */
 .system-divider {
     border: 0;
     border-top: 1px solid var(--border-color);
@@ -216,7 +208,6 @@ body {
     color: #a3a3a3;
 }
 
-/* OVERLAYS TELA CHEIA (EXPANSÃO) */
 .overlay-fullscreen {
     position: fixed;
     top: 0;
@@ -283,7 +274,6 @@ body {
     background-color: var(--brand-color);
 }
 
-/* UTILITÁRIOS */
 .hidden {
     display: none !important;
 }

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 public class QuizMatchupDTO {
     private QuizMedia mediaA;
     private QuizMedia mediaB;
-    private String correctAnswer; // Será "A" ou "B"
+    private String correctAnswer;
 }

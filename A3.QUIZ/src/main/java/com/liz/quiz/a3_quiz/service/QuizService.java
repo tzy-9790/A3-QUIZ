@@ -31,7 +31,7 @@ public class QuizService {
         List<QuizMedia> ais = quizMediaRepository.findRandomAiMediaExcluding(formattedType, excludeIds, 1);
 
         if (reals.isEmpty() || ais.isEmpty()) {
-            return null; // Sinaliza que o quiz acabou
+            return null;
         }
 
         List<QuizMatchupDTO> matchupList = new ArrayList<>();

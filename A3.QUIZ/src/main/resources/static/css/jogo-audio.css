@@ -1,7 +1,5 @@
-/* Importa a estrutura base */
 @import url('./jogo-base.css');
 
-/* Estilos específicos para o modo ÁUDIO */
 .option-card .audio-placeholder {
     display: flex;
     flex-direction: column;

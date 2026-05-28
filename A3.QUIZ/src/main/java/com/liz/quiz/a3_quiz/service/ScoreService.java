@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//calcula a pontuação do jogador e o tempo todo de partida, atualiza a pontuação gobla do jogador de forma segura.
 @Service
 public class ScoreService {
     private final ScoreRepository scoreRepository;
@@ -22,7 +21,7 @@ public class ScoreService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
         int matchPoints = (int) ((correctAnswers * 1000) - (totalTimeSeconds * 10));
-        matchPoints = Math.max(0, matchPoints); // Garante que a pontuação não fique negativa
+        matchPoints = Math.max(0, matchPoints);
 
         Score match = new Score();
         match.setUser(user);
