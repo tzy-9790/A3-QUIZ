@@ -1,12 +1,40 @@
-function mudarTela(idDaNovaTela) {
-    // 1. Lista todas as seções que representam telas
-    const telas = ['tela-home', 'tela-modos', 'tela-jogo'];
+function abrirModalLogin() {
+    document.getElementById('login-modal-overlay').classList.remove('esconder');
+    document.getElementById('modal-username').classList.remove('esconder');
+    document.getElementById('modal-password').classList.add('esconder');
+    document.getElementById('input-username').value = ""; // Limpa o campo
+    document.getElementById('input-password').value = "";
+}
 
-    // 2. Esconde todas elas
-    telas.forEach(tela => {
-        document.getElementById(tela).style.display = 'none';
-    });
+function fecharModalLogin() {
+    document.getElementById('login-modal-overlay').classList.add('esconder');
+}
 
-    // 3. Mostra apenas a tela desejada
-    document.getElementById(idDaNovaTela).style.display = 'block';
+function verificarUsername() {
+    const inputUser = document.getElementById('input-username').value.trim();
+
+    if (inputUser === "") {
+        const numAleatorio = Math.floor(1000 + Math.random() * 9000);
+        const userSorteado = "Agente_" + numAleatorio;
+
+        sessionStorage.setItem("jogadorAtual", userSorteado);
+
+        window.location.href = "/modos"; 
+    } else {
+        document.getElementById('display-agent-name').innerText = inputUser;
+        document.getElementById('modal-username').classList.add('esconder');
+        document.getElementById('modal-password').classList.remove('esconder');
+    }
+}
+function fazerLogin() {
+    const inputUser = document.getElementById('input-username').value.trim();
+    const inputPass = document.getElementById('input-password').value.trim();
+
+    if (inputPass === "") {
+        alert("Sistemas de segurança exigem uma senha.");
+        return;
+    }
+
+    sessionStorage.setItem("jogadorAtual", inputUser);
+    window.location.href = "/modos";
 }

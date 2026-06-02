@@ -92,11 +92,35 @@
             <section class="cta-block">
                 <h2 class="cta-text">Você consegue distinguir a Realidade da Inteligência Artificial?</h2>
 
-                <a th:href="@{/modos}" href="modos.html" class="cta-button-link">
-                    <button class="BOTO" type="button" aria-label="Jogar">JOGAR</button>
-                </a>
+                <button class="BOTO" onclick="abrirModalLogin()">JOGAR</button>
             </section>
         </div>
+
+        <div id="login-modal-overlay" class="modal-overlay esconder">
+    
+    <div id="modal-username" class="login-box">
+        <button class="fechar-btn" onclick="fecharModalLogin()">×</button>
+        <h2 class="login-title">welcome to QUIZ</h2>
+        <p class="login-subtitle">Coloque um username para entrar ou deixe em branco para receber um user aleatório</p>
+        
+        <input type="text" id="input-username" class="login-input" placeholder="coloque username aqui">
+        
+        <button class="btn-jogar-modal" onclick="verificarUsername()">JOGAR</button>
+        
+        <p class="login-terms">by joining, you accept the <span>terms of use, privacy policy and rules</span></p>
+    </div>
+
+    <div id="modal-password" class="login-box esconder">
+        <button class="fechar-btn" onclick="fecharModalLogin()">×</button>
+        <h2 class="login-title">autenticação</h2>
+        <p class="login-subtitle">Insira a senha do agente <strong id="display-agent-name" style="color: #fff;"></strong></p>
+        
+        <input type="password" id="input-password" class="login-input" placeholder="coloque a senha aqui">
+        
+        <button class="btn-jogar-modal" onclick="fazerLogin()">ENTRAR</button>
+    </div>
+
+</div>
 
         <div class="info-marquee marquee-bottom">
             <p class="marquee-text">
@@ -116,6 +140,8 @@
     </div>
 
 </div>
+
+    <script th:src="@{/js/scripts.js}" src="/js/scripts.js"></script>
 
 </body>
 </html>

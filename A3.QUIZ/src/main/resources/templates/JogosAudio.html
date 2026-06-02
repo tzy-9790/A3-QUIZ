@@ -1,23 +1,33 @@
 <!DOCTYPE HTML>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA / PERCEPÇÃO - JOGO (ÁUDIO)</title>
-    <!-- Link para o CSS dedicado de áudio -->
-    <link rel="stylesheet" href="../static/css/jogo-audio.css">
+    <meta name="referrer" content="no-referrer">
+    
+    <link rel="stylesheet" th:href="@{/css/jogo-audio.css}" href="../static/css/jogo-audio.css">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Mirza&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos rápidos para ocultar o painel e dar destaque de acerto/erro */
+        .d-none { display: none !important; }
+        .correct-glow { box-shadow: 0 0 20px #00ff00; border-color: #00ff00; }
+        .wrong-glow { box-shadow: 0 0 20px #ff0000; border-color: #ff0000; }
+        .feedback-panel-hud { margin-top: 20px; padding: 20px; text-align: center; border-radius: 8px; background: rgba(0,0,0,0.8); color: white;}
+        .panel-correct { border: 2px solid #00ff00; }
+        .panel-wrong { border: 2px solid #ff0000; }
+    </style>
 </head>
 <body>
 
 <div class="page-jogos">
-    <!-- Imagem de fundo -->
-    <img class="background-overlay" src="/imagens/fundoModos.png" alt="Background Overlay"/>
+    <img class="background-overlay" th:src="@{/imagens/fundoModos.png}" src="../static/imagens/fundoModos.png" alt="Background Overlay"/>
 
     <nav class="top-nav">
-        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="logo">IA / PERCEPTION</div>
         <div class="nav-buttons-container">
-            <a href="/modos.html" class="nav-button">MUDAR MODO</a>
+            <a th:href="@{/modos}" class="nav-button">MUDAR MODO</a>
         </div>
     </nav>
 
@@ -25,34 +35,142 @@
         <p>A percepção auditiva é facilmente enganada. O que você ouve é real ou foi gerado por algoritmos?</p>
     </div>
 
-    <h1 id="question-title" class="text-wrapper">Qual dos áudios foi gerado por IA?</h1>
+    <h1 id="question-title" class="text-wrapper">DESAFIO 1/2: Qual dos áudios foi gerado por IA?</h1>
 
     <div id="quiz-container" class="quiz-container">
-        <!-- Card Opção A -->
-        <div id="option-a" class="option-card" onclick="handleAnswer('A')">
+        <div id="option-A" class="option-card" onclick="handleAnswer('A')">
             <div class="audio-placeholder">
-                <div class="audio-icon">🎧</div>
-                <audio controls src=""></audio>
+                <div class="audio-icon">🎧 OPÇÃO A</div>
+                <audio id="audio-A" controls src=""></audio>
             </div>
         </div>
 
-        <!-- Card Opção B -->
-        <div id="option-b" class="option-card" onclick="handleAnswer('B')">
+        <div id="option-B" class="option-card" onclick="handleAnswer('B')">
             <div class="audio-placeholder">
-                <div class="audio-icon">🎧</div>
-                <audio controls src=""></audio>
+                <div class="audio-icon">🎧 OPÇÃO B</div>
+                <audio id="audio-B" controls src=""></audio>
             </div>
         </div>
     </div>
+
+    <div id="feedback-panel" class="feedback-panel-hud d-none">
+        <h2 id="feedback-title" class="f-title">CORRETO</h2>
+        <p id="feedback-desc" class="f-desc">Análise concluída com sucesso.</p>
+        <button id="next-btn" class="nav-button" onclick="nextRound()" style="margin-top: 15px; cursor: pointer;">PRÓXIMO DESAFIO ➔</button>
+    </div>
+
 </div>
 
-<!-- Script para evitar que clicar no "play" marque a resposta sem querer -->
-<script>
+<script th:inline="javascript">
+    // Impede que clicar no botão de play selecione o card sem querer
     document.querySelectorAll('audio').forEach(el => {
         el.addEventListener('click', (e) => e.stopPropagation());
     });
+
+    /* Array contendo os 2 desafios de áudio */
+    const rounds = [
+        {
+            instruction: "DESAFIO 1/2: Qual dos áudios foi gerado por IA?",
+            // Coloque o link do áudio A aqui
+            audioA: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765180632043573/audio2-real.mp4?ex=6a1feead&is=6a1e9d2d&hm=ee9c4e54a2b0770b4064019dcaf6cff1cd5ba70534b9f88e7026ad876284cc4c&', 
+            // Coloque o link do áudio B aqui
+            audioB: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765184902103150/audio2-ia.mp4?ex=6a1feeae&is=6a1e9d2e&hm=a70f3631903d0745bbbeb247053369478550b9d9b85455f90b4ccafb01c8800a&',   
+            aiSide: 'B', // Indica qual é o gerado por IA ('A' ou 'B')
+            correctMsg: "Análise Forense: Áudio B detectado como IA. Faltam frequências de respiração e a cadência é perfeitamente robótica.",
+            wrongMsg: "Análise Forense: Áudio A é autêntico. Captura acústica natural validada."
+        },
+        {
+            instruction: "DESAFIO 2/2: Qual dos áudios foi gerado por IA?",
+            audioA: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765187015774218/audio1-ia.mp4?ex=6a1feeae&is=6a1e9d2e&hm=b12c12cd636650b37f6cfcddfc16939450981d116ac87cebda5ea8dca7d67bc2&',
+            audioB: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765185963134997/audio1-real.mp4?ex=6a1feeae&is=6a1e9d2e&hm=3586b5dbe4b1831644ca66f3bd48a5f0cc75439f50b9852fccc1ce573fe65c82&',
+            aiSide: 'A',
+            correctMsg: "Análise Forense: Áudio A apresenta artefatos de compressão de redes neurais (Vishing).",
+            wrongMsg: "Análise Forense: Áudio B possui ruído de fundo natural de um microfone real."
+        }
+    ];
+
+    let currentRoundIndex = 0;
+    let score = 0;
+
+    window.onload = function() {
+        loadRound(currentRoundIndex);
+    };
+
+    function loadRound(index) {
+        const currentConfig = rounds[index];
+        document.getElementById('question-title').innerText = currentConfig.instruction;
+
+        // Atualiza os áudios nos players
+        document.getElementById('audio-A').src = currentConfig.audioA;
+        document.getElementById('audio-B').src = currentConfig.audioB;
+
+        // Reseta visuais do round anterior
+        const panel = document.getElementById('feedback-panel');
+        panel.classList.add('d-none');
+        panel.classList.remove('panel-correct', 'panel-wrong');
+
+        const cardA = document.getElementById('option-A');
+        const cardB = document.getElementById('option-B');
+        cardA.classList.remove('correct-glow', 'wrong-glow');
+        cardB.classList.remove('correct-glow', 'wrong-glow');
+        
+        cardA.style.pointerEvents = 'auto';
+        cardB.style.pointerEvents = 'auto';
+    }
+
+    function handleAnswer(selectedSide) {
+        const currentConfig = rounds[currentRoundIndex];
+        const panel = document.getElementById('feedback-panel');
+        const title = document.getElementById('feedback-title');
+        const desc = document.getElementById('feedback-desc');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Para os áudios ao escolher a resposta
+        document.getElementById('audio-A').pause();
+        document.getElementById('audio-B').pause();
+
+        const cardA = document.getElementById('option-A');
+        const cardB = document.getElementById('option-B');
+
+        // Bloqueia novos cliques
+        cardA.style.pointerEvents = 'none';
+        cardB.style.pointerEvents = 'none';
+
+        // Avalia se o usuário acertou
+        if (selectedSide === currentConfig.aiSide) {
+            document.getElementById('option-' + selectedSide).classList.add('correct-glow');
+            panel.classList.add("panel-correct");
+            title.innerText = "CORRETO";
+            desc.innerText = currentConfig.correctMsg;
+            score++; 
+        } else {
+            document.getElementById('option-' + selectedSide).classList.add('wrong-glow');
+            panel.classList.add("panel-wrong");
+            title.innerText = "ERRADO";
+            desc.innerText = currentConfig.wrongMsg;
+        }
+
+        // Se for o último round (índice 1 de um array de tamanho 2)
+        if (currentRoundIndex === rounds.length - 1) {
+            nextBtn.innerText = "VER RESULTADO FINAL ➔";
+        } else {
+            nextBtn.innerText = "PRÓXIMO DESAFIO ➔";
+        }
+
+        panel.classList.remove('d-none');
+    }
+
+    function nextRound() {
+        currentRoundIndex++;
+        
+        if (currentRoundIndex < rounds.length) {
+            loadRound(currentRoundIndex);
+        } else {
+            // Manda a pontuação final para o backend do Spring Boot
+            window.location.href = '/score?pontos=' + score + '&modo=audio';
+        }
+    }
 </script>
 
-<!-- <script src="/js/jogo-audio.js"></script> -->
 </body>
 </html>

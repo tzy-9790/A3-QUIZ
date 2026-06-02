@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA / PERCEPÇÃO - TRIAGEM</title>
+
+    <meta name="referrer" content="no-referrer">
+
     <link rel="stylesheet" th:href="@{/css/jogo.css}" href="../static/css/jogo.css">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -25,19 +28,19 @@
     </header>
 
     <div class="game-instruction">
-        <p id="instruction-text">SELECIONE A MÍDIA FEITA POR IA</p>
+        <p id="instruction-text">SELECIONE A IMAGEM FEITA POR IA</p>
     </div>
 
     <main class="gameplay-container">
 
         <div id="choice-left" class="media-card-play" onclick="submitAnswer('left')">
             <div id="container-media-left" class="media-render-zone">
-            </div>
+                </div>
         </div>
 
         <div id="choice-right" class="media-card-play" onclick="submitAnswer('right')">
             <div id="container-media-right" class="media-render-zone">
-            </div>
+                 </div>
         </div>
 
     </main>
@@ -45,93 +48,145 @@
     <div id="feedback-panel" class="feedback-panel-hud d-none">
         <h2 id="feedback-title" class="f-title">CORRETO</h2>
         <p id="feedback-desc" class="f-desc">Análise laboratorial concluída com sucesso.</p>
-        <button class="next-btn" onclick="nextRound()">PRÓXIMO DESAFIO ➔</button>
+        <button id="next-btn" class="next-btn" onclick="nextRound()">PRÓXIMO DESAFIO ➔</button>
     </div>
 
 </div>
 
 <script th:inline="javascript">
-    /* Caminhos das mídias mapeados para o Spring Boot carregar */
-    const mockDataData = {
-        image: {
-            instruction: "SELECIONE A IMAGEM FEITA POR IA",
-            leftMedia: /*[[@{/imagens/exampleIA.png}]]*/ '../static/imagens/exampleIA.png',
-            rightMedia: /*[[@{/imagens/exampleREAL.png}]]*/ '../static/imagens/exampleREAL.png',
+    /* Array contendo os 6 desafios em sequência */
+    const rounds = [
+        {
+            instruction: "DESAFIO 1/6: SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia:'https://i.imgur.com/iMdpaM2.jpeg',
+            rightMedia:'https://i.imgur.com/mLAR8XG.jpeg',
             aiSide: 'left',
             correctMsg: "Análise Forense: Essa imagem apresenta deformações de textura geradas por redes neurais.",
             wrongMsg: "Análise Forense: Esse registro fotográfico possui metadados e granulação óptica autêntica."
         },
-        video: {
-            instruction: "SELECIONE O VÍDEO GERADO POR IA",
-            leftMedia: /*[[@{/videos/videoReal.mp4}]]*/ '',
-            rightMedia: /*[[@{/videos/videoIA.mp4}]]*/ '',
+        {
+            instruction: "DESAFIO 2/6: SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia:'https://i.imgur.com/7ORVRpF.jpeg',
+            rightMedia:'https://i.imgur.com/US4ZPRv.jpeg',
             aiSide: 'right',
-            correctMsg: "Análise Forense: Identificados artefatos espaciais e inconsistência na física de iluminação.",
-            wrongMsg: "Análise Forense: Sensor óptico capturou a movimentação biológica de forma legítima."
+            correctMsg: "Análise Forense: Mãos e detalhes de fundo distorcidos indicam geração por difusão (IA).",
+            wrongMsg: "Análise Forense: A iluminação e os reflexos condizem perfeitamente com a física real."
         },
-        audio: {
-            instruction: "SELECIONE O ÁUDIO SINTETIZADO POR IA",
-            leftMedia: /*[[@{/audios/audioIA.mp3}]]*/ '',
-            rightMedia: /*[[@{/audios/audioReal.mp3}]]*/ '',
+        {
+            instruction: "DESAFIO 3/6: SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia:'https://i.imgur.com/4eHAESB.jpeg',
+            rightMedia:'https://i.imgur.com/5LlsCja.jpeg',
             aiSide: 'left',
-            correctMsg: "Análise Forense: O espectro de voz exibe padrões de compressão de clonagem neural (Vishing).",
-            wrongMsg: "Análise Forense: Ondas acústicas apresentam ruído analógico e ressonância vocal humana pura."
+            correctMsg: "Análise Forense: Assimetria estrutural detectada. Típico de modelos generativos.",
+            wrongMsg: "Análise Forense: Captura autêntica sem anomalias nos padrões de luz."
+        },
+        {
+            instruction: "DESAFIO 4/6: SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia:'https://i.imgur.com/xYlnQAv.jpeg',
+            rightMedia:'https://i.imgur.com/mCICIFl.jpeg',
+            aiSide: 'right',
+            correctMsg: "Análise Forense: Textos ou padrões ao fundo aparecem ilegíveis e misturados (alucinação da IA).",
+            wrongMsg: "Análise Forense: Estrutura semântica do ambiente está perfeitamente coerente."
+        },
+        {
+            instruction: "DESAFIO 5/6: SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia:'https://i.imgur.com/rlX9Osm.jpeg',
+            rightMedia:'https://i.imgur.com/h0iqedQ.jpeg',
+            aiSide: 'left',
+            correctMsg: "Análise Forense: Profundidade de campo artificial. Elementos se fundem de maneira ilógica.",
+            wrongMsg: "Análise Forense: Foco da lente corresponde a um equipamento fotográfico padrão."
+        },
+        {
+            instruction: "DESAFIO 6/6: SELECIONE A IMAGEM FEITA POR IA",
+            leftMedia:'https://i.imgur.com/MaFwJlO.jpeg',
+            rightMedia:'https://i.imgur.com/JKRZnoS.jpeg',
+            aiSide: 'right',
+            correctMsg: "Análise Forense: Sombras inconsistentes com a fonte de luz principal do ambiente.",
+            wrongMsg: "Análise Forense: Imagem aprovada. Ruído do sensor orgânico validado."
         }
-    };
+    ];
 
-    // Lê a URL do navegador para saber se renderiza imagem, vídeo ou áudio
-    const currentUrl = window.location.pathname;
-    let mode = 'image';
-    if(currentUrl.includes('video')) mode = 'video';
-    if(currentUrl.includes('audio')) mode = 'audio';
-
-    const currentConfig = mockDataData[mode];
+    let currentRoundIndex = 0;
+    let score = 0;
 
     window.onload = function() {
+        loadRound(currentRoundIndex);
+    };
+
+    function loadRound(index) {
+        const currentConfig = rounds[index];
         document.getElementById('instruction-text').innerText = currentConfig.instruction;
 
         const leftZone = document.getElementById('container-media-left');
         const rightZone = document.getElementById('container-media-right');
 
-        // Renderização cirúrgica baseada no modo atual
-        if(mode === 'image') {
-            leftZone.innerHTML = `<img src="${currentConfig.leftMedia}" class="game-asset" alt="Opção A"/>`;
-            rightZone.innerHTML = `<img src="${currentConfig.rightMedia}" class="game-asset" alt="Opção B"/>`;
-        } else if(mode === 'video') {
-            leftZone.innerHTML = `<video src="${currentConfig.leftMedia}" class="game-asset" controls style="width:100%; height:auto;"></video>`;
-            rightZone.innerHTML = `<video src="${currentConfig.rightMedia}" class="game-asset" controls style="width:100%; height:auto;"></video>`;
-        } else if(mode === 'audio') {
-            leftZone.innerHTML = `<div class="audio-hud">🎵<audio src="${currentConfig.leftMedia}" controls></audio></div>`;
-            rightZone.innerHTML = `<div class="audio-hud">🎵<audio src="${currentConfig.rightMedia}" controls></audio></div>`;
-        }
-    };
+        // Renderiza apenas imagens
+        leftZone.innerHTML = `<img src="${currentConfig.leftMedia}" class="game-asset" alt="Opção A"/>`;
+        rightZone.innerHTML = `<img src="${currentConfig.rightMedia}" class="game-asset" alt="Opção B"/>`;
+
+        // Reseta o painel e os botões para o novo round
+        const panel = document.getElementById('feedback-panel');
+        panel.classList.add('d-none');
+        panel.classList.remove('panel-correct', 'panel-wrong');
+
+        const leftCard = document.getElementById('choice-left');
+        const rightCard = document.getElementById('choice-right');
+        leftCard.classList.remove('correct-glow', 'wrong-glow');
+        rightCard.classList.remove('correct-glow', 'wrong-glow');
+        
+        leftCard.style.pointerEvents = 'auto';
+        rightCard.style.pointerEvents = 'auto';
+    }
 
     function submitAnswer(selectedSide) {
+        const currentConfig = rounds[currentRoundIndex];
         const panel = document.getElementById('feedback-panel');
         const title = document.getElementById('feedback-title');
         const desc = document.getElementById('feedback-desc');
+        const nextBtn = document.getElementById('next-btn');
 
         const leftCard = document.getElementById('choice-left');
         const rightCard = document.getElementById('choice-right');
 
+        // Bloqueia novos cliques
         leftCard.style.pointerEvents = 'none';
         rightCard.style.pointerEvents = 'none';
 
+        // Avalia a resposta
         if (selectedSide === currentConfig.aiSide) {
             document.getElementById('choice-' + selectedSide).classList.add('correct-glow');
-            panel.className = "feedback-panel-hud panel-correct";
+            panel.classList.add("panel-correct");
             title.innerText = "CORRETO";
             desc.innerText = currentConfig.correctMsg;
+            score++; // Adiciona ponto
         } else {
             document.getElementById('choice-' + selectedSide).classList.add('wrong-glow');
-            panel.className = "feedback-panel-hud panel-wrong";
+            panel.classList.add("panel-wrong");
             title.innerText = "ERRADO";
             desc.innerText = currentConfig.wrongMsg;
         }
+
+        // Se for o último round, muda o texto do botão
+        if (currentRoundIndex === rounds.length - 1) {
+            nextBtn.innerText = "VER RESULTADO FINAL ➔";
+        } else {
+            nextBtn.innerText = "PRÓXIMO DESAFIO ➔";
+        }
+
+        // Mostra o painel
+        panel.classList.remove('d-none');
     }
 
     function nextRound() {
-        window.location.href = '/score';
+        currentRoundIndex++;
+        
+        if (currentRoundIndex < rounds.length) {
+            // Carrega o próximo desafio
+            loadRound(currentRoundIndex);
+        } else {
+            // Fim do jogo: redireciona para o controller do Spring Boot passando os pontos
+            window.location.href = '/score?pontos=' + score;
+        }
     }
 </script>
 

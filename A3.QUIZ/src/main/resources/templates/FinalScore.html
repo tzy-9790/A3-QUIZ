@@ -34,7 +34,6 @@
     </div>
 
     <header class="system-header">
-        <div class="header-bg"></div>
         <div class="logo-zone">IA / PERCEPTION</div>
         <div class="header-nav">
             <a th:href="@{/#about-section}" href="index.html#about-section" class="nav-link">ABOUT</a>
@@ -48,49 +47,54 @@
     <p class="section-top-title">EVALUATION REPORT CONCLUDED:</p>
 
     <div id="terminal-report-zone">
-
         <div class="leaderboard-container">
             <h3 class="leaderboard-title">> ARQUIVO GLOBAL DE PERFORMANCE (TOP 10)</h3>
 
             <table class="leaderboard-table">
                 <thead>
                 <tr>
-                    <th style="width: 15%">POS</th>
-                    <th style="text-align: left; padding-left: 25px;">SUJEITO_ID</th>
-                    <th style="width: 25%">SCORE</th>
+                    <th class="th-pos">POS</th>
+                    <th class="th-id">SUJEITO_ID</th>
+                    <th class="th-score">SCORE</th>
                 </tr>
                 </thead>
                 <tbody id="global-scores-rows">
-                </tbody>
+                    </tbody>
             </table>
 
             <div class="action-footer">
                 <button class="btn-restart" onclick="returnToDashboard()">REINICIALIZAR TERMINAL LÓGICO</button>
             </div>
         </div>
-
     </div>
 </div>
 
 <script>
-    let jogadorAtual = "Litzy";
+    let jogadorAtual = "Visitante";
 
     window.addEventListener('DOMContentLoaded', () => {
-        inicializarDadosScore(85, "Litzy");
+        // Pega os pontos da URL (ex: /score?pontos=5)
+        const urlParams = new URLSearchParams(window.location.search);
+        let pontosDaUrl = parseInt(urlParams.get('pontos')) || 0;
+        
+        inicializarDadosScore(pontosDaUrl, jogadorAtual);
     });
 
     function inicializarDadosScore(scoreFinal, nomeJogador) {
-        jogadorAtual = nomeJogador;
         document.getElementById('popup-agent-name').innerText = nomeJogador.toUpperCase();
         document.getElementById('final-popup-score').innerText = scoreFinal;
-        buscarRankingDoServidor();
+        
+        // Gera o ranking usando a pontuação real do jogador
+        gerarRankingMock(scoreFinal);
     }
 
     function closeScorePopup() {
         const overlay = document.getElementById('score-popup-overlay');
         if (overlay) {
-            overlay.style.display = 'none';
-            overlay.style.pointerEvents = 'none';
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 500); // Aguarda o efeito de fade-out
         }
     }
 
@@ -98,5 +102,43 @@
         window.location.href = "/modos";
     }
 
-    function buscarRankingDoServidor() {
-        const dados
+    function gerarRankingMock(pontosUsuario) {
+        const tabela = document.getElementById('global-scores-rows');
+        tabela.innerHTML = '';
+
+        // Banco de dados simulado
+        let jogadores = [
+            { nome: "Agente_K", pontos: 8 },
+            { nome: "CyberGhost", pontos: 6 },
+            { nome: "SysAdmin", pontos: 4 },
+            { nome: "User_404", pontos: 2 }
+        ];
+
+        // Insere o jogador atual
+        jogadores.push({ nome: "VOCÊ (SESSÃO ATUAL)", pontos: pontosUsuario, isUser: true });
+
+        // Ordena por pontuação
+        jogadores.sort((a, b) => b.pontos - a.pontos);
+
+        // Preenche a tabela HTML
+        jogadores.forEach((jogador, index) => {
+            const tr = document.createElement('tr');
+            
+            // Se for o usuário, adiciona a classe CSS que destaca em vermelho/brilho
+            if (jogador.isUser) {
+                tr.classList.add('user-highlight');
+            }
+
+            tr.innerHTML = `
+                <td>#0${index + 1}</td>
+                <td>${jogador.nome}</td>
+                <td>${jogador.pontos} PTS</td>
+            `;
+            
+            tabela.appendChild(tr);
+        });
+    }
+</script>
+
+</body>
+</html>

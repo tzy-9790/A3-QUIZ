@@ -1,23 +1,33 @@
 <!DOCTYPE HTML>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA / PERCEPÇÃO - JOGO (VÍDEO)</title>
-    <!-- Link para o CSS dedicado de vídeo -->
-    <link rel="stylesheet" href="../static/css/jogo-video.css">
+    <meta name="referrer" content="no-referrer">
+    
+    <link rel="stylesheet" th:href="@{/css/jogo-video.css}" href="../static/css/jogo-video.css">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Mirza&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos do painel de feedback e brilho */
+        .d-none { display: none !important; }
+        .correct-glow { box-shadow: 0 0 20px #00ff00; border-color: #00ff00; }
+        .wrong-glow { box-shadow: 0 0 20px #ff0000; border-color: #ff0000; }
+        .feedback-panel-hud { margin-top: 20px; padding: 20px; text-align: center; border-radius: 8px; background: rgba(0,0,0,0.8); color: white;}
+        .panel-correct { border: 2px solid #00ff00; }
+        .panel-wrong { border: 2px solid #ff0000; }
+    </style>
 </head>
 <body>
 
 <div class="page-jogos">
-    <!-- Imagem de fundo -->
-    <img class="background-overlay" src="/imagens/fundoModos.png" alt="Background Overlay"/>
+    <img class="background-overlay" th:src="@{/imagens/fundoModos.png}" src="../static/imagens/fundoModos.png" alt="Background Overlay"/>
 
     <nav class="top-nav">
-        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="logo">IA / PERCEPTION</div>
         <div class="nav-buttons-container">
-            <a href="/modos.html" class="nav-button">MUDAR MODO</a>
+            <a th:href="@{/modos}" class="nav-button">MUDAR MODO</a>
         </div>
     </nav>
 
@@ -25,25 +35,203 @@
         <p>Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</p>
     </div>
 
-    <h1 id="question-title" class="text-wrapper">Qual dos vídeos foi gerado por IA?</h1>
+    <h1 id="question-title" class="text-wrapper">DESAFIO 1/8: Qual dos vídeos foi gerado por IA?</h1>
 
     <div id="quiz-container" class="quiz-container">
-        <!-- Card Opção A -->
-        <div id="option-a" class="option-card" onclick="handleAnswer('A')">
-            <video src="" autoplay loop muted playsinline controls>
-                Seu navegador não suporta a tag de vídeo.
+        <div id="option-A" class="option-card" onclick="handleAnswer('A')">
+            <video id="video-A" src="" autoplay loop muted playsinline>
+                O seu navegador não suporta a tag de vídeo.
             </video>
         </div>
 
-        <!-- Card Opção B -->
-        <div id="option-b" class="option-card" onclick="handleAnswer('B')">
-            <video src="" autoplay loop muted playsinline controls>
-                Seu navegador não suporta a tag de vídeo.
+        <div id="option-B" class="option-card" onclick="handleAnswer('B')">
+            <video id="video-B" src="" autoplay loop muted playsinline>
+                O seu navegador não suporta a tag de vídeo.
             </video>
         </div>
     </div>
+
+    <div id="feedback-panel" class="feedback-panel-hud d-none">
+        <h2 id="feedback-title" class="f-title">CORRETO</h2>
+        <p id="feedback-desc" class="f-desc">Análise concluída com sucesso.</p>
+        <button id="next-btn" class="nav-button" onclick="nextRound()" style="margin-top: 15px; cursor: pointer;">PRÓXIMO DESAFIO ➔</button>
+    </div>
 </div>
 
-<!-- <script src="/js/jogo-video.js"></script> -->
+<script th:inline="javascript">
+
+    const rounds = [
+        {
+            instruction: "DESAFIO 1/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/uIPcDDI.mp4', 
+            videoB: 'https://i.imgur.com/DiesukS.mp4',   
+            aiSide: 'A',
+            correctMsg: "Análise Forense: O vídeo A apresenta falhas na física temporal e artefatos de renderização.",
+            wrongMsg: "Análise Forense: O vídeo B possui física de movimento e iluminação óptica reais."
+        },
+        {
+            instruction: "DESAFIO 2/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/fA30ntX.mp4',
+            videoB: 'https://i.imgur.com/W3i3uNl.mp4',
+            aiSide: 'B',
+            correctMsg: "Análise Forense: O vídeo B mostra morfologia inconsistente nos detalhes em movimento.",
+            wrongMsg: "Análise Forense: O vídeo A foi gravado por lentes físicas sem alteração generativa."
+        },
+        {
+            instruction: "DESAFIO 3/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/QvQAdNE.mp4',
+            videoB: 'https://i.imgur.com/OeosjJN.mp4',
+            aiSide: 'A',
+            correctMsg: "Análise Forense: Percebe-se alucinação do modelo de IA nos reflexos da cena A.",
+            wrongMsg: "Análise Forense: O vídeo B tem refração natural da luz perfeitamente mantida."
+        },
+        {
+            instruction: "DESAFIO 4/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/ZQIgfZ3.mp4',
+            videoB: 'https://i.imgur.com/P9NQUaV.mp4',
+            aiSide: 'B',
+            correctMsg: "Análise Forense: O vídeo B perde consistência no cenário (fundo distorcido).",
+            wrongMsg: "Análise Forense: O vídeo A mantém geometria espacial constante durante a gravação."
+        },
+        {
+            instruction: "DESAFIO 5/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/rhnPnmI.mp4',
+            videoB: 'https://i.imgur.com/Qn467Ge.mp4',
+            aiSide: 'A',
+            correctMsg: "Análise Forense: A textura da pele e movimentos faciais no vídeo A não seguem a musculatura humana.",
+            wrongMsg: "Análise Forense: O vídeo B é biologicamente coerente em suas microexpressões."
+        },
+        {
+            instruction: "DESAFIO 6/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/2tFhf27.mp4',
+            videoB: 'https://i.imgur.com/98Xcosf.mp4',
+            aiSide: 'B',
+            correctMsg: "Análise Forense: Detecção de 'flicker' (cintilação) temporal gerado pela IA no vídeo B.",
+            wrongMsg: "Análise Forense: O vídeo A apresenta taxa de quadros e desfoque de movimento nativos da câmera."
+        },
+        {
+            instruction: "DESAFIO 7/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/TH5FV5n.mp4',
+            videoB: 'https://i.imgur.com/cyckWdq.mp4',
+            aiSide: 'A',
+            correctMsg: "Análise Forense: Textos e geometrias de fundo se comportam como fluido no vídeo A.",
+            wrongMsg: "Análise Forense: O vídeo B exibe solidez estrutural e coerência semântica."
+        },
+        {
+            instruction: "DESAFIO 8/8: Qual dos vídeos foi gerado por IA?",
+            videoA: 'https://i.imgur.com/8Q7XyQE.mp4',
+            videoB: 'https://i.imgur.com/sOnneBw.mp4',
+            aiSide: 'B',
+            correctMsg: "Análise Forense: Física de fluidos/partículas artificialmente gerada. Detalhes se fundem no vídeo B.",
+            wrongMsg: "Análise Forense: Dinâmica real validada. Captura autêntica no vídeo A."
+        }
+    ];
+
+    let currentRoundIndex = 0;
+    let score = 0;
+
+    window.onload = function() {
+        loadRound(currentRoundIndex);
+    };
+    function loadRound(index) {
+        // 1. PRIMEIRO: Limpa o painel, remove o brilho e DESBLOQUEIA os cliques
+        const panel = document.getElementById('feedback-panel');
+        panel.classList.add('d-none');
+        panel.classList.remove('panel-correct', 'panel-wrong');
+
+        // Usa os IDs certinhos (com A e B maiúsculos como está no HTML)
+        const cardA = document.getElementById('option-A');
+        const cardB = document.getElementById('option-B');
+        
+        cardA.classList.remove('correct-glow', 'wrong-glow');
+        cardB.classList.remove('correct-glow', 'wrong-glow');
+        
+        cardA.style.pointerEvents = 'auto'; // Libera para clicar de novo!
+        cardB.style.pointerEvents = 'auto'; // Libera para clicar de novo!
+
+        // 2. DEPOIS: Carrega as novas informações e os vídeos
+        const currentConfig = rounds[index];
+        document.getElementById('question-title').innerText = currentConfig.instruction;
+
+        const vidA = document.getElementById('video-A');
+        const vidB = document.getElementById('video-B');
+        
+        vidA.src = currentConfig.videoA;
+        vidB.src = currentConfig.videoB;
+        
+        vidA.muted = true;
+        vidB.muted = true;
+        
+        // 3. Tenta dar o play de forma segura (se der erro no vídeo, não trava o jogo)
+        try {
+            let playPromiseA = vidA.play();
+            if (playPromiseA !== undefined) {
+                playPromiseA.catch(error => console.log("Aguardando carregamento do vídeo A"));
+            }
+            
+            let playPromiseB = vidB.play();
+            if (playPromiseB !== undefined) {
+                playPromiseB.catch(error => console.log("Aguardando carregamento do vídeo B"));
+            }
+        } catch (e) {
+            console.log("Erro no player do navegador ignorado.");
+        }
+
+       }
+
+    function handleAnswer(selectedSide) {
+        const currentConfig = rounds[currentRoundIndex];
+        const panel = document.getElementById('feedback-panel');
+        const title = document.getElementById('feedback-title');
+        const desc = document.getElementById('feedback-desc');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Pausa os vídeos quando o usuário escolhe a resposta
+        document.getElementById('video-A').pause();
+        document.getElementById('video-B').pause();
+
+        const cardA = document.getElementById('option-A');
+        const cardB = document.getElementById('option-B');
+
+        // Bloqueia novos cliques
+        cardA.style.pointerEvents = 'none';
+        cardB.style.pointerEvents = 'none';
+
+        // Avalia se o usuário acertou
+        if (selectedSide === currentConfig.aiSide) {
+            document.getElementById('option-' + selectedSide).classList.add('correct-glow');
+            panel.classList.add("panel-correct");
+            title.innerText = "CORRETO";
+            desc.innerText = currentConfig.correctMsg;
+            score++; 
+        } else {
+            document.getElementById('option-' + selectedSide).classList.add('wrong-glow');
+            panel.classList.add("panel-wrong");
+            title.innerText = "ERRADO";
+            desc.innerText = currentConfig.wrongMsg;
+        }
+
+        // Se for o último round (índice 7 de um array de tamanho 8)
+        if (currentRoundIndex === rounds.length - 1) {
+            nextBtn.innerText = "VER RESULTADO FINAL ➔";
+        } else {
+            nextBtn.innerText = "PRÓXIMO DESAFIO ➔";
+        }
+
+        panel.classList.remove('d-none');
+    }
+
+    function nextRound() {
+        currentRoundIndex++;
+        
+        if (currentRoundIndex < rounds.length) {
+            loadRound(currentRoundIndex);
+        } else {
+            // Manda a pontuação final para o backend do Spring Boot, indicando modo video
+            window.location.href = '/score?pontos=' + score + '&modo=video';
+        }
+    }
+</script>
+
 </body>
 </html>
