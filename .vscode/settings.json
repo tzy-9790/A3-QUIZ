@@ -1,3 +1,17 @@
 {
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Application",
+            "request": "launch",
+            "mainClass": "com.liz.quiz.a3_quiz.Application",
+            "env": {
+                "DATABASE_URL": "jdbc:postgresql://localhost:5199/a3_quiz",
+                "DB_USER": "seu_usuario_local",
+                "DB_PASSWORD": "sua_senha_local"
+            }
+        }
+    ],
     "java.compile.nullAnalysis.mode": "automatic"
 }
