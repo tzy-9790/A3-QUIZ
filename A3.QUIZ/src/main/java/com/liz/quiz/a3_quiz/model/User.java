@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -25,4 +26,8 @@ public class User {
     private int globalPoints = 0;
 
     private String email;
+
+    @JsonIgnore
+    private String password;
 }
+

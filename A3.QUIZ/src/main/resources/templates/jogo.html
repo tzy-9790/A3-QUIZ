@@ -8,53 +8,66 @@
     <meta name="referrer" content="no-referrer">
 
     <link rel="stylesheet" th:href="@{/css/jogo.css}" href="../static/css/jogo.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="game-page">
-    <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Element" />
+<div class="page-jogos">
+    <img class="background-overlay" th:src="@{/imagens/fundoModos.png}" src="../static/imagens/fundoModos.png" alt="Background Overlay"/>
 
-    <header class="system-header">
-        <div class="header-bg"></div>
-        <div class="logo-zone">IA / PERCEPTION</div>
-        <div class="header-nav">
-            <a th:href="@{/#about-section}" class="nav-link">ABOUT</a>
-            <a th:href="@{/#ranking-section}" class="nav-link">CHANEL</a>
-        </div>
-        <div class="marquee-sub">
-            <p class="marquee-content">The human brain takes only 13 milliseconds to process an image, but needs seconds to doubt it. - Our eyes do not capture reality; they only validate what our mind already expects to find.</p>
+    <header class="top-nav-index">
+        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="nav-right-container">
+            <nav class="nav-buttons">
+                <a href="/#projeto-section" class="nav-button">SOBRE</a>
+                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+                </a>
+            </div>
         </div>
     </header>
 
-    <div class="game-instruction">
-        <p id="instruction-text">SELECIONE A IMAGEM FEITA POR IA</p>
+    <div class="info-marquee marquee-top">
+        <p class="marquee-text">
+            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
+        </p>
     </div>
 
-    <main class="gameplay-container">
+    <div class="game-core-area">
+        <h1 id="instruction-text" class="question-title">SELECIONE A IMAGEM FEITA POR IA</h1>
 
-        <div id="choice-left" class="media-card-play" onclick="submitAnswer('left')">
-            <div id="container-media-left" class="media-render-zone">
-                </div>
+        <div id="quiz-container" class="quiz-container">
+            <div id="choice-left" class="option-card" onclick="submitAnswer('left')">
+                <div id="container-media-left" class="media-render-zone">
+                    </div>
+            </div>
+
+            <div id="choice-right" class="option-card" onclick="submitAnswer('right')">
+                <div id="container-media-right" class="media-render-zone">
+                     </div>
+            </div>
         </div>
 
-        <div id="choice-right" class="media-card-play" onclick="submitAnswer('right')">
-            <div id="container-media-right" class="media-render-zone">
-                 </div>
+        <div class="feedback-zone">
+            <div id="feedback-panel" class="feedback-panel-hud d-none">
+                <h2 id="feedback-title" class="f-title">CORRETO</h2>
+                <p id="feedback-desc" class="f-desc">Análise laboratorial concluída com sucesso.</p>
+                <button id="next-btn" class="nav-button btn-next-round" onclick="nextRound()">PRÓXIMO DESAFIO ➔</button>
+            </div>
         </div>
-
-    </main>
-
-    <div id="feedback-panel" class="feedback-panel-hud d-none">
-        <h2 id="feedback-title" class="f-title">CORRETO</h2>
-        <p id="feedback-desc" class="f-desc">Análise laboratorial concluída com sucesso.</p>
-        <button id="next-btn" class="next-btn" onclick="nextRound()">PRÓXIMO DESAFIO ➔</button>
     </div>
-
 </div>
 
 <script th:inline="javascript">
-    /* Array contendo os 6 desafios em sequência */
     const rounds = [
         {
             instruction: "DESAFIO 1/6: SELECIONE A IMAGEM FEITA POR IA",
@@ -120,11 +133,9 @@
         const leftZone = document.getElementById('container-media-left');
         const rightZone = document.getElementById('container-media-right');
 
-        // Renderiza apenas imagens
         leftZone.innerHTML = `<img src="${currentConfig.leftMedia}" class="game-asset" alt="Opção A"/>`;
         rightZone.innerHTML = `<img src="${currentConfig.rightMedia}" class="game-asset" alt="Opção B"/>`;
 
-        // Reseta o painel e os botões para o novo round
         const panel = document.getElementById('feedback-panel');
         panel.classList.add('d-none');
         panel.classList.remove('panel-correct', 'panel-wrong');
@@ -148,17 +159,15 @@
         const leftCard = document.getElementById('choice-left');
         const rightCard = document.getElementById('choice-right');
 
-        // Bloqueia novos cliques
         leftCard.style.pointerEvents = 'none';
         rightCard.style.pointerEvents = 'none';
 
-        // Avalia a resposta
         if (selectedSide === currentConfig.aiSide) {
             document.getElementById('choice-' + selectedSide).classList.add('correct-glow');
             panel.classList.add("panel-correct");
             title.innerText = "CORRETO";
             desc.innerText = currentConfig.correctMsg;
-            score++; // Adiciona ponto
+            score++; 
         } else {
             document.getElementById('choice-' + selectedSide).classList.add('wrong-glow');
             panel.classList.add("panel-wrong");
@@ -166,14 +175,12 @@
             desc.innerText = currentConfig.wrongMsg;
         }
 
-        // Se for o último round, muda o texto do botão
         if (currentRoundIndex === rounds.length - 1) {
             nextBtn.innerText = "VER RESULTADO FINAL ➔";
         } else {
             nextBtn.innerText = "PRÓXIMO DESAFIO ➔";
         }
 
-        // Mostra o painel
         panel.classList.remove('d-none');
     }
 
@@ -181,12 +188,32 @@
         currentRoundIndex++;
         
         if (currentRoundIndex < rounds.length) {
-            // Carrega o próximo desafio
             loadRound(currentRoundIndex);
         } else {
-            // Fim do jogo: redireciona para o controller do Spring Boot passando os pontos
-            window.location.href = '/score?pontos=' + score;
+            finalizarPartida(score, 0); 
         }
+    }
+
+    async function finalizarPartida(acertos, tempoTotal) {
+        const nomeDoJogador = sessionStorage.getItem("jogadorAtual") || "Visitante";
+
+        const dadosPartida = {
+            userId: nomeDoJogador,
+            correctAnswers: acertos,
+            totalTimeSeconds: tempoTotal || 0
+        };
+
+        try {
+            await fetch('/api/scores/match', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dadosPartida)
+        });
+        } catch (error) {
+            console.error("Erro ao comunicar com o servidor:", error);
+        }
+
+        window.location.href = `/score?pontos=${acertos}`;
     }
 </script>
 

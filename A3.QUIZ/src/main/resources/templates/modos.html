@@ -12,23 +12,35 @@
 <div class="page">
     <img class="download" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Overlay" />
 
-    <p class="text-wrapper">SELECT A GAME MODE TO START:</p>
 
-    <header class="header">
-        <div class="rectangle"></div>
-        <div class="frame">
-            <div class="div">IA / PERCEPTION</div>
-        </div>
-        <div class="div-wrapper">
-            <a th:href="@{/#about-section}" href="index.html#about-section" class="text-wrapper-2">ABOUT</a>
-        </div>
-        <div class="frame-2">
-            <a th:href="@{/#ranking-section}" href="index.html#ranking-section" class="text-wrapper-3">CHANEL</a>
-        </div>
-        <div class="subtitulo">
-            <p class="p">The human brain takes only 13 milliseconds to process an image, but needs seconds to doubt it. - Our eyes do not capture reality; they only validate what our mind already expects to find.</p>
+    <header class="top-nav-index">
+        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="nav-right-container">
+            <nav class="nav-buttons">
+                <a href="/#projeto-section" class="nav-button">SOBRE</a>
+                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+                </a>
+            </div>
         </div>
     </header>
+
+    <div class="info-marquee marquee-top">
+        <p class="marquee-text">
+            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
+        </p>
+    </div>
+
+    <p class="text-wrapper">SELECIONE O MODO DE JOGO:</p>
 
     <div class="game-dashboard-layout">
 
@@ -40,61 +52,61 @@
         <div id="center-panel" class="center-frame" onclick="triggerGameplay()">
 
             <div id="content-image" class="mode-content active-content">
-                <div class="text-wrapper-4">IMAGE</div>
+                <div class="text-wrapper-4">IMAGEM</div>
                 <div class="line-container-center"></div>
-                <p class="text-wrapper-10">You should choose between two images</p>
+                <p class="text-wrapper-10">Você deve escolher entre duas imagens</p>
 
                 <div class="showcase-container">
                     <div class="media-box box-ai">
                         <img th:src="@{/imagens/exampleIA.png}" src="../static/imagens/exampleIA.png" class="image" />
-                        <div class="text-wrapper-6">image made by IA</div>
+                        <div class="text-wrapper-6">imagem feita por IA</div>
                     </div>
                     <div class="media-box box-real">
                         <img th:src="@{/imagens/exampleREAL.png}" src="../static/imagens/exampleREAL.png" class="img" />
-                        <div class="text-wrapper-7">real image</div>
+                        <div class="text-wrapper-7">imagem real</div>
                     </div>
                 </div>
 
                 <div class="feedback-row">
                     <div class="text-wrapper-8">CORRECTO</div>
-                    <div class="text-wrapper-9">WRONG</div>
+                    <div class="text-wrapper-9">ERRADO</div>
                 </div>
 
-                <p class="text-wrapper-5">Select the photo that is made by Artificial Intelligence</p>
+                <p class="text-wrapper-5">Selecione a foto feita for Inteligência Artificial</p>
             </div>
 
             <div id="content-audio" class="mode-content">
                 <div class="text-wrapper-4">AUDIO</div>
                 <div class="line-container-center"></div>
-                <p class="text-wrapper-10">Triagem laboratorial de ondas acústicas</p>
+                <p class="text-wrapper-10">Escolha entre dois áudios de voz</p>
                 <div class="showcase-container">
                     <div class="media-box box-ai">
-                        <div style="font-size: 50px; margin: 15px 0;">🎵</div>
-                        <div class="text-wrapper-6">Audio Sintetizado</div>
+                        <div style="font-size: 50px; margin: 15px 0;">🤖<source></div>
+                        <div class="text-wrapper-6">Audio feito por IA</div>
                     </div>
                     <div class="media-box box-real">
                         <div style="font-size: 50px; margin: 15px 0;">🗣️</div>
-                        <div class="text-wrapper-7">Voz Humana</div>
+                        <div class="text-wrapper-7">Áudio real gravado</div>
                     </div>
                 </div>
-                <p class="text-wrapper-5">Identifique anomalias de modulação e compressão sintética.</p>
+                <p class="text-wrapper-5">Selecione o áudio feito por IA</p>
             </div>
 
             <div id="content-video" class="mode-content">
                 <div class="text-wrapper-4">VIDEO</div>
                 <div class="line-container-center"></div>
-                <p class="text-wrapper-10">Análise forense de renderização profunda</p>
+                <p class="text-wrapper-10">Escolha entre dois vídeos</p>
                 <div class="showcase-container">
                     <div class="media-box box-ai">
-                        <div style="font-size: 50px; margin: 15px 0;">🤖</div>
-                        <div class="text-wrapper-6">Deepfake Generativo</div>
+                        <img th:src="@{../static/imagens/a979a1c5d1089dd2ebd1d58ef4d33337.gif}" src="../static/imagens/a979a1c5d1089dd2ebd1d58ef4d33337.gif" class="image" alt="GIF IA" />
+              <div class="text-wrapper-6">Video feito por IA</div>
                     </div>
                     <div class="media-box box-real">
-                        <div style="font-size: 50px; margin: 15px 0;">🎥</div>
-                        <div class="text-wrapper-7">Captura Óptica Real</div>
+                        <img th:src="@{../static/imagens/6ad07bc7872b7f4cafc7f14ad7638306.gif}" src="../static/imagens/6ad07bc7872b7f4cafc7f14ad7638306.gif" class="image" alt="GIF IA" />
+                        <div class="text-wrapper-7">Vídeo real</div>
                     </div>
                 </div>
-                <p class="text-wrapper-5">Examine micro-expressões e artefatos de iluminação digital.</p>
+                <p class="text-wrapper-5">Você deve selecionar o vídeo feito por IA</p>
             </div>
 
         </div>
@@ -113,39 +125,35 @@
     let currentLeft = 'audio';
     let currentRight = 'video';
 
-    // Mapeamento das rotas do seu Spring Boot Controller
+    // Mapeamento alterado para apontar para os nomes dos seus arquivos HTML
+    // O Spring Boot mapeia automaticamente o nome do arquivo em /templates/
     const routes = {
-        image: '/jogo/imagem',
-        audio: '/jogo/audio',
-        video: '/jogo/video'
+        image: '/jogo',         // Corresponde a jogo.html
+        audio: '/jogosAudio',   // Corresponde a JogosAudio.html
+        video: '/jogosVideo'    // Corresponde a JogosVideo.html
     };
 
     function pivotMode(clickedSide) {
         let oldCenter = currentCenter;
 
         if (clickedSide === 'left') {
-            // Rotação para a esquerda
             currentCenter = currentLeft;
             currentLeft = currentRight;
             currentRight = oldCenter;
         } else if (clickedSide === 'right') {
-            // Rotação para a direita
             currentCenter = currentRight;
             currentRight = currentLeft;
             currentLeft = oldCenter;
         }
 
-        // Atualiza os textos dos blocos laterais
         document.getElementById('left-title').innerText = currentLeft.toUpperCase();
         document.getElementById('right-title').innerText = currentRight.toUpperCase();
 
-        // Alterna a renderização do conteúdo do bloco principal
         document.querySelectorAll('.mode-content').forEach(el => el.classList.remove('active-content'));
         document.getElementById('content-' + currentCenter).classList.add('active-content');
     }
 
     function triggerGameplay() {
-        // Se o usuário clicar no bloco central de destaque, ele inicia a partida correspondente
         window.location.href = routes[currentCenter];
     }
 </script>

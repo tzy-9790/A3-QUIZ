@@ -151,3 +151,48 @@ body {
         max-width: 90%;
     }
 }
+/* =========================================
+   RESPONSIVIDADE: ECRÃS MÓVEIS E TABLETS 
+   ========================================= */
+@media screen and (max-width: 850px) {
+    /* Empilha as imagens verticalmente no jogo */
+    .gameplay-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    /* Ajusta o tamanho das cartas para não cortarem */
+    .media-card-play {
+        width: 95%;
+        max-width: 400px;
+        min-height: 250px;
+    }
+
+    /* O cabeçalho fica em coluna para caber tudo */
+    .system-header {
+        flex-direction: column;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .header-nav {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* Oculta a mensagem a passar (marquee) nos telemóveis para poupar espaço */
+    .marquee-sub {
+        display: none;
+    }
+
+    /* Aumenta os botões para serem fáceis de clicar com o dedo (Touch) */
+    .next-btn {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+        width: 90%;
+    }
+}

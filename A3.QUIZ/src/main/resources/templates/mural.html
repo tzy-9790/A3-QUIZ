@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA / PERCEPÇÃO - MURAL DE FEEDBACK</title>
+    
+    <link rel="stylesheet" th:href="@{/css/FinalScore.css}" href="../static/css/FinalScore.css">
+    <link rel="stylesheet" th:href="@{/css/mural.css}" href="../static/css/mural.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="score-page">
+    <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background" />
+    
+    <header class="top-nav-index">
+        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="nav-right-container">
+            <nav class="nav-buttons">
+                <a href="/#projeto-section" class="nav-button">SOBRE</a>
+                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="info-marquee marquee-top">
+        <p class="marquee-text">
+            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
+        </p>
+    </div>
+
+    <div class="mural-container">
+        <h2 class="mural-title">> MURAL DISCUSSÕES</h2>
+        
+        <div class="feedback-form">
+            <p>AGENTE ATUAL: <span id="current-agent-name" style="color:#ffffff;">A CARREGAR...</span></p>
+            <textarea id="feedback-input" class="feedback-textarea" placeholder="Insira sua opinião sobre os testes ou feedback sobre o projeto..."></textarea>
+            <button class="btn-submit" onclick="enviarFeedback()">ENVIAR MENSAGEM</button>
+        </div>
+
+        <div class="feedbacks-list" id="feedbacks-container">
+            <p style="text-align: center;">A procurar registos na base de dados forense...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    const jogadorAtual = sessionStorage.getItem("jogadorAtual") || "Visitante";
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('current-agent-name').innerText = jogadorAtual.toUpperCase();
+        carregarFeedbacks();
+    });
+
+    async function carregarFeedbacks() {
+        const container = document.getElementById('feedbacks-container');
+        try {
+            const resposta = await fetch('/api/feedbacks');
+            const feedbacks = await resposta.json();
+            
+            container.innerHTML = ''; 
+            
+            if(feedbacks.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #888;">Nenhum registo encontrado. Seja o primeiro a relatar.</p>';
+                return;
+            }
+
+            feedbacks.forEach(fb => {
+                const card = document.createElement('div');
+                card.className = 'feedback-card';
+                card.innerHTML = `
+                    <div class="feedback-header">
+                        <span class="feedback-author">AGENTE: ${fb.autor.username}</span>
+                        <span>[ PONTUAÇÃO: ${fb.autor.globalPoints} PTS ]</span>
+                    </div>
+                    <div class="feedback-text">${fb.mensagem}</div>
+                `;
+                container.appendChild(card);
+            });
+        } catch (error) {
+            console.error("Erro ao carregar feedbacks:", error);
+            container.innerHTML = '<p style="text-align: center; color: red;">Erro ao conectar ao servidor central.</p>';
+        }
+    }
+
+    async function enviarFeedback() {
+        const texto = document.getElementById('feedback-input').value.trim();
+        
+        if (!texto) {
+            alert("A mensagem não pode estar vazia.");
+            return;
+        }
+
+        const payload = {
+            username: jogadorAtual,
+            mensagem: texto
+        };
+
+        try {
+            const resposta = await fetch('/api/feedbacks', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (resposta.ok) {
+                document.getElementById('feedback-input').value = ''; 
+                carregarFeedbacks(); 
+            } else {
+                alert("Ocorreu um erro. Apenas utilizadores com login no sistema podem enviar relatórios.");
+            }
+        } catch (error) {
+            console.error("Erro no envio:", error);
+            alert("Falha de comunicação com a base de dados.");
+        }
+    }
+</script>
+
+</body>
+</html>

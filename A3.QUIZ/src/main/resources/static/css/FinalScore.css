@@ -1,26 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Orbitron:wght@400;700&display=swap');
 
-/* =========================================================
-   ESTRUTURA BASE
-========================================================= */
 html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #000000;
     color: #ffffff;
     font-family: 'Nanum Gothic Coding', monospace;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .score-page {
     position: relative;
     width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 120px; /* Espaço para o header */
+    padding-top: 120px;
+    box-sizing: border-box;
 }
 
 .central-sphere {
@@ -33,10 +32,7 @@ html, body {
     z-index: 0;
 }
 
-/* =========================================================
-   HEADER (Herdado do modos.css)
-========================================================= */
-.system-header {
+.top-nav-index {
     position: fixed;
     top: 0;
     left: 0;
@@ -53,18 +49,30 @@ html, body {
     z-index: 1000;
 }
 
-.logo-zone {
+.top-nav-index .logo {
     font-size: 22px;
-    letter-spacing: 1px;
     font-weight: bold;
+    text-align: left;
+    margin: 0;
+    flex-shrink: 0;
 }
 
-.header-nav {
+.nav-right-container {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 40px;
+    flex-direction: row;
+    margin-left: auto;
 }
 
-.nav-link {
+.nav-buttons, .social-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-button {
     text-decoration: none;
     color: #cccccc;
     font-size: 14px;
@@ -74,39 +82,46 @@ html, body {
     transition: all 0.2s;
 }
 
-.nav-link:hover {
+.nav-button:hover {
     color: #ffffff;
     border-color: #8a2929;
     background-color: rgba(138, 41, 41, 0.2);
 }
 
-.marquee-sub {
-    position: absolute;
-    bottom: -30px;
-    left: 0;
-    width: 100%;
-    background-color: rgba(35, 0, 0, 0.85);
-    border-bottom: 1px solid #490000;
-    padding: 5px 0;
-    overflow: hidden;
+.social-icon {
+    width: 22px;
+    height: 22px;
+    filter: invert(1);
+    opacity: 0.6;
 }
 
-.marquee-content {
-    margin: 0;
-    font-size: 12px;
-    color: #ffb3b3;
-    white-space: nowrap;
-    animation: scrollText 20s linear infinite;
-}
-
-@keyframes scrollText {
+@keyframes marqueeScroll {
     0% { transform: translateX(100%); }
     100% { transform: translateX(-100%); }
 }
 
-/* =========================================================
-   POP-UP MODAL (Visual Relatório Forense)
-========================================================= */
+.info-marquee {
+    position: fixed;
+    top: 70px;
+    width: 100%;
+    background-color: rgba(35, 0, 0, 0.85);
+    padding: 10px 40px;
+    box-sizing: border-box;
+    z-index: 999;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid #490000;
+}
+
+.marquee-text {
+    margin: 0;
+    font-size: 13px;
+    color: #ffb3b3;
+    display: inline-block;
+    padding-left: 100%;
+    animation: marqueeScroll 25s linear infinite;
+}
+
 .popup-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -127,6 +142,7 @@ html, body {
     text-align: center;
     max-width: 500px;
     box-shadow: 0px 0px 40px 2px rgba(95, 0, 0, 0.3);
+    box-sizing: border-box;
 }
 
 .barcode-decoration {
@@ -213,23 +229,28 @@ html, body {
     transform: scale(1.05);
 }
 
-/* =========================================================
-   TELA DE RANKING (Atrás do Modal)
-========================================================= */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
 .section-top-title {
     font-family: 'Orbitron', sans-serif;
     color: #8a2929;
     font-size: 20px;
     letter-spacing: 3px;
     margin-bottom: 30px;
-    z-index: 10;
 }
 
 #terminal-report-zone {
     width: 100%;
     display: flex;
     justify-content: center;
-    z-index: 10;
 }
 
 .leaderboard-container {
@@ -240,6 +261,7 @@ html, body {
     max-width: 800px;
     width: 90%;
     box-shadow: 0px 0px 40px 2px rgba(95, 0, 0, 0.3);
+    box-sizing: border-box;
 }
 
 .leaderboard-title {
@@ -249,6 +271,25 @@ html, body {
     margin-top: 0;
     font-size: 18px;
     letter-spacing: 1px;
+}
+
+.table-scroll {
+    max-height: 40vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.table-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.table-scroll::-webkit-scrollbar-thumb {
+    background: #8a2929;
+    border-radius: 3px;
 }
 
 .leaderboard-table {
@@ -282,7 +323,6 @@ html, body {
     padding-left: 25px;
 }
 
-/* DESTAQUE DO USUÁRIO NA TABELA */
 .user-highlight {
     background-color: rgba(138, 41, 41, 0.15);
     font-weight: bold;
@@ -294,7 +334,7 @@ html, body {
 }
 
 .action-footer {
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: center;
 }
 
@@ -312,4 +352,112 @@ html, body {
     background: rgba(138, 41, 41, 0.2);
     color: #fff;
     border-style: solid;
+}
+
+@media screen and (max-width: 850px) {
+    .top-nav-index {
+        padding: 0 15px !important;
+        height: 50px !important;
+    }
+    
+    .top-nav-index .logo {
+        font-size: 16px !important;
+    }
+    
+    .nav-right-container {
+        gap: 10px !important;
+        flex-direction: row !important;
+        margin-left: auto !important;
+    }
+    
+    .nav-buttons, .social-links {
+        gap: 8px !important;
+        flex-direction: row !important;
+    }
+    
+    .nav-button {
+        padding: 4px 10px !important;
+        font-size: 11px !important;
+    }
+    
+    .social-icon {
+        width: 16px !important;
+        height: 16px !important;
+    }
+    
+    .info-marquee {
+        top: 50px !important;
+        padding: 5px 20px !important;
+    }
+    
+    .score-page {
+        padding-top: 85px !important;
+    }
+    
+    .popup-chassis {
+        width: 85% !important;
+        padding: 20px !important;
+    }
+    
+    .popup-title {
+        font-size: 18px !important;
+    }
+    
+    .popup-subtitle {
+        font-size: 12px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .popup-metadata {
+        padding: 10px !important;
+        font-size: 11px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .score-value-display {
+        font-size: 40px !important;
+    }
+    
+    .btn-close-popup {
+        padding: 10px 20px !important;
+        font-size: 11px !important;
+    }
+    
+    .section-top-title {
+        font-size: 16px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .leaderboard-container {
+        width: 95% !important;
+        padding: 15px !important;
+    }
+    
+    .leaderboard-title {
+        font-size: 14px !important;
+        padding-bottom: 10px !important;
+    }
+    
+    .leaderboard-table th, 
+    .leaderboard-table td {
+        padding: 8px 5px !important;
+        font-size: 12px !important;
+    }
+    
+    .th-id {
+        padding-left: 10px !important;
+    }
+    
+    .leaderboard-table td:nth-child(2) {
+        padding-left: 10px !important;
+    }
+    
+    .btn-restart {
+        padding: 8px 15px !important;
+        font-size: 12px !important;
+    }
+    
+    .action-footer {
+        margin-top: 20px !important;
+    }
 }

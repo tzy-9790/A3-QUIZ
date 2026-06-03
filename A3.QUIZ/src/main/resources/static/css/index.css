@@ -39,18 +39,19 @@ html, body {
     font-weight: bold;
 }
 
-.top-nav-index .nav-right-container {
+.nav-right-container {
     display: flex;
     align-items: center;
     gap: 40px;
 }
 
-.top-nav-index .nav-buttons {
+.nav-buttons, .social-links {
     display: flex;
+    align-items: center;
     gap: 20px;
 }
 
-.top-nav-index .nav-button {
+.nav-button {
     text-decoration: none;
     color: #cccccc;
     font-size: 14px;
@@ -60,13 +61,13 @@ html, body {
     transition: all 0.2s;
 }
 
-.top-nav-index .nav-button:hover {
+.nav-button:hover {
     color: #ffffff;
     border-color: #8a2929;
     background-color: rgba(138, 41, 41, 0.2);
 }
 
-.top-nav-index .social-icon {
+.social-icon {
     width: 22px;
     height: 22px;
     filter: invert(1);
@@ -75,17 +76,21 @@ html, body {
 
 .hero-viewport {
     width: 100%;
+    height: 100vh;
     position: relative;
+    overflow: hidden;
     display: block;
-    background-color: #000000;
 }
 
 .wallpaper-top {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    display: block;
-    pointer-events: none;
-    z-index: 1;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.7;
 }
 
 .info-marquee {
@@ -95,7 +100,9 @@ html, body {
     background-color: rgba(35, 0, 0, 0.85);
     padding: 10px 40px;
     box-sizing: border-box;
-    z-index: 150;
+    z-index: 10;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .marquee-top {
@@ -112,29 +119,34 @@ html, body {
     margin: 0;
     font-size: 13px;
     color: #ffb3b3;
-    line-height: 1.4;
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollMobile 40s linear infinite;
 }
 
-.hud-overlay {
+@keyframes scrollMobile {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.cta-container {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0;
+    right: 8%;
+    width: 450px;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 160px 60px 60px 60px;
-    box-sizing: border-box;
-    z-index: 100;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 5;
 }
-
 
 .cta-block {
-    text-align: right;
-    width: 450px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: center;
-    height: 100%;
+    text-align: right;
 }
 
 .cta-text {
@@ -143,11 +155,7 @@ html, body {
     line-height: 1.3;
     color: #ffffff;
     margin-bottom: 25px;
-}
-
-.cta-button-link {
-    text-decoration: none;
-    display: inline-block;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
 }
 
 .BOTO {
@@ -171,52 +179,19 @@ html, body {
     transform: scale(1.03);
 }
 
-.scroll-content-zone {
-    width: 100%;
-    background-color: #000000;
-    padding: 60px 20px 100px 20px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
+.mobile-quadros-section {
+    position: absolute;
+    top: 15vh;
+    left: 5%;
+    z-index: 10;
 }
 
-.projeto-block {
-    background-color: #121212;
-    border: 1px solid #8a2929;
-    border-radius: 12px;
-    padding: 35px;
-    max-width: 1200px;
-    width: 100%;
-    box-shadow: 0px 0px 40px 2px rgba(95, 0, 0, 0.3);
-}
-
-.projeto-title {
-    margin: 0 0 20px 0;
-    font-size: 24px;
-    letter-spacing: 2px;
-    color: #ffffff;
-    border-bottom: 1px dashed rgba(138, 41, 41, 0.5);
-    padding-bottom: 10px;
-}
-
-.projeto-desc {
-    margin: 0;
-    font-size: 15px;
-    line-height: 1.7;
-    color: #cccccc;
-    text-align: justify;
-}
-
-/* ===================================================================
-   ESTILIZAÇÃO DOS QUADROS COGNITIVOS (FIGMA) - COMPILADO EXATO
-   =================================================================== */
 .efeitoss-quadros {
     position: relative;
     width: 584px;
     height: 753px;
 }
 
-/* Containers Modulares */
 .QUADRO-IMAGEM {
     position: absolute;
     top: 54px;
@@ -252,89 +227,20 @@ html, body {
     filter: brightness(1.15);
 }
 
-/* Áreas de Linhas e Descrições (Grid Relativo Interno) */
-.efeitoss-quadros .quadrio {
-    position: absolute;
-    top: 99px;
-    left: 0;
-    width: 214px;
-    height: 81px;
-}
+.efeitoss-quadros .quadrio { position: absolute; top: 99px; left: 0; width: 214px; height: 81px; }
+.efeitoss-quadros .quadrio-2 { position: absolute; top: 100px; left: 0; width: 214px; height: 81px; }
+.efeitoss-quadros .quadrio-3 { position: absolute; top: 101px; left: 0; width: 214px; height: 81px; }
 
-.efeitoss-quadros .quadrio-2 {
-    position: absolute;
-    top: 100px;
-    left: 0;
-    width: 214px;
-    height: 81px;
-}
+.efeitoss-quadros .line { position: absolute; top: 47px; left: 128px; width: 76px; height: 1px; object-fit: cover; }
+.efeitoss-quadros .img { position: absolute; top: 47px; left: 113px; width: 16px; height: 19px; object-fit: cover; }
+.efeitoss-quadros .line-2 { position: absolute; top: 65px; left: 9px; width: 104px; height: 1px; object-fit: cover; }
+.efeitoss-quadros .line-3 { position: absolute; top: 0; left: 202px; width: 2px; height: 47px; object-fit: cover; }
 
-.efeitoss-quadros .quadrio-3 {
-    position: absolute;
-    top: 101px;
-    left: 0;
-    width: 214px;
-    height: 81px;
-}
+.efeitoss-quadros .text-wrapper { position: absolute; font-family: "Nanum Gothic Coding", monospace; font-weight: 700; color: #ffffff; font-size: 13px; line-height: 1.4; top: 5px; left: 9px; width: 136px; }
+.efeitoss-quadros .p { position: absolute; font-family: "Nanum Gothic Coding", monospace; font-weight: 700; color: #ffffff; font-size: 13px; line-height: 1.4; top: 15px; left: 8px; width: 136px; }
+.efeitoss-quadros .text-wrapper-3 { position: absolute; font-family: "Nanum Gothic Coding", monospace; font-weight: 700; color: #ffffff; font-size: 13px; line-height: 1.4; top: 7px; left: 9px; width: 141px; }
 
-/* Vetores de Conexão Forense (.svg) */
-.efeitoss-quadros .line {
-    position: absolute;
-    top: 47px;
-    left: 128px;
-    width: 76px;
-    height: 1px;
-    object-fit: cover;
-}
-
-.efeitoss-quadros .img {
-    position: absolute;
-    top: 47px;
-    left: 113px;
-    width: 16px;
-    height: 19px;
-    object-fit: cover;
-}
-
-.efeitoss-quadros .line-2 {
-    position: absolute;
-    top: 65px;
-    left: 9px;
-    width: 104px;
-    height: 1px;
-    object-fit: cover;
-}
-
-.efeitoss-quadros .line-3 {
-    position: absolute;
-    top: 0;
-    left: 202px;
-    width: 2px;
-    height: 47px;
-    object-fit: cover;
-}
-
-/* Textos Auxiliares Laboratoriais */
-.efeitoss-quadros .text-wrapper,
-.efeitoss-quadros .p,
-.efeitoss-quadros .text-wrapper-3 {
-    position: absolute;
-    font-family: "Nanum Gothic Coding", monospace;
-    font-weight: 700;
-    color: #ffffff;
-    font-size: 13px;
-    letter-spacing: 0;
-    line-height: 1.4;
-}
-
-.efeitoss-quadros .text-wrapper { top: 5px; left: 9px; width: 136px; }
-.efeitoss-quadros .p { top: 15px; left: 8px; width: 136px; }
-.efeitoss-quadros .text-wrapper-3 { top: 7px; left: 9px; width: 141px; }
-
-/* Molduras de Amostragem de Mídia (Fundo Escuro Translúcido) */
-.efeitoss-quadros .quadro,
-.efeitoss-quadros .quadro-2,
-.efeitoss-quadros .quadro-3 {
+.efeitoss-quadros .quadro, .efeitoss-quadros .quadro-2, .efeitoss-quadros .quadro-3 {
     position: absolute;
     width: 150px;
     height: 100px;
@@ -348,14 +254,11 @@ html, body {
     align-items: center;
 }
 
-.efeitoss-quadros .quadro   { top: 0; left: 104px; }
+.efeitoss-quadros .quadro { top: 0; left: 104px; }
 .efeitoss-quadros .quadro-2 { top: 10px; left: 94px; }
 .efeitoss-quadros .quadro-3 { top: 10px; left: 95px; }
 
-/* Previews em Background Interno */
-.efeitoss-quadros .gif,
-.efeitoss-quadros .gif-2,
-.efeitoss-quadros .gif-3 {
+.efeitoss-quadros .gif, .efeitoss-quadros .gif-2, .efeitoss-quadros .gif-3 {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -366,10 +269,7 @@ html, body {
     left: 0;
 }
 
-/* Nomenclatura dos Modos */
-.efeitoss-quadros .div,
-.efeitoss-quadros .text-wrapper-2,
-.efeitoss-quadros .text-wrapper-4 {
+.efeitoss-quadros .div, .efeitoss-quadros .text-wrapper-2, .efeitoss-quadros .text-wrapper-4 {
     position: relative;
     font-family: "Nanum Gothic Coding", monospace;
     font-weight: 700;
@@ -380,7 +280,43 @@ html, body {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-/* Fundo que escurece o site todo */
+.scroll-content-zone {
+    position: relative;
+    width: 100%;
+    background-color: #000000;
+    padding: 60px 20px 100px 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+
+.projeto-block {
+    background-color: #121212;
+    border: 1px solid #8a2929;
+    border-radius: 12px;
+    padding: 35px;
+    max-width: 1200px;
+    width: 100%;
+    box-shadow: 0px 0px 40px 2px rgba(95, 0, 0, 0.3);
+}
+
+.projeto-title {
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: #ffffff;
+    border-bottom: 1px dashed rgba(138, 41, 41, 0.5);
+    padding-bottom: 10px;
+}
+
+.projeto-desc {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #cccccc;
+    text-align: justify;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -393,85 +329,99 @@ html, body {
     transition: opacity 0.3s ease;
 }
 
-/* O quadrado do Pop-up */
 .login-box {
     position: relative;
-    background: #555555; /* Cinza da sua imagem */
+    background: #555555;
     width: 600px;
     padding: 40px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    font-family: 'Nanum Gothic Coding', monospace;
 }
 
-.login-title {
-    color: #333333;
-    font-size: 24px;
-    margin-top: 0;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.login-subtitle {
-    color: #333333;
-    font-size: 14px;
-    text-align: left;
-    margin-bottom: 30px;
-}
-
+.login-title { color: #333333; font-size: 24px; margin-top: 0; margin-bottom: 20px; text-align: left; }
+.login-subtitle { color: #333333; font-size: 14px; text-align: left; margin-bottom: 30px; }
 .login-input {
-    width: 100%;
-    padding: 15px 20px;
-    background: #e0e0e0; /* Cinza claro do input */
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    color: #555;
-    box-sizing: border-box;
-    margin-bottom: 30px;
-    font-family: inherit;
-    outline: none;
+    width: 100%; padding: 15px 20px; background: #e0e0e0; border: none; border-radius: 12px;
+    font-size: 16px; color: #555; box-sizing: border-box; margin-bottom: 30px; outline: none;
 }
-
-.login-input::placeholder { color: #888; }
-
 .btn-jogar-modal {
-    background: #4a4a4a;
-    color: #222;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 12px 40px;
-    border: 1px solid #333;
-    border-radius: 20px;
-    cursor: pointer;
-    box-shadow: inset 0 2px 5px rgba(255,255,255,0.1), 0 4px 10px rgba(0,0,0,0.3);
-    transition: 0.2s;
+    background: #4a4a4a; color: #222; font-size: 18px; font-weight: bold;
+    padding: 12px 40px; border: 1px solid #333; border-radius: 20px; cursor: pointer;
+    box-shadow: inset 0 2px 5px rgba(255,255,255,0.1), 0 4px 10px rgba(0,0,0,0.3); transition: 0.2s;
 }
-
-.btn-jogar-modal:hover {
-    background: #3c3c3c;
-    color: #111;
-}
-
-.login-terms {
-    margin-top: 30px;
-    font-size: 12px;
-    color: #333;
-}
-
+.btn-jogar-modal:hover { background: #3c3c3c; color: #111; }
+.login-terms { margin-top: 30px; font-size: 12px; color: #333; }
 .login-terms span { font-weight: bold; }
+.fechar-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; color: #222; cursor: pointer; }
+.esconder { display: none !important; }
 
-/* Botão de X para fechar */
-.fechar-btn {
-    position: absolute;
-    top: 15px; right: 20px;
-    background: none; border: none;
-    font-size: 24px; color: #222;
-    cursor: pointer;
-}
+@media screen and (max-width: 850px) {
+    .top-nav-index { padding: 0 15px !important; height: 50px !important; }
+    .top-nav-index .logo { font-size: 16px !important; }
+    .nav-right-container { gap: 10px !important; }
+    .nav-buttons, .social-links { gap: 8px !important; }
+    .nav-button { padding: 4px 10px !important; font-size: 11px !important; }
+    .social-icon { width: 16px !important; height: 16px !important; }
 
-/* Classe vital para a mágica funcionar */
-.esconder {
-    display: none !important;
+    .marquee-top { top: 50px !important; padding: 5px 20px !important; }
+    .marquee-bottom { padding: 5px 20px !important; }
+    .marquee-text { font-size: 11px !important; }
+
+    .hero-viewport { height: 100vh; }
+    
+    .cta-container { 
+        right: 0 !important; width: 100% !important; 
+        align-items: center !important; justify-content: center !important;
+        padding: 0 20px !important; box-sizing: border-box;
+    }
+    
+    .cta-block { align-items: center !important; text-align: center !important; }
+    .cta-text { font-size: 24px !important; }
+    .BOTO { font-size: 20px !important; padding: 12px 35px !important; }
+
+    .mobile-quadros-section {
+        position: relative !important;
+        top: auto !important; left: auto !important;
+        width: 100% !important;
+        padding: 40px 20px !important; box-sizing: border-box;
+        background: #000;
+    }
+    
+    .efeitoss-quadros {
+        width: 100% !important; height: auto !important;
+        display: flex !important; flex-direction: column !important; gap: 30px !important; align-items: center !important;
+    }
+    
+    .QUADRO-IMAGEM, .QUADRO-VIDEO, .QUADRO-AUDIO {
+        position: relative !important; top: auto !important; left: auto !important;
+        width: 100% !important; height: auto !important;
+        display: flex !important; flex-direction: column !important; align-items: center !important; gap: 15px !important;
+    }
+
+    .line, .img, .line-2, .line-3 { display: none !important; }
+
+    .quadrio, .quadrio-2, .quadrio-3 {
+        position: relative !important; top: auto !important; left: auto !important;
+        width: 100% !important; height: auto !important;
+    }
+    
+    .quadro, .quadro-2, .quadro-3 {
+        position: relative !important; top: auto !important; left: auto !important;
+        width: 100% !important; max-width: 300px !important; height: 160px !important;
+    }
+    
+    .text-wrapper, .p, .text-wrapper-3 {
+        position: relative !important; top: auto !important; left: auto !important; width: 100% !important;
+        text-align: center !important; font-size: 14px !important;
+    }
+    
+    .scroll-content-zone { padding: 20px 20px 60px 20px !important; }
+    .projeto-block { padding: 25px !important; }
+    .projeto-title { font-size: 20px !important; }
+    .projeto-desc { font-size: 13px !important; }
+
+    .login-box { width: 90% !important; padding: 25px !important; }
+    .login-title { font-size: 20px !important; }
+    .login-subtitle { font-size: 12px !important; }
 }

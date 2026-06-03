@@ -12,6 +12,33 @@
 <div class="score-page">
     <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Overlay" />
 
+    <header class="top-nav-index">
+        <div class="logo">IA / PERCEPÇÃO</div>
+        <div class="nav-right-container">
+            <nav class="nav-buttons">
+                <a href="/#projeto-section" class="nav-button">SOBRE</a>
+                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+            </nav>
+            <div class="social-links">
+                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+                </a>
+                <a href="#" target="_blank">
+                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="info-marquee marquee-top">
+        <p class="marquee-text">
+            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
+        </p>
+    </div>
+
     <div id="score-popup-overlay" class="popup-overlay">
         <div class="popup-chassis">
             <div class="barcode-decoration">||||||| | ||||| | ||</div>
@@ -21,7 +48,7 @@
 
             <div class="popup-metadata">
                 <div>AGENTE EM EXAME: <span id="popup-agent-name">CARREGANDO...</span></div>
-                <div>STATUS: EXTRAÍDO // SALVO EM NUVEM</div>
+                <div>STATUS: SALVO EM NUVEM</div>
             </div>
 
             <div class="score-badge-box">
@@ -33,47 +60,39 @@
         </div>
     </div>
 
-    <header class="system-header">
-        <div class="logo-zone">IA / PERCEPTION</div>
-        <div class="header-nav">
-            <a th:href="@{/#about-section}" href="index.html#about-section" class="nav-link">ABOUT</a>
-            <a th:href="@{/#ranking-section}" href="index.html#ranking-section" class="nav-link">CHANEL</a>
-        </div>
-        <div class="marquee-sub">
-            <p class="marquee-content">The human brain takes only 13 milliseconds to process an image, but needs seconds to doubt it. - Our eyes do not capture reality; they only validate what our mind already expects to find.</p>
-        </div>
-    </header>
+    <div class="content-wrapper">
+        <p class="section-top-title">EVALUATION REPORT CONCLUDED:</p>
 
-    <p class="section-top-title">EVALUATION REPORT CONCLUDED:</p>
+        <div id="terminal-report-zone">
+            <div class="leaderboard-container">
+                <h3 class="leaderboard-title">> ARQUIVO GLOBAL DE PERFORMANCE (TOP 10)</h3>
 
-    <div id="terminal-report-zone">
-        <div class="leaderboard-container">
-            <h3 class="leaderboard-title">> ARQUIVO GLOBAL DE PERFORMANCE (TOP 10)</h3>
+                <div class="table-scroll">
+                    <table class="leaderboard-table">
+                        <thead>
+                        <tr>
+                            <th class="th-pos">POS</th>
+                            <th class="th-id">SUJEITO_ID</th>
+                            <th class="th-score">SCORE</th>
+                        </tr>
+                        </thead>
+                        <tbody id="global-scores-rows">
+                        </tbody>
+                    </table>
+                </div>
 
-            <table class="leaderboard-table">
-                <thead>
-                <tr>
-                    <th class="th-pos">POS</th>
-                    <th class="th-id">SUJEITO_ID</th>
-                    <th class="th-score">SCORE</th>
-                </tr>
-                </thead>
-                <tbody id="global-scores-rows">
-                    </tbody>
-            </table>
-
-            <div class="action-footer">
-                <button class="btn-restart" onclick="returnToDashboard()">REINICIALIZAR TERMINAL LÓGICO</button>
+                <div class="action-footer">
+                    <button class="btn-restart" onclick="returnToDashboard()">Jogar Novamente</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    let jogadorAtual = "Visitante";
+    let jogadorAtual = sessionStorage.getItem("jogadorAtual") || "Visitante";
 
     window.addEventListener('DOMContentLoaded', () => {
-        // Pega os pontos da URL (ex: /score?pontos=5)
         const urlParams = new URLSearchParams(window.location.search);
         let pontosDaUrl = parseInt(urlParams.get('pontos')) || 0;
         
@@ -84,8 +103,7 @@
         document.getElementById('popup-agent-name').innerText = nomeJogador.toUpperCase();
         document.getElementById('final-popup-score').innerText = scoreFinal;
         
-        // Gera o ranking usando a pontuação real do jogador
-        gerarRankingMock(scoreFinal);
+        buscarRankingDoServidor();
     }
 
     function closeScorePopup() {
@@ -94,7 +112,7 @@
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.display = 'none';
-            }, 500); // Aguarda o efeito de fade-out
+            }, 500);
         }
     }
 
@@ -102,41 +120,35 @@
         window.location.href = "/modos";
     }
 
-    function gerarRankingMock(pontosUsuario) {
+    async function buscarRankingDoServidor() {
         const tabela = document.getElementById('global-scores-rows');
-        tabela.innerHTML = '';
+        if (!tabela) return;
+        
+        tabela.innerHTML = ''; 
 
-        // Banco de dados simulado
-        let jogadores = [
-            { nome: "Agente_K", pontos: 8 },
-            { nome: "CyberGhost", pontos: 6 },
-            { nome: "SysAdmin", pontos: 4 },
-            { nome: "User_404", pontos: 2 }
-        ];
+        try {
+            const resposta = await fetch('/api/scores/ranking/global');
+            const jogadoresReais = await resposta.json();
 
-        // Insere o jogador atual
-        jogadores.push({ nome: "VOCÊ (SESSÃO ATUAL)", pontos: pontosUsuario, isUser: true });
+            jogadoresReais.forEach((jogador, index) => {
+                const tr = document.createElement('tr');
+                
+                if (jogador.username === jogadorAtual) {
+                    tr.classList.add('user-highlight');
+                }
 
-        // Ordena por pontuação
-        jogadores.sort((a, b) => b.pontos - a.pontos);
-
-        // Preenche a tabela HTML
-        jogadores.forEach((jogador, index) => {
-            const tr = document.createElement('tr');
-            
-            // Se for o usuário, adiciona a classe CSS que destaca em vermelho/brilho
-            if (jogador.isUser) {
-                tr.classList.add('user-highlight');
-            }
-
-            tr.innerHTML = `
-                <td>#0${index + 1}</td>
-                <td>${jogador.nome}</td>
-                <td>${jogador.pontos} PTS</td>
-            `;
-            
-            tabela.appendChild(tr);
-        });
+                tr.innerHTML = `
+                    <td class="th-pos">#0${index + 1}</td>
+                    <td class="th-id">${jogador.username}</td>
+                    <td class="th-score">${jogador.globalPoints} PTS</td>
+                `;
+                
+                tabela.appendChild(tr);
+            });
+        } catch (error) {
+            console.error("Falha ao carregar o ranking:", error);
+            tabela.innerHTML = '<tr><td colspan="3" style="text-align: center;">Erro ao conectar ao servidor.</td></tr>';
+        }
     }
 </script>
 

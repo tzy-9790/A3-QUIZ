@@ -26,7 +26,7 @@ function verificarUsername() {
         document.getElementById('modal-password').classList.remove('esconder');
     }
 }
-function fazerLogin() {
+async function fazerLogin() {
     const inputUser = document.getElementById('input-username').value.trim();
     const inputPass = document.getElementById('input-password').value.trim();
 
@@ -35,6 +35,29 @@ function fazerLogin() {
         return;
     }
 
-    sessionStorage.setItem("jogadorAtual", inputUser);
-    window.location.href = "/modos";
+    // NOVA LÓGICA: Em vez de entrar direto, pergunta ao Java (Spring Boot)
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                username: inputUser, 
+                password: inputPass 
+            })
+        });
+
+        if (response.ok) {
+            // Se o Java retornou OK (200), a senha está certa ou a conta foi criada
+            sessionStorage.setItem("jogadorAtual", inputUser);
+            window.location.href = "/modos";
+        } else {
+            // Se o Java retornou erro (ex: 401 Unauthorized), a senha está errada
+            alert("ACESSO NEGADO: Senha incorreta para o agente " + inputUser);
+            // Opcional: Limpar o campo de senha para ele tentar de novo
+            document.getElementById('input-password').value = "";
+        }
+    } catch (error) {
+        console.error("Erro ao conectar ao sistema de segurança:", error);
+        alert("Erro de conexão com o servidor central.");
+    }
 }

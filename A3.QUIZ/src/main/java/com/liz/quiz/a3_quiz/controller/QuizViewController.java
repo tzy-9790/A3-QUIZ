@@ -1,54 +1,44 @@
 package com.liz.quiz.a3_quiz.controller;
 
-import com.liz.quiz.a3_quiz.model.QuizMedia;
-import com.liz.quiz.a3_quiz.repository.QuestaoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class QuizViewController {
 
-    @Autowired
-    private QuestaoRepository questaoRepository;
-
+    // Esta rota carrega a página inicial
     @GetMapping("/")
-    public String home() {
+    public String index() {
         return "index";
     }
 
+    // ADICIONE ESTE MÉTODO ABAIXO PARA FUNCIONAR:
     @GetMapping("/modos")
     public String modos() {
-        return "modos";
+        return "modos"; // Isso procura pelo arquivo modos.html na pasta templates
     }
 
-    @GetMapping("/jogo/imagem")
-    public String jogoImagem(Model model) {
-        QuizMedia questao = questaoRepository.findRandomQuestaoByModo("image");
-        model.addAttribute("questao", questao);
-        model.addAttribute("modo", "image");
+    @GetMapping("/jogo")
+    public String jogo() {
         return "jogo";
     }
 
-    @GetMapping("/jogo/video")
-    public String jogoVideo(Model model) {
-        QuizMedia questao = questaoRepository.findRandomQuestaoByModo("video");
-        model.addAttribute("questao", questao);
-        model.addAttribute("modo", "video");
-        return "jogo";
+    @GetMapping("/jogosAudio")
+    public String jogosAudio() {
+        return "JogosAudio";
     }
 
-    @GetMapping("/jogo/audio")
-    public String jogoAudio(Model model) {
-        QuizMedia questao = questaoRepository.findRandomQuestaoByModo("audio");
-        model.addAttribute("questao", questao);
-        model.addAttribute("modo", "audio");
-        return "jogo";
+    @GetMapping("/jogosVideo")
+    public String jogosVideo() {
+        return "JogosVideo";
     }
 
     @GetMapping("/score")
-    public String scoreFinal() {
-        return "FinalScore";
+    public String score() {
+        return "FinalScore"; 
+    }
+    @GetMapping("/mural")
+    public String mural() {
+        return "mural";
     }
 }
