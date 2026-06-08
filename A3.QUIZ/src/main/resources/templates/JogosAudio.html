@@ -20,19 +20,16 @@
     <div class="nav-right-container">
         <nav class="nav-buttons">
             <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
-                AGENTE: DESCONHECIDO
+                USUÁRIO: DESCONHECIDO
             </span>
             <a href="/#projeto-section" class="nav-button">SOBRE</a>
-            <a th:href="@{/mural}" class="nav-button">MURAL</a>
+            <a th:href="@{/mural}" class="nav-button">COMUNIDADE</a>
         </nav>
         <div class="social-links">
             <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
                 <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
             </a>
-            <a href="#" target="_blank">
-                <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
-            </a>
-            <a href="#" target="_blank">
+            <a href="https://x.com/IAREALIDADiq" target="_blank">
                 <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
             </a>
         </div>
@@ -99,18 +96,18 @@
             audioA: 'https://i.imgur.com/8VJ9wlO.mp4', 
             audioB: 'https://i.imgur.com/IZ5uvWF.mp4',   
             aiSide: 'B',
-            correctMsg: "Análise Forense: Áudio B detectado como IA. Faltam frequências de respiração e a cadência é perfeitamente robótica.",
-            wrongMsg: "Análise Forense: Áudio A é autêntico. Captura acústica natural validada.",
-            dica: "Dica Forense: A Inteligência Artificial costuma ter dificuldade em gerar mãos perfeitas ou textos legíveis no fundo. Olhe os detalhes."
+            correctMsg: "O áudio foi feito por IA porque a voz possui uma cadência artificialmente linear, sem pausas respiratórias, com uma compressão digital metálica típica de algoritmos de clonagem vocal.",
+            wrongMsg: "O áudio é real porque a fala apresenta pausas biológicas naturais para respiração, estalos dinâmicos na boca e variações orgânicas de entonação emocional.",
+            dica: "Dica: A Inteligência Artificial costuma ter dificuldade em replicar as nuances naturais da voz humana."
         },
         {
             instruction: "DESAFIO 2/2: Qual dos áudios foi gerado por IA?",
             audioA: 'https://i.imgur.com/hRy1Xti.mp4',
             audioB: 'https://i.imgur.com/m8u1tKo.mp4',
             aiSide: 'A',
-            correctMsg: "Análise Forense: Áudio A é IA. Faltam frequências de respiração e a cadência é perfeitamente robótica.",
-            wrongMsg: "Análise Forense: Áudio B é autêntico. Captura acústica natural validada.",
-            dica: "Dica Forense: A IA tem dificuldade em replicar a física realista da luz e reflexos. Observe as sombras e brilhos."
+            correctMsg: "O áudio foi feito por IA porque a pronúncia em inglês é excessivamente polida e contínua, expondo uma dicção linear e sem pausas orgânicas para respirar.",
+            wrongMsg: "O áudio é real porque traz a sutil aspiração de ar entre as palavras, além de hesitações humanas típicas que mantêm a ressonância natural da voz.",
+            dica: "Dica: A Inteligência Artificial costuma ter dificuldade em replicar as nuances naturais da voz humana."
         }
     ];
 

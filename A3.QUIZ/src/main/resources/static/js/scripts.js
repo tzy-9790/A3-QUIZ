@@ -33,7 +33,7 @@ function verificarUsername() {
 
 async function fazerLogin() {
     const window_password = document.getElementById('input-password');
-    const senha = window_password.value;
+    const senha = window_password.value.trim();
     const btn = document.querySelector('#modal-password .btn-jogar-modal');
     const erroCaixa = document.getElementById('login-error-msg');
     const jogadorAtual = sessionStorage.getItem("jogadorAtual"); 
@@ -52,22 +52,37 @@ async function fazerLogin() {
     btn.style.opacity = "0.7";
 
     try {
-        const resposta = await fetch(`/api/usuarios/login?username=${jogadorAtual}&password=${senha}`, {
-            method: 'POST'
+        const payloadJSON = JSON.stringify({ 
+            username: jogadorAtual, 
+            password: senha 
+        });
+
+        const resposta = await fetch('/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: payloadJSON
         });
 
         if (resposta.ok) {
             window.location.href = "/modos";
         } 
-        else if (resposta.status === 404) {
-            const respostaRegistro = await fetch(`/api/usuarios/registrar?username=${jogadorAtual}&password=${senha}`, {
-                method: 'POST'
+        else if (resposta.status === 404 || resposta.status === 409) {
+            const respostaRegistro = await fetch('/api/users/registrar', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: payloadJSON
             });
 
             if (respostaRegistro.ok) {
                 window.location.href = "/modos";
             } else {
-                erroCaixa.innerHTML = "Erro: Não foi possível registar o novo agente.";
+                erroCaixa.innerHTML = "Erro: Não foi possível registar o novo USER. Tente novamente mais tarde.";
                 erroCaixa.style.display = 'block';
                 btn.innerText = textoOriginal;
                 btn.disabled = false;
@@ -75,7 +90,7 @@ async function fazerLogin() {
             }
         } 
         else {
-            erroCaixa.innerHTML = "senha incorreta, tenten novamente";
+            erroCaixa.innerHTML = "Senha incorreta. Tente novamente.";
             erroCaixa.style.display = 'block';
             
             btn.innerText = textoOriginal;
@@ -84,7 +99,7 @@ async function fazerLogin() {
             window_password.value = "";
         }
     } catch (error) {
-        erroCaixa.innerHTML = "Erro no servidor: Falha na comunicação.";
+        erroCaixa.innerHTML = "Erro: Estamos enfrentando dificuldades técnicas. Tente novamente mais tarde.";
         erroCaixa.style.display = 'block';
         
         btn.innerText = textoOriginal;

@@ -21,19 +21,15 @@
     <div class="nav-right-container">
         <nav class="nav-buttons">
             <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
-                AGENTE: DESCONHECIDO
+                USUÁRIO: DESCONHECIDO
             </span>
             <a href="/#projeto-section" class="nav-button">SOBRE</a>
-            <a th:href="@{/mural}" class="nav-button">MURAL</a>
         </nav>
         <div class="social-links">
             <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
                 <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
             </a>
-            <a href="#" target="_blank">
-                <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
-            </a>
-            <a href="#" target="_blank">
+            <a href="https://x.com/IAREALIDADiq" target="_blank">
                 <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
             </a>
         </div>
@@ -53,10 +49,10 @@
         </a>
 
     <div class="mural-container">
-        <h2 class="mural-title">> MURAL DISCUSSÕES</h2>
+        <h2 class="mural-title">> MURAL COMUNIDADE</h2>
         
         <div class="feedback-form">
-            <p>AGENTE ATUAL: <span id="current-agent-name" style="color:#ffffff;">A CARREGAR...</span></p>
+            <p>USUÁRIO ATUAL: <span id="current-user-name" style="color:#ffffff;">A CARREGAR...</span></p>
             <textarea id="feedback-input" class="feedback-textarea" placeholder="Insira sua opinião sobre os testes ou feedback sobre o projeto..."></textarea>
 
             <div id="mural-error-msg" class="error-msg-hud"></div>
@@ -64,7 +60,7 @@
             <button class="btn-submit" onclick="enviarFeedback()">ENVIAR MENSAGEM</button>
         </div>
         <div id="erro-conexao-mural" class="error-msg-hud" style="display: none; text-align: center; padding: 20px;">
-        <p>⚠ <b>Falha na comunicação:</b> Não foi possível ligar ao servidor central do laboratório.</p>
+        <p>⚠ <b>Falha na comunicação:</b> Não foi possível ligar ao servidor. Tente novamente mais tarde.</p>
     
     <button onclick="carregarFeedbacks()" class="btn-jogar-modal" style="font-size: 14px; padding: 8px 20px; margin-top: 10px;">
         TENTAR NOVAMENTE
@@ -72,7 +68,7 @@
 </div>
 
         <div class="feedbacks-list" id="feedbacks-container">
-            <p style="text-align: center;">A procurar registos na base de dados forense...</p>
+            <p style="text-align: center;">A procurar registos na base de dados, tenha paciência...</p>
         </div>
     </div>
 </div>
