@@ -15,7 +15,7 @@
         <div class="nav-right-container">
             <nav class="nav-buttons">
                 <a href="#projeto-section" class="nav-button">SOBRE</a>
-                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+                <a th:href="@{/mural}" class="nav-button">COMUNIDADE</a>
             </nav>
             <div class="social-links">
                 <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
@@ -35,9 +35,12 @@
         <img class="wallpaper-top" th:src="@{/imagens/geminiwallpaper.png}" src="../static/imagens/geminiwallpaper.png" alt="Wallpaper Base" />
 
         <div class="info-marquee marquee-top">
-            <p class="marquee-text">
-                O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
-            </p>
+            <div class="marquee-track">
+                <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+                <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+                <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+                <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            </div>
         </div>
 
         <div class="cta-container">
@@ -48,54 +51,44 @@
         </div>
 
         <div class="info-marquee marquee-bottom">
-            <p class="marquee-text">
-                A era da hiper-realidade artificial. O que você vê e ouve pode ser apenas um cálculo matemático. - Confie, mas verifique.
-            </p>
+            <div class="marquee-track">
+                <span>A era da hiper-realidade artificial. O que você vê e ouve pode ser apenas um cálculo matemático. - Confie, mas verifique.</span>
+                <span>A era da hiper-realidade artificial. O que você vê e ouve pode ser apenas um cálculo matemático. - Confie, mas verifique.</span>
+                <span>A era da hiper-realidade artificial. O que você vê e ouve pode ser apenas um cálculo matemático. - Confie, mas verifique.</span>
+                <span>A era da hiper-realidade artificial. O que você vê e ouve pode ser apenas um cálculo matemático. - Confie, mas verifique.</span>
+            </div>
         </div>
     </main>
 
-    <section class="mobile-quadros-section">
-        <div class="efeitoss-quadros">
-            <div class="QUADRO-IMAGEM" onclick="window.location.href='/jogo/imagem'">
-                <div class="quadrio">
-                    <img class="line" th:src="@{/imagens/line-7.svg}" src="../static/imagens/line-7.svg" alt="line" />
-                    <img class="img" th:src="@{/imagens/line-8-2.svg}" src="../static/imagens/line-8-2.svg" alt="indicator" />
-                    <img class="line-2" th:src="@{/imagens/image.svg}" src="../static/imagens/image.svg" alt="line" />
-                    <img class="line-3" th:src="@{/imagens/line-6-2.svg}" src="../static/imagens/line-6-2.svg" alt="line" />
-                    <p class="text-wrapper">A prova visual perdeu o valor. Nem tudo o que se vê existe.</p>
+    <section class="modos-dashboard-section">
+        <div class="modos-caixa-wrapper">
+            <h3 class="modos-title-box">ACESSAR TRIAGEM RÁPIDA</h3>
+            <div class="modos-cards-container">
+                
+                <div class="modo-card" onclick="window.location.href='/jogo'">
+                    <div class="modo-img-container">
+                        <img th:src="@{/imagens/15.jpg}" src="../static/imagens/15.jpg" alt="Preview Imagem" />
+                        <div class="modo-nome">IMAGEM</div>
+                    </div>
+                    <p class="modo-desc">A prova visual perdeu o valor. Nem tudo o que se vê existe.</p>
                 </div>
-                <div class="quadro">
-                    <img class="gif" th:src="@{../static/imagens/15.jpg}" src="../static/imagens/15.jpg" alt="Preview Imagem" />
-                    <div class="div">IMAGEM</div>
-                </div>
-            </div>
 
-            <div class="QUADRO-VIDEO" onclick="window.location.href='/jogo/video'">
-                <div class="quadrio-2">
-                    <img class="line" th:src="@{/imagens/line-7-2.svg}" src="../static/imagens/line-7-2.svg" alt="line" />
-                    <img class="img" th:src="@{/imagens/line-8.svg}" src="../static/imagens/line-8.svg" alt="indicator" />
-                    <img class="line-2" th:src="@{/imagens/line-9-2.svg}" src="../static/imagens/line-9-2.svg" alt="line" />
-                    <img class="line-3" th:src="@{/imagens/line-6-3.svg}" src="../static/imagens/line-6-3.svg" alt="line" />
-                    <p class="p">A física e as ações agora são escritas por algoritmos.</p>
+                <div class="modo-card" onclick="window.location.href='/jogosVideo'">
+                    <div class="modo-img-container">
+                        <img th:src="@{/imagens/16.jpg}" src="../static/imagens/16.jpg" alt="Preview Vídeo" />
+                        <div class="modo-nome">VÍDEO</div>
+                    </div>
+                    <p class="modo-desc">A física e as ações agora são escritas por algoritmos.</p>
                 </div>
-                <div class="quadro-2">
-                    <img class="gif-2" th:src="@{../static/imagens/16.jpg}" src="../static/imagens/16.jpg" alt="Preview Vídeo" />
-                    <div class="text-wrapper-2">VÍDEO</div>
-                </div>
-            </div>
 
-            <div class="QUADRO-AUDIO" onclick="window.location.href='/jogo/audio'">
-                <div class="quadrio-3">
-                    <img class="line" th:src="@{/imagens/line-7-3.svg}" src="../static/imagens/line-7-3.svg" alt="line" />
-                    <img class="img" th:src="@{/imagens/line-8-3.svg}" src="../static/imagens/line-8-3.svg" alt="indicator" />
-                    <img class="line-2" th:src="@{/imagens/line-9.svg}" src="../static/imagens/line-9.svg" alt="line" />
-                    <img class="line-3" th:src="@{/imagens/line-6.svg}" src="../static/imagens/line-6.svg" alt="line" />
-                    <p class="text-wrapper-3">Sintonia perigosa. O som agora pode ser perfeitamente simulado.</p>
+                <div class="modo-card" onclick="window.location.href='/jogosAudio'">
+                    <div class="modo-img-container">
+                        <img th:src="@{/imagens/17.jpg}" src="../static/imagens/17.jpg" alt="Preview Áudio" />
+                        <div class="modo-nome">ÁUDIO</div>
+                    </div>
+                    <p class="modo-desc">Sintonia perigosa. O som agora pode ser perfeitamente simulado.</p>
                 </div>
-                <div class="quadro-3">
-                    <img class="gif-3" th:src="@{../static/imagens/17.jpg}" src="../static/imagens/17.jpg" alt="Preview Áudio" />
-                    <div class="text-wrapper-4">ÁUDIO</div>
-                </div>
+
             </div>
         </div>
     </section>
@@ -112,22 +105,31 @@
 </div>
 
 <div id="login-modal-overlay" class="modal-overlay esconder">
+    
     <div id="modal-username" class="login-box">
         <button class="fechar-btn" onclick="fecharModalLogin()">×</button>
-        <h2 class="login-title">welcome to QUIZ</h2>
+        <h2 class="login-title">BEM VINDO AO QUIZ</h2>
         <p class="login-subtitle">Coloque um username para entrar ou deixe em branco para receber um user aleatório</p>
+        
         <input type="text" id="input-username" class="login-input" placeholder="coloque username aqui">
+        
         <button class="btn-jogar-modal" onclick="verificarUsername()">JOGAR</button>
-        <p class="login-terms">by joining, you accept the <span>terms of use, privacy policy and rules</span></p>
+        
+        <p class="login-terms">ENTRANDO VOCÊ ACEITA <span>OS TERMOS DE USO</span></p>
     </div>
 
     <div id="modal-password" class="login-box esconder">
         <button class="fechar-btn" onclick="fecharModalLogin()">×</button>
-        <h2 class="login-title">autenticação</h2>
-        <p class="login-subtitle">Insira a senha do agente <strong id="display-agent-name" style="color: #fff;"></strong></p>
+        <h2 class="login-title">AUTENTICAÇÃO</h2>
+        <p class="login-subtitle">Insira a senha do agente <strong id="display-agent-name" style="color: #a00000;"></strong></p>
+        
         <input type="password" id="input-password" class="login-input" placeholder="coloque a senha aqui">
+        
+        <div id="login-error-msg" class="error-msg-hud"></div>
+
         <button class="btn-jogar-modal" onclick="fazerLogin()">ENTRAR</button>
     </div>
+
 </div>
 
 <script th:src="@{/js/scripts.js}" src="/js/scripts.js"></script>

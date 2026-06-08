@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA / PERCEPÇÃO - TRIAGEM</title>
-
     <meta name="referrer" content="no-referrer">
-
     <link rel="stylesheet" th:href="@{/css/jogo.css}" href="../static/css/jogo.css">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -16,11 +14,15 @@
     <img class="background-overlay" th:src="@{/imagens/fundoModos.png}" src="../static/imagens/fundoModos.png" alt="Background Overlay"/>
 
     <header class="top-nav-index">
-        <div class="logo">IA / PERCEPÇÃO</div>
+        <a th:href="@{/}" href="/" class="logo" style="text-decoration: none; color: inherit;">IA / PERCEPÇÃO</a>
+        
         <div class="nav-right-container">
             <nav class="nav-buttons">
+                <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
+                    AGENTE: DESCONHECIDO
+                </span>
                 <a href="/#projeto-section" class="nav-button">SOBRE</a>
-                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+                <a th:href="@{/mural}" class="nav-button">MURAL</a>
             </nav>
             <div class="social-links">
                 <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
@@ -37,26 +39,43 @@
     </header>
 
     <div class="info-marquee marquee-top">
-        <p class="marquee-text">
-            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
-        </p>
+        <div class="marquee-track">
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+        </div>
     </div>
 
     <div class="game-core-area">
-        <h1 id="instruction-text" class="question-title">SELECIONE A IMAGEM FEITA POR IA</h1>
+        
+        <div class="header-nav-area">
+            <a href="#" onclick="window.history.back(); return false;" class="btn-voltar-seta">
+                &#8592; VOLTAR
+            </a>
+            <h1 id="instruction-text" class="question-title">SELECIONE A IMAGEM FEITA POR IA</h1>
+        </div>
+
+        <div class="progress-container">
+            <div id="progress-bar-fill"></div>
+        </div>
+        
+        <button onclick="mostrarDica()" class="btn-dica">?</button>
+
+        <div id="caixa-dica" style="display: none;"></div>
 
         <div id="quiz-container" class="quiz-container">
             <div id="choice-left" class="option-card" onclick="submitAnswer('left')">
                 <div id="container-media-left" class="media-render-zone">
-                    </div>
+                </div>
             </div>
 
             <div id="choice-right" class="option-card" onclick="submitAnswer('right')">
                 <div id="container-media-right" class="media-render-zone">
-                     </div>
+                </div>
             </div>
         </div>
-
+        
         <div class="feedback-zone">
             <div id="feedback-panel" class="feedback-panel-hud d-none">
                 <h2 id="feedback-title" class="f-title">CORRETO</h2>
@@ -64,6 +83,7 @@
                 <button id="next-btn" class="nav-button btn-next-round" onclick="nextRound()">PRÓXIMO DESAFIO ➔</button>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -75,7 +95,8 @@
             rightMedia:'https://i.imgur.com/mLAR8XG.jpeg',
             aiSide: 'left',
             correctMsg: "Análise Forense: Essa imagem apresenta deformações de textura geradas por redes neurais.",
-            wrongMsg: "Análise Forense: Esse registro fotográfico possui metadados e granulação óptica autêntica."
+            wrongMsg: "Análise Forense: Esse registro fotográfico possui metadados e granulação óptica autêntica.",
+            dica: "Dica Forense: A Inteligência Artificial costuma ter dificuldade em gerar mãos perfeitas ou textos legíveis no fundo. Olhe os detalhes."
         },
         {
             instruction: "DESAFIO 2/6: SELECIONE A IMAGEM FEITA POR IA",
@@ -83,7 +104,8 @@
             rightMedia:'https://i.imgur.com/US4ZPRv.jpeg',
             aiSide: 'right',
             correctMsg: "Análise Forense: Mãos e detalhes de fundo distorcidos indicam geração por difusão (IA).",
-            wrongMsg: "Análise Forense: A iluminação e os reflexos condizem perfeitamente com a física real."
+            wrongMsg: "Análise Forense: A iluminação e os reflexos condizem perfeitamente com a física real.",
+            dica: "Dica Forense: A IA tem dificuldade em replicar a física realista da luz e reflexos. Observe as sombras e brilhos."
         },
         {
             instruction: "DESAFIO 3/6: SELECIONE A IMAGEM FEITA POR IA",
@@ -91,7 +113,8 @@
             rightMedia:'https://i.imgur.com/5LlsCja.jpeg',
             aiSide: 'left',
             correctMsg: "Análise Forense: Assimetria estrutural detectada. Típico de modelos generativos.",
-            wrongMsg: "Análise Forense: Captura autêntica sem anomalias nos padrões de luz."
+            wrongMsg: "Análise Forense: Captura autêntica sem anomalias nos padrões de luz.",
+            dica: "Dica Forense: A IA tende a criar padrões simétricos e perfeitos que não ocorrem na natureza."
         },
         {
             instruction: "DESAFIO 4/6: SELECIONE A IMAGEM FEITA POR IA",
@@ -99,7 +122,8 @@
             rightMedia:'https://i.imgur.com/mCICIFl.jpeg',
             aiSide: 'right',
             correctMsg: "Análise Forense: Textos ou padrões ao fundo aparecem ilegíveis e misturados (alucinação da IA).",
-            wrongMsg: "Análise Forense: Estrutura semântica do ambiente está perfeitamente coerente."
+            wrongMsg: "Análise Forense: Estrutura semântica do ambiente está perfeitamente coerente.",
+            dica: "Dica Forense: A IA pode gerar textos ou padrões ao fundo que parecem legíveis mas são na verdade aleatórios."
         },
         {
             instruction: "DESAFIO 5/6: SELECIONE A IMAGEM FEITA POR IA",
@@ -107,7 +131,8 @@
             rightMedia:'https://i.imgur.com/h0iqedQ.jpeg',
             aiSide: 'left',
             correctMsg: "Análise Forense: Profundidade de campo artificial. Elementos se fundem de maneira ilógica.",
-            wrongMsg: "Análise Forense: Foco da lente corresponde a um equipamento fotográfico padrão."
+            wrongMsg: "Análise Forense: Foco da lente corresponde a um equipamento fotográfico padrão.",
+            dica: "Dica Forense: A IA pode criar profundidade de campo artificial que não ocorre na natureza."
         },
         {
             instruction: "DESAFIO 6/6: SELECIONE A IMAGEM FEITA POR IA",
@@ -115,18 +140,25 @@
             rightMedia:'https://i.imgur.com/JKRZnoS.jpeg',
             aiSide: 'right',
             correctMsg: "Análise Forense: Sombras inconsistentes com a fonte de luz principal do ambiente.",
-            wrongMsg: "Análise Forense: Imagem aprovada. Ruído do sensor orgânico validado."
+            wrongMsg: "Análise Forense: Imagem aprovada. Ruído do sensor orgânico validado.",
+            dica: "Dica Forense: A IA tem dificuldade em replicar sombras realistas que condizem com a fonte de luz do ambiente."
         }
     ];
 
     let currentRoundIndex = 0;
     let score = 0;
+    let opcaoFocada = null;
 
     window.onload = function() {
         loadRound(currentRoundIndex);
     };
 
     function loadRound(index) {
+        opcaoFocada = null;
+        
+        const percentagem = ((index + 1) / rounds.length) * 100;
+        document.getElementById('progress-bar-fill').style.width = percentagem + "%";
+
         const currentConfig = rounds[index];
         document.getElementById('instruction-text').innerText = currentConfig.instruction;
 
@@ -147,6 +179,10 @@
         
         leftCard.style.pointerEvents = 'auto';
         rightCard.style.pointerEvents = 'auto';
+
+        document.getElementById('caixa-dica').style.display = 'none';
+        
+        window.scrollTo(0, 0);
     }
 
     function submitAnswer(selectedSide) {
@@ -182,6 +218,22 @@
         }
 
         panel.classList.remove('d-none');
+        
+        if (window.innerWidth <= 850) {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    function mostrarDica() {
+        const caixaDica = document.getElementById('caixa-dica');
+        const currentConfig = rounds[currentRoundIndex];
+        
+        if (caixaDica.style.display === 'none') {
+            caixaDica.innerText = currentConfig.dica;
+            caixaDica.style.display = 'block';
+        } else {
+            caixaDica.style.display = 'none';
+        }
     }
 
     function nextRound() {
@@ -195,8 +247,12 @@
     }
 
     async function finalizarPartida(acertos, tempoTotal) {
-        const nomeDoJogador = sessionStorage.getItem("jogadorAtual") || "Visitante";
+        const btn = document.getElementById('next-btn');
+        btn.innerText = "A CALCULAR RESULTADO...";
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
 
+        const nomeDoJogador = sessionStorage.getItem("jogadorAtual") || "Visitante";
         const dadosPartida = {
             userId: nomeDoJogador,
             correctAnswers: acertos,
@@ -208,13 +264,55 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dadosPartida)
-        });
+            });
         } catch (error) {
             console.error("Erro ao comunicar com o servidor:", error);
         }
 
         window.location.href = `/score?pontos=${acertos}`;
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const displayHeader = document.getElementById('display-user-header');
+        if (displayHeader) {
+            const nomeGuardado = sessionStorage.getItem("jogadorAtual") || "Visitante";
+            displayHeader.innerText = "ID: " + nomeGuardado;
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+        const painelFeedback = document.getElementById('feedback-panel');
+        const painelVisivel = !painelFeedback.classList.contains('d-none');
+
+        const cardA = document.getElementById('choice-left');
+        const cardB = document.getElementById('choice-right');
+
+        if (!painelVisivel) {
+            if (event.key === 'ArrowLeft') {
+                opcaoFocada = 'left';
+                cardA.classList.add('foco-teclado');
+                cardB.classList.remove('foco-teclado');
+            } 
+            else if (event.key === 'ArrowRight') {
+                opcaoFocada = 'right';
+                cardB.classList.add('foco-teclado');
+                cardA.classList.remove('foco-teclado');
+            } 
+            else if (event.key === 'Enter') {
+                if (opcaoFocada !== null) {
+                    cardA.classList.remove('foco-teclado');
+                    cardB.classList.remove('foco-teclado');
+                    submitAnswer(opcaoFocada);
+                }
+            }
+        } 
+        else {
+            if (event.key === 'Enter') {
+                nextRound();
+            }
+        }
+    });
+
 </script>
 
 </body>

@@ -12,13 +12,16 @@
 <div class="page">
     <img class="download" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Overlay" />
 
-
     <header class="top-nav-index">
-        <div class="logo">IA / PERCEPÇÃO</div>
+        <a th:href="@{/}" href="/" class="logo" style="text-decoration: none; color: inherit;">IA / PERCEPÇÃO</a>
+        
         <div class="nav-right-container">
             <nav class="nav-buttons">
+                <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
+                    AGENTE: DESCONHECIDO
+                </span>
                 <a href="/#projeto-section" class="nav-button">SOBRE</a>
-                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
+                <a th:href="@{/mural}" class="nav-button">MURAL</a>
             </nav>
             <div class="social-links">
                 <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
@@ -35,10 +38,17 @@
     </header>
 
     <div class="info-marquee marquee-top">
-        <p class="marquee-text">
-            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
-        </p>
+        <div class="marquee-track">
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+        </div>
     </div>
+    
+    <a href="#" onclick="window.history.back(); return false;" class="btn-voltar-seta">
+        &#8592; VOLTAR
+    </a>
 
     <p class="text-wrapper">SELECIONE O MODO DE JOGO:</p>
 
@@ -73,6 +83,7 @@
                 </div>
 
                 <p class="text-wrapper-5">Selecione a foto feita for Inteligência Artificial</p>
+                <button class="btn-jogar-modo">JOGAR</button>
             </div>
 
             <div id="content-audio" class="mode-content">
@@ -90,6 +101,7 @@
                     </div>
                 </div>
                 <p class="text-wrapper-5">Selecione o áudio feito por IA</p>
+                <button class="btn-jogar-modo">JOGAR</button>
             </div>
 
             <div id="content-video" class="mode-content">
@@ -98,15 +110,16 @@
                 <p class="text-wrapper-10">Escolha entre dois vídeos</p>
                 <div class="showcase-container">
                     <div class="media-box box-ai">
-                        <img th:src="@{../static/imagens/15.jpg}" src="../static/imagens/15.jpg" class="image" alt="img IA" />
-              <div class="text-wrapper-6">Video feito por IA</div>
+                        <img th:src="@{/imagens/a979a1c5d1089dd2ebd1d58ef4d33337.gif}" src="../static/imagens/a979a1c5d1089dd2ebd1d58ef4d33337.gif" class="image" alt="img IA" />
+                        <div class="text-wrapper-6">Video feito por IA</div>
                     </div>
                     <div class="media-box box-real">
-                        <img th:src="@{../static/imagens/16.jpg}" src="../static/imagens/16.jpg" class="image" alt="img REAL" />
+                        <img th:src="@{/imagens/6ad07bc7872b7f4cafc7f14ad7638306.gif}" src="../static/imagens/6ad07bc7872b7f4cafc7f14ad7638306.gif" class="image" alt="img REAL" />
                         <div class="text-wrapper-7">Vídeo real</div>
                     </div>
                 </div>
                 <p class="text-wrapper-5">Você deve selecionar o vídeo feito por IA</p>
+                <button class="btn-jogar-modo">JOGAR</button>
             </div>
 
         </div>
@@ -120,17 +133,14 @@
 </div>
 
 <script>
-    // Estado inicial das telas
     let currentCenter = 'image';
     let currentLeft = 'audio';
     let currentRight = 'video';
 
-    // Mapeamento alterado para apontar para os nomes dos seus arquivos HTML
-    // O Spring Boot mapeia automaticamente o nome do arquivo em /templates/
     const routes = {
-        image: '/jogo',         // Corresponde a jogo.html
-        audio: '/jogosAudio',   // Corresponde a JogosAudio.html
-        video: '/jogosVideo'    // Corresponde a JogosVideo.html
+        image: '/jogo',         
+        audio: '/jogosAudio',   
+        video: '/jogosVideo'    
     };
 
     function pivotMode(clickedSide) {
@@ -156,6 +166,15 @@
     function triggerGameplay() {
         window.location.href = routes[currentCenter];
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const displayHeader = document.getElementById('display-user-header');
+        
+        if (displayHeader) {
+            const nomeGuardado = sessionStorage.getItem("jogadorAtual") || "Visitante";
+            displayHeader.innerText = "ID: " + nomeGuardado;
+        }
+    });
 </script>
 
 </body>

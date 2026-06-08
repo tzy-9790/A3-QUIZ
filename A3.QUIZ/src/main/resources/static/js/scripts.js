@@ -2,7 +2,7 @@ function abrirModalLogin() {
     document.getElementById('login-modal-overlay').classList.remove('esconder');
     document.getElementById('modal-username').classList.remove('esconder');
     document.getElementById('modal-password').classList.add('esconder');
-    document.getElementById('input-username').value = ""; // Limpa o campo
+    document.getElementById('input-username').value = "";
     document.getElementById('input-password').value = "";
 }
 
@@ -18,46 +18,77 @@ function verificarUsername() {
         const userSorteado = "Agente_" + numAleatorio;
 
         sessionStorage.setItem("jogadorAtual", userSorteado);
-
         window.location.href = "/modos"; 
     } else {
+        sessionStorage.setItem("jogadorAtual", inputUser); 
+        
         document.getElementById('display-agent-name').innerText = inputUser;
         document.getElementById('modal-username').classList.add('esconder');
         document.getElementById('modal-password').classList.remove('esconder');
+        
+        document.getElementById('login-error-msg').style.display = 'none';
+        document.getElementById('input-password').value = ""; 
     }
 }
-async function fazerLogin() {
-    const inputUser = document.getElementById('input-username').value.trim();
-    const inputPass = document.getElementById('input-password').value.trim();
 
-    if (inputPass === "") {
-        alert("Sistemas de segurança exigem uma senha.");
+async function fazerLogin() {
+    const window_password = document.getElementById('input-password');
+    const senha = window_password.value;
+    const btn = document.querySelector('#modal-password .btn-jogar-modal');
+    const erroCaixa = document.getElementById('login-error-msg');
+    const jogadorAtual = sessionStorage.getItem("jogadorAtual"); 
+
+    erroCaixa.style.display = 'none';
+
+    if (!senha) {
+        erroCaixa.innerHTML = "Acesso negado: A senha é obrigatória.";
+        erroCaixa.style.display = 'block';
         return;
     }
 
-    // NOVA LÓGICA: Em vez de entrar direto, pergunta ao Java (Spring Boot)
+    const textoOriginal = btn.innerText;
+    btn.innerText = "AUTENTICANDO..."; 
+    btn.disabled = true; 
+    btn.style.opacity = "0.7";
+
     try {
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                username: inputUser, 
-                password: inputPass 
-            })
+        const resposta = await fetch(`/api/usuarios/login?username=${jogadorAtual}&password=${senha}`, {
+            method: 'POST'
         });
 
-        if (response.ok) {
-            // Se o Java retornou OK (200), a senha está certa ou a conta foi criada
-            sessionStorage.setItem("jogadorAtual", inputUser);
+        if (resposta.ok) {
             window.location.href = "/modos";
-        } else {
-            // Se o Java retornou erro (ex: 401 Unauthorized), a senha está errada
-            alert("ACESSO NEGADO: Senha incorreta para o agente " + inputUser);
-            // Opcional: Limpar o campo de senha para ele tentar de novo
-            document.getElementById('input-password').value = "";
+        } 
+        else if (resposta.status === 404) {
+            const respostaRegistro = await fetch(`/api/usuarios/registrar?username=${jogadorAtual}&password=${senha}`, {
+                method: 'POST'
+            });
+
+            if (respostaRegistro.ok) {
+                window.location.href = "/modos";
+            } else {
+                erroCaixa.innerHTML = "Erro: Não foi possível registar o novo agente.";
+                erroCaixa.style.display = 'block';
+                btn.innerText = textoOriginal;
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        } 
+        else {
+            erroCaixa.innerHTML = "senha incorreta, tenten novamente";
+            erroCaixa.style.display = 'block';
+            
+            btn.innerText = textoOriginal;
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            window_password.value = "";
         }
     } catch (error) {
-        console.error("Erro ao conectar ao sistema de segurança:", error);
-        alert("Erro de conexão com o servidor central.");
+        erroCaixa.innerHTML = "Erro no servidor: Falha na comunicação.";
+        erroCaixa.style.display = 'block';
+        
+        btn.innerText = textoOriginal;
+        btn.disabled = false;
+        btn.style.opacity = "1";
     }
 }

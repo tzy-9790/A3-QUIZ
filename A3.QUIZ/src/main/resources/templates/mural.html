@@ -16,31 +16,41 @@
     <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background" />
     
     <header class="top-nav-index">
-        <div class="logo">IA / PERCEPÇÃO</div>
-        <div class="nav-right-container">
-            <nav class="nav-buttons">
-                <a href="/#projeto-section" class="nav-button">SOBRE</a>
-                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
-            </nav>
-            <div class="social-links">
-                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
-                </a>
-                <a href="#" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
-                </a>
-                <a href="#" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
-                </a>
-            </div>
+    <a th:href="@{/}" href="/" class="logo" style="text-decoration: none; color: inherit;">IA / PERCEPÇÃO</a>
+    
+    <div class="nav-right-container">
+        <nav class="nav-buttons">
+            <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
+                AGENTE: DESCONHECIDO
+            </span>
+            <a href="/#projeto-section" class="nav-button">SOBRE</a>
+            <a th:href="@{/mural}" class="nav-button">MURAL</a>
+        </nav>
+        <div class="social-links">
+            <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+            </a>
+            <a href="#" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+            </a>
+            <a href="#" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+            </a>
         </div>
-    </header>
+    </div>
+</header>
 
     <div class="info-marquee marquee-top">
-        <p class="marquee-text">
-            O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
-        </p>
+        <div class="marquee-track">
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+            <span>O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.</span>
+        </div>
     </div>
+    <a href="#" onclick="window.history.back(); return false;" class="btn-voltar-seta">
+            &#8592; VOLTAR
+        </a>
 
     <div class="mural-container">
         <h2 class="mural-title">> MURAL DISCUSSÕES</h2>
@@ -48,8 +58,18 @@
         <div class="feedback-form">
             <p>AGENTE ATUAL: <span id="current-agent-name" style="color:#ffffff;">A CARREGAR...</span></p>
             <textarea id="feedback-input" class="feedback-textarea" placeholder="Insira sua opinião sobre os testes ou feedback sobre o projeto..."></textarea>
+
+            <div id="mural-error-msg" class="error-msg-hud"></div>
+
             <button class="btn-submit" onclick="enviarFeedback()">ENVIAR MENSAGEM</button>
         </div>
+        <div id="erro-conexao-mural" class="error-msg-hud" style="display: none; text-align: center; padding: 20px;">
+        <p>⚠ <b>Falha na comunicação:</b> Não foi possível ligar ao servidor central do laboratório.</p>
+    
+    <button onclick="carregarFeedbacks()" class="btn-jogar-modal" style="font-size: 14px; padding: 8px 20px; margin-top: 10px;">
+        TENTAR NOVAMENTE
+    </button>
+</div>
 
         <div class="feedbacks-list" id="feedbacks-container">
             <p style="text-align: center;">A procurar registos na base de dados forense...</p>
@@ -66,6 +86,18 @@
     });
 
     async function carregarFeedbacks() {
+    const erroCaixa = document.getElementById('erro-conexao-mural');
+    const areaDasMensagens = document.getElementById('area-das-mensagens');
+
+    if (erroCaixa) erroCaixa.style.display = 'none';
+
+    try {
+        const resposta = await fetch('/api/feedbacks');
+        
+        if (resposta.ok) {
+            const dados = await resposta.json();
+
+        
         const container = document.getElementById('feedbacks-container');
         try {
             const resposta = await fetch('/api/feedbacks');
@@ -94,39 +126,70 @@
             console.error("Erro ao carregar feedbacks:", error);
             container.innerHTML = '<p style="text-align: center; color: red;">Erro ao conectar ao servidor central.</p>';
         }
+        } else {
+            if (erroCaixa) erroCaixa.style.display = 'block';
+            if (areaDasMensagens) areaDasMensagens.innerHTML = "";
+        }
+    } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+        if (erroCaixa) erroCaixa.style.display = 'block';
+        if (areaDasMensagens) areaDasMensagens.innerHTML = ""; 
+    }
+
     }
 
     async function enviarFeedback() {
-        const texto = document.getElementById('feedback-input').value.trim();
-        
-        if (!texto) {
-            alert("A mensagem não pode estar vazia.");
-            return;
-        }
+    const texto = document.getElementById('feedback-input').value.trim();
+    const btn = document.querySelector('.btn-submit'); 
+    const erroCaixa = document.getElementById('mural-error-msg'); // Pega a caixa
 
-        const payload = {
-            username: jogadorAtual,
-            mensagem: texto
-        };
+    erroCaixa.style.display = 'none'; // Esconde erros antigos
 
-        try {
-            const resposta = await fetch('/api/feedbacks', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (resposta.ok) {
-                document.getElementById('feedback-input').value = ''; 
-                carregarFeedbacks(); 
-            } else {
-                alert("Ocorreu um erro. Apenas utilizadores com login no sistema podem enviar relatórios.");
-            }
-        } catch (error) {
-            console.error("Erro no envio:", error);
-            alert("Falha de comunicação com a base de dados.");
-        }
+    if (!texto) {
+        erroCaixa.innerHTML = "⚠ <b>Registo rejeitado:</b> A mensagem não pode estar vazia.";
+        erroCaixa.style.display = 'block';
+        return;
     }
+
+    const textoOriginal = btn.innerText;
+    btn.innerText = "A GRAVAR NA BASE DE DADOS..."; 
+    btn.disabled = true;
+    btn.style.opacity = "0.7";
+
+    const payload = { username: jogadorAtual, mensagem: texto };
+
+    try {
+        const resposta = await fetch('/api/feedbacks', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (resposta.ok) {
+            document.getElementById('feedback-input').value = ''; 
+            await carregarFeedbacks(); 
+        } else {
+            erroCaixa.innerHTML = "⚠ <b>Erro:</b> Falha ao enviar o registo.";
+            erroCaixa.style.display = 'block';
+        }
+    } catch (error) {
+        erroCaixa.innerHTML = "⚠ <b>Erro crítico:</b> Falha na conexão com a base de dados.";
+        erroCaixa.style.display = 'block';
+    } finally {
+        btn.innerText = textoOriginal;
+        btn.disabled = false;
+        btn.style.opacity = "1";
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    const displayHeader = document.getElementById('display-user-header');
+    
+    if (displayHeader) {
+        const nomeGuardado = sessionStorage.getItem("jogadorAtual") || "Visitante";
+        displayHeader.innerText = "ID: " + nomeGuardado;
+    }
+});
+
 </script>
 
 </body>

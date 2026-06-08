@@ -1,11 +1,45 @@
 :root {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #262626;
-    --bg-panel: #cbd5e1;
-    --text-primary: #d1d1d1;
-    --text-dark: #1a1a1a;
-    --brand-color: #800000;
-    --border-color: #404040;
+    /* Cores padrão - Modo Escuro */
+    --bg-principal: #000000;
+    --bg-caixas: #121212;
+    --texto-principal: #ffffff;
+    --texto-secundario: #cccccc;
+    --borda-vermelha: rgba(138, 41, 41, 0.3);
+    --bg-marquee: rgba(35, 0, 0, 0.85);
+}
+
+/* Quando o body tiver a classe .light-mode, estas cores invertem */
+body.light-mode {
+    --bg-principal: #f5f5f5;
+    --bg-caixas: #ffffff;
+    --texto-principal: #111111;
+    --texto-secundario: #444444;
+    --borda-vermelha: rgba(138, 41, 41, 0.5);
+    --bg-marquee: rgba(200, 150, 150, 0.2);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--bg-principal); /* Usa a variável */
+    color: var(--texto-principal);         /* Usa a variável */
+    font-family: 'Nanum Gothic Coding', monospace;
+    overflow-x: hidden;
+}
+
+/* Atualize os seletores principais para usarem as variáveis */
+.page-container, .hero-viewport, .scroll-content-zone {
+    background-color: var(--bg-principal);
+}
+
+.projeto-block {
+    background-color: var(--bg-caixas);
+    color: var(--texto-principal);
+}
+
+.projeto-desc {
+    color: var(--texto-secundario);
 }
 
 body {
@@ -187,6 +221,17 @@ body {
     margin: 60px 40px 0 40px;
 }
 
+.info-marquee {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: rgba(35, 0, 0, 0.85);
+    padding: 10px 0;
+    box-sizing: border-box;
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+}
 .info-section {
     max-width: 1320px;
     margin: 40px auto;
@@ -281,4 +326,25 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+.marquee-track span { 
+        font-size: 11px !important; 
+        padding-right: 40px !important;
+    }
+    .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scrollSeamless 90s linear infinite;
+}
+
+.marquee-track span {
+    font-size: 13px;
+    color: #ffb3b3;
+    padding-right: 80px;
+    white-space: nowrap;
+}
+
+@keyframes scrollSeamless {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }

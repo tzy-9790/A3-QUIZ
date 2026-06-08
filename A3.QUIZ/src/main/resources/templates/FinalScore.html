@@ -13,31 +13,38 @@
     <img class="central-sphere" th:src="@{/imagens/fundobola.png}" src="../static/imagens/fundobola.png" alt="Background Overlay" />
 
     <header class="top-nav-index">
-        <div class="logo">IA / PERCEPÇÃO</div>
-        <div class="nav-right-container">
-            <nav class="nav-buttons">
-                <a href="/#projeto-section" class="nav-button">SOBRE</a>
-                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
-            </nav>
-            <div class="social-links">
-                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
-                </a>
-                <a href="#" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
-                </a>
-                <a href="#" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
-                </a>
-            </div>
+    <a th:href="@{/}" href="/" class="logo" style="text-decoration: none; color: inherit;">IA / PERCEPÇÃO</a>
+    
+    <div class="nav-right-container">
+        <nav class="nav-buttons">
+            <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
+            AGENTE: DESCONHECIDO
+            </span>
+            <a href="/#projeto-section" class="nav-button">SOBRE</a>
+            <a th:href="@{/mural}" class="nav-button">MURAL</a>
+        </nav>
+        <div class="social-links">
+            <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+            </a>
+            <a href="#" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+            </a>
+            <a href="#" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+            </a>
         </div>
-    </header>
+    </div>
+</header>
 
     <div class="info-marquee marquee-top">
         <p class="marquee-text">
             O cérebro humano leva apenas 13 milissegundos para processar uma imagem, mas precisa de segundos para duvidar dela. - Nossos olhos não captam a realidade; eles apenas validam o que a nossa mente já espera encontrar.
         </p>
     </div>
+    <a href="#" onclick="window.history.back(); return false;" class="btn-voltar-seta">
+            &#8592; VOLTAR
+        </a>
 
     <div id="score-popup-overlay" class="popup-overlay">
         <div class="popup-chassis">
@@ -61,7 +68,7 @@
     </div>
 
     <div class="content-wrapper">
-        <p class="section-top-title">EVALUATION REPORT CONCLUDED:</p>
+        <p class="section-top-title">RELATÓRIO DE AVALIAÇÃO CONCLUÍDO</p>
 
         <div id="terminal-report-zone">
             <div class="leaderboard-container">
@@ -77,7 +84,12 @@
                         </tr>
                         </thead>
                         <tbody id="global-scores-rows">
-                        </tbody>
+    <tr id="loading-row">
+        <td colspan="3" style="text-align: center; color: #ffb3b3; padding: 20px;">
+            Carregando dados, tenha paciência...
+        </td>
+    </tr>
+</tbody>
                     </table>
                 </div>
 
@@ -150,6 +162,44 @@
             tabela.innerHTML = '<tr><td colspan="3" style="text-align: center;">Erro ao conectar ao servidor.</td></tr>';
         }
     }
+    window.addEventListener('DOMContentLoaded', () => {
+    const displayHeader = document.getElementById('display-user-header');
+    
+    // Se o elemento existir nesta página, preenche com o nome guardado
+    if (displayHeader) {
+        const nomeGuardado = sessionStorage.getItem("jogadorAtual") || "Visitante";
+        displayHeader.innerText = "ID: " + nomeGuardado;
+    }
+});
+
+function alternarTema() {
+    const body = document.body;
+    const btn = document.getElementById('btn-tema');
+
+    body.classList.toggle('light-mode');
+    
+    if (body.classList.contains('light-mode')) {
+        localStorage.setItem('temaSalvo', 'claro');
+        if (btn) btn.innerText = "🌙 MODO ESCURO";
+    } else {
+        localStorage.setItem('temaSalvo', 'escuro');
+        if (btn) btn.innerText = "☀ MODO CLARO";
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    const temaSalvo = localStorage.getItem('temaSalvo');
+    const body = document.body;
+    const btn = document.getElementById('btn-tema');
+    
+    if (temaSalvo === 'claro') {
+        body.classList.add('light-mode');
+        if (btn) btn.innerText = "🌙 MODO ESCURO";
+    } else {
+        body.classList.remove('light-mode');
+        if (btn) btn.innerText = "☀ MODO CLARO";
+    }
+});
 </script>
 
 </body>

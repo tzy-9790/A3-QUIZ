@@ -15,25 +15,29 @@
     <img class="background-overlay" th:src="@{/imagens/fundoModos.png}" src="../static/imagens/fundoModos.png" alt="Background Overlay"/>
 
     <header class="top-nav-index">
-        <div class="logo">IA / PERCEPÇÃO</div>
-        <div class="nav-right-container">
-            <nav class="nav-buttons">
-                <a href="/#projeto-section" class="nav-button">SOBRE</a>
-                <a th:href="@{/mural}" class="nav-button">CHANEL</a>
-            </nav>
-            <div class="social-links">
-                <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
-                </a>
-                <a href="#" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
-                </a>
-                <a href="#" target="_blank">
-                    <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
-                </a>
-            </div>
+    <a th:href="@{/}" href="/" class="logo" style="text-decoration: none; color: inherit;">IA / PERCEPÇÃO</a>
+    
+    <div class="nav-right-container">
+        <nav class="nav-buttons">
+            <span id="display-user-header" class="nav-button" style="border-color: #d10000; color: #ffffff; cursor: default; pointer-events: none;">
+                AGENTE: DESCONHECIDO
+            </span>
+            <a href="/#projeto-section" class="nav-button">SOBRE</a>
+            <a th:href="@{/mural}" class="nav-button">MURAL</a>
+        </nav>
+        <div class="social-links">
+            <a href="https://github.com/tzy-9790/A3-QUIZ" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/github.png}" src="../static/imagens/github.png" alt="GitHub" />
+            </a>
+            <a href="#" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/tiktok.png}" src="../static/imagens/tiktok.png" alt="TikTok" />
+            </a>
+            <a href="#" target="_blank">
+                <img class="social-icon" th:src="@{/imagens/x.png}" src="../static/imagens/x.png" alt="X" />
+            </a>
         </div>
-    </header>
+    </div>
+</header>
 
     <div class="info-marquee marquee-top">
         <p class="marquee-text">
@@ -42,7 +46,20 @@
     </div>
 
     <div class="game-core-area">
+        <a href="#" onclick="window.history.back(); return false;" class="btn-voltar-seta">
+            &#8592; VOLTAR
+        </a>
         <h1 id="question-title" class="question-title">DESAFIO 1/2: Qual dos áudios foi gerado por IA?</h1>
+        <button onclick="mostrarDica()" style="background: transparent; border: 1px solid #ffb3b3; color: #ffb3b3; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-weight: bold; transition: 0.2s;" onmouseover="this.style.background='rgba(255,179,179,0.2)'" onmouseout="this.style.background='transparent'">
+        ?
+        </button>
+
+        <div id="caixa-dica" style="display: none; color: #cccccc; font-size: 13px; text-align: center; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
+        </div>
+
+        <div class="progress-container" style="width: 100%; max-width: 500px; height: 6px; background: #333; margin-bottom: 30px; border-radius: 10px; overflow: hidden;">
+        <div id="progress-bar-fill" style="height: 100%; width: 0%; background: #8a2929; transition: width 0.4s ease;"></div>
+        </div>
 
         <div id="quiz-container" class="quiz-container">
             <div id="option-A" class="option-card" onclick="handleAnswer('A')">
@@ -79,19 +96,21 @@
     const rounds = [
         {
             instruction: "DESAFIO 1/2: Qual dos áudios foi gerado por IA?",
-            audioA: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765180632043573/audio2-real.mp4?ex=6a1feead&is=6a1e9d2d&hm=ee9c4e54a2b0770b4064019dcaf6cff1cd5ba70534b9f88e7026ad876284cc4c&', 
-            audioB: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765184902103150/audio2-ia.mp4?ex=6a1feeae&is=6a1e9d2e&hm=a70f3631903d0745bbbeb247053369478550b9d9b85455f90b4ccafb01c8800a&',   
+            audioA: 'https://i.imgur.com/8VJ9wlO.mp4', 
+            audioB: 'https://i.imgur.com/IZ5uvWF.mp4',   
             aiSide: 'B',
             correctMsg: "Análise Forense: Áudio B detectado como IA. Faltam frequências de respiração e a cadência é perfeitamente robótica.",
-            wrongMsg: "Análise Forense: Áudio A é autêntico. Captura acústica natural validada."
+            wrongMsg: "Análise Forense: Áudio A é autêntico. Captura acústica natural validada.",
+            dica: "Dica Forense: A Inteligência Artificial costuma ter dificuldade em gerar mãos perfeitas ou textos legíveis no fundo. Olhe os detalhes."
         },
         {
             instruction: "DESAFIO 2/2: Qual dos áudios foi gerado por IA?",
-            audioA: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765187015774218/audio1-ia.mp4?ex=6a1feeae&is=6a1e9d2e&hm=b12c12cd636650b37f6cfcddfc16939450981d116ac87cebda5ea8dca7d67bc2&',
-            audioB: 'https://cdn.discordapp.com/attachments/1239707895046864920/1506765185963134997/audio1-real.mp4?ex=6a1feeae&is=6a1e9d2e&hm=3586b5dbe4b1831644ca66f3bd48a5f0cc75439f50b9852fccc1ce573fe65c82&',
+            audioA: 'https://i.imgur.com/hRy1Xti.mp4',
+            audioB: 'https://i.imgur.com/m8u1tKo.mp4',
             aiSide: 'A',
             correctMsg: "Análise Forense: Áudio A é IA. Faltam frequências de respiração e a cadência é perfeitamente robótica.",
-            wrongMsg: "Análise Forense: Áudio B é autêntico. Captura acústica natural validada."
+            wrongMsg: "Análise Forense: Áudio B é autêntico. Captura acústica natural validada.",
+            dica: "Dica Forense: A IA tem dificuldade em replicar a física realista da luz e reflexos. Observe as sombras e brilhos."
         }
     ];
 
@@ -103,6 +122,12 @@
     };
 
     function loadRound(index) {
+
+        opcaoFocada = null;
+        
+        const percentagem = ((index + 1) / rounds.length) * 100;
+        document.getElementById('progress-bar-fill').style.width = percentagem + "%";
+
         const currentConfig = rounds[index];
         document.getElementById('question-title').innerText = currentConfig.instruction;
 
@@ -159,6 +184,17 @@
 
         panel.classList.remove('d-none');
     }
+    function mostrarDica() {
+    const caixaDica = document.getElementById('caixa-dica');
+    const currentConfig = rounds[currentRoundIndex];
+
+    if (caixaDica.style.display === 'none') {
+        caixaDica.innerText = currentConfig.dica;
+        caixaDica.style.display = 'block';
+    } else {
+        caixaDica.style.display = 'none';
+    }
+}
 
     function nextRound() {
         currentRoundIndex++;
@@ -171,27 +207,81 @@
     }
 
     async function finalizarPartida(acertos, tempoTotal) {
-        const nomeDoJogador = sessionStorage.getItem("jogadorAtual") || "Visitante";
+    const btn = document.getElementById('next-btn');
+    btn.innerText = "A CALCULAR RESULTADO...";
+    btn.disabled = true;
+    btn.style.opacity = "0.5";
 
-        const dadosPartida = {
-            userId: nomeDoJogador,
-            correctAnswers: acertos,
-            totalTimeSeconds: tempoTotal || 0
-        };
+    const nomeDoJogador = sessionStorage.getItem("jogadorAtual") || "Visitante";
+    const dadosPartida = {
+        userId: nomeDoJogador,
+        correctAnswers: acertos,
+        totalTimeSeconds: tempoTotal || 0
+    };
 
-        try {
-            await fetch('/api/scores/match', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dadosPartida)
-            });
-            console.log("Pontuação salva com sucesso no banco!");
-        } catch (error) {
-            console.error("Erro ao comunicar com o servidor:", error);
-        }
-
-        window.location.href = `/score?pontos=${acertos}`;
+    try {
+        await fetch('/api/scores/match', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dadosPartida)
+        });
+    } catch (error) {
+        console.error("Erro ao comunicar com o servidor:", error);
     }
+
+    window.location.href = `/score?pontos=${acertos}`;
+}
+window.addEventListener('DOMContentLoaded', () => {
+    const displayHeader = document.getElementById('display-user-header');
+    
+    // Se o elemento existir nesta página, preenche com o nome guardado
+    if (displayHeader) {
+        const nomeGuardado = sessionStorage.getItem("jogadorAtual") || "Visitante";
+        displayHeader.innerText = "ID: " + nomeGuardado;
+    }
+});
+let opcaoFocada = null;
+
+document.addEventListener('keydown', function(event) {
+    const painelFeedback = document.getElementById('feedback-panel');
+    const painelVisivel = !painelFeedback.classList.contains('d-none');
+
+    const cardA = document.getElementById('option-A') || document.getElementById('choice-left');
+    const cardB = document.getElementById('option-B') || document.getElementById('choice-right');
+
+    if (!painelVisivel) {
+        
+        if (event.key === 'ArrowLeft') {
+            opcaoFocada = cardA.id.includes('A') ? 'A' : 'left';
+            cardA.classList.add('foco-teclado');
+            cardB.classList.remove('foco-teclado');
+        } 
+        else if (event.key === 'ArrowRight') {
+            opcaoFocada = cardB.id.includes('B') ? 'B' : 'right';
+            cardB.classList.add('foco-teclado');
+            cardA.classList.remove('foco-teclado');
+        } 
+        else if (event.key === 'Enter') {
+            if (opcaoFocada !== null) {
+                cardA.classList.remove('foco-teclado');
+                cardB.classList.remove('foco-teclado');
+
+                if (typeof handleAnswer === "function") {
+                    handleAnswer(opcaoFocada);
+                } else if (typeof submitAnswer === "function") {
+                    submitAnswer(opcaoFocada);
+                }
+            }
+        }
+    } 
+    
+    else {
+        if (event.key === 'Enter') {
+            nextRound();
+        }
+    }
+});
+
 </script>
 
 </body>
